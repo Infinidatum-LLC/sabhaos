@@ -285,6 +285,7 @@ See [`skills/chanakya-neeti/SKILL.md`](./skills/chanakya-neeti/SKILL.md) for the
 
 | Doc | What's in it |
 |---|---|
+| [`docs/CONTEXT.md`](./docs/CONTEXT.md) | **Single-document context reference.** Self-contained, dense, paste-into-any-AI-surface. Use to bring a fresh Claude.ai / Cowork / ChatGPT session up to speed on the whole project in one shot. |
 | [`docs/QUICKSTART.md`](./docs/QUICKSTART.md) | No-install path. 10 minutes inside Claude.ai. For non-developers. |
 | [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | The full system: how the council, memory, and corpus-ingest layers compose. |
 | [`docs/ROLES.md`](./docs/ROLES.md) | The 9 roles, their voices, and what each deep skill ships. |
