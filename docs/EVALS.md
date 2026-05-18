@@ -4,6 +4,8 @@ Does Sabha actually produce better answers than a vanilla LLM reply? This page s
 
 > **Where the source-of-truth lives.** This page is a pointer + summary. The raw data, harness, and full interpretation are in [`evals/`](../evals/). When numbers conflict, the JSON in `evals/results/` wins.
 
+> **Rubric version note (2026-05-18):** The current rubric is **v3** — it splits the three previously-saturated composite axes (`decisiveness`, `tradeoff_named`, `length_discipline`) into 5 binary sub-criteria each. **The v1.3.1 and v2 baselines are retired** because their rubrics could not discriminate between strong and very-strong replies. Old runs remain in `evals/results/` for audit, but headline numbers like "+5.95 rubric Δ" from v1.3.1 should not be cited as ongoing claims — they were a measurement-ceiling artifact. The v3 baseline is the new measurement floor. See "Rubric v3" below.
+
 ---
 
 ## TL;DR
@@ -20,16 +22,58 @@ The numbers, methodology, and limitations are all in the repo. If you don't trus
 
 ## Methodology
 
-### Question set
+### Question set (v2, n=50 as of 2026-05-18)
 
-20 questions spanning the 9 roles:
+50 questions across the 9 roles, in four buckets:
 
-- **CFO / CMO** (5 questions, 3+2): the two deep-skilled roles. Tests whether the REFERENCE + heuristics layer actually changes answer quality.
-- **CIO / CAIO / CSO / CXO / CHRO / CEO** (15 questions): no deep skill at the time of this eval (deep skills for these are now built but were absent at v1.3.1). Tests whether the bare protocol — routing + voice + grounding — is enough on its own.
+| Bucket | n | Purpose |
+|---|---:|---|
+| **Operator questions** (original) | 20 | Sabha's sweet spot — real decisions where structured framing helps |
+| **Adversarial reframing** | 10 | Questions where the right answer is to *challenge the premise*, not apply structure. Tests where Sabha's discipline becomes rigidity. |
+| **Cross-role / edge** | 10 | Questions that span multiple roles or fall between domains. Tests routing robustness. |
+| **Underdog** | 10 | Definitional / lookup-shaped / well-framed questions where a baseline LLM is already good. Tests whether Sabha generalizes or whether it should be skipped on simple questions. |
+
+This shape is deliberate. A question set that's only Sabha-sweet-spot questions overstates the protocol's value. A set that includes adversarial and underdog questions surfaces honest weaknesses.
 
 Questions are operator-shaped, not abstract: "Should I cut the SaaS line 40% to extend runway?" — not "what is unit economics?"
 
 See [`evals/questions.yaml`](../evals/questions.yaml) for the full set.
+
+### Rubric v3 (sub-axis decomposition)
+
+The previous rubric (v1.3.1 / v2) used 0-5 holistic scoring on five axes. Two of them — `decisiveness` and `tradeoff_named` — saturated at 5/5 for 75-80% of Sabha replies, so the rubric stopped discriminating between strong and very-strong outputs. v3 fixes this:
+
+**Three axes are now sums of 5 binary sub-criteria** (each 0 or 1, summed to 0-5):
+
+- **decisiveness:** made_clear_recommendation, stated_confidence_or_conditions, named_alternative_rejected, committed_specific_next_move, avoided_hedging_language
+- **tradeoff_named:** named_what_is_given_up, quantified_the_cost, named_who_is_affected, stated_time_horizon, gave_reasoning_to_accept
+- **length_discipline:** no_three_paragraph_windup, no_padding_phrases, no_unnecessary_disclaimers, no_redundancy, every_paragraph_advances
+
+Two axes stay holistic: `concreteness` (0-5) and `routing_present` (0 or 1, binary).
+
+The judge now returns both the composite scores AND the sub-criteria dicts. Downstream analysis can slice by what specifically succeeded or failed — e.g., is Sabha winning on `committed_specific_next_move` but losing on `quantified_the_cost`? That's actionable signal the v2 rubric could not show.
+
+### Judge provider — `--judge-provider`
+
+The harness now supports cross-model judging via `--judge-provider {anthropic,openai,google}`. This defeats the largest remaining credibility weakness: the v1.3.1 / v2 runs had Claude judging Claude. Same family, same training distribution, same blind spots.
+
+Cross-model runs require the corresponding provider's SDK and API key:
+
+```bash
+# Default — preserved for continuity
+python evals/run_eval.py --judge-provider anthropic
+
+# Cross-model — defeats in-family bias
+export OPENAI_API_KEY=sk-...
+pip install 'openai>=1.0'
+python evals/run_eval.py --judge-provider openai --judge-model gpt-5
+
+export GOOGLE_API_KEY=...
+pip install 'google-generativeai>=0.7'
+python evals/run_eval.py --judge-provider google --judge-model gemini-2.0-pro
+```
+
+A *credible* eval run on a fresh corpus does at least one Anthropic + one cross-family judge. Numbers that hold across both judges are dramatically stronger than either alone.
 
 ### Two replies per question
 
@@ -64,7 +108,25 @@ The pairwise judgment is what most matters. Rubric scores can saturate; pairwise
 
 ---
 
-## Current results (v1.3.1, 2026-05-14)
+## Current results
+
+**Status:** retired baselines below; the v3 rubric × n=50 × cross-model-judge run is pending. Once the next live run completes, this section will surface those headline numbers as the canonical credibility claim.
+
+### Retired baselines (preserved for audit only)
+
+The v1.3.1 (2026-05-14) and v2 (2026-05-16) runs are retired because:
+
+- They used the v1/v2 rubric, where `decisiveness` and `tradeoff_named` saturated. Numbers like "+5.95 rubric Δ" or "16.80 mean" are *not comparable* to v3 numbers and should not be cited as ongoing claims.
+- They ran at n=20, which produces CI widths of ±15pp — useful for direction but not magnitude.
+- They had only an Anthropic judge (in-family bias).
+
+Old runs remain in `evals/results/` and are summarized below as historical context. The honest takeaway from them is:
+
+- **Direction was clear** at n=20 in both runs: Sabha-routed replies beat no-system-prompt baselines on pairwise preference 17/20 (85%) in two independent runs.
+- **Magnitude is uncertain** because the rubric ceilinged. Concrete rubric Δ numbers (+5.95, +4.85) shouldn't carry forward.
+- **The 2026-05-16 re-run** (with all 9 deep skills loaded) showed `length_discipline` dropping from 3.15 → 2.85 — surfaced a real protocol tradeoff that the v3 rubric will measure more precisely.
+
+### Previously-shipped per-axis read (v1.3.1)
 
 | Metric | Baseline | Sabha | Δ |
 |---|---:|---:|---:|

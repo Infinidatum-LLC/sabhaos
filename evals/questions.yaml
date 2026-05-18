@@ -206,3 +206,398 @@ questions:
       The CXO says fix activation. The CFO says raise prices. The CMO says
       change the ICP. All three are partially right. Where do I focus first?
     notes: A strong reply commits and names what the others wait on.
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # v2 EXPANSION (2026-05-17): n=20 → n=50.
+  #
+  # Three new buckets, 10 questions each, designed to harden the eval against
+  # the four credibility critiques landed today (rubric saturation, in-family
+  # judge, small N, no underdog/edge tests).
+  #
+  #   adversarial-reframing — questions where the right answer is to
+  #                            challenge the premise, not apply structure.
+  #                            (Sabha's discipline can become rigidity here.)
+  #
+  #   cross-role-edge       — questions that span multiple roles in non-
+  #                            obvious ways or fall between domains.
+  #                            Tests routing robustness.
+  #
+  #   underdog              — questions where a baseline LLM is likely
+  #                            already good (lookup-shaped, well-framed,
+  #                            close to canonical). Sabha shouldn't
+  #                            uniformly win here; if it does, that's
+  #                            signal the protocol generalizes beyond
+  #                            its sweet spot.
+  # ─────────────────────────────────────────────────────────────────────────
+
+  # ─── ADVERSARIAL REFRAMING (10 questions) ─────────────────────────────────
+  - id: adv-01
+    role: CIO
+    category: adversarial-reframing
+    prompt: |
+      Our AWS bill is $18K/month for an app with ~5K daily active users.
+      The CTO wants to migrate to Cloudflare R2 + Workers + D1. Estimate is
+      $400/month after migration. Should we go?
+    notes: |
+      Strong reply audits whether $18K is correct for 5K DAU before
+      accepting the migration premise — that bill is suspiciously high
+      and suggests a misconfiguration the migration won't fix. A weak
+      Sabha reply jumps to the framework answer (cost-driven migration).
+
+  - id: adv-02
+    role: CFO
+    category: adversarial-reframing
+    prompt: |
+      Burn is $48K/month, we have 4.5 months of cash. A $200K bridge at 18%
+      APR is on the table. Take it or fundraise harder?
+    notes: |
+      Right reframe: at $48K burn and 4.5mo runway, neither option is good
+      without first asking why burn is that high. A strong reply challenges
+      the burn structure before evaluating either option.
+
+  - id: adv-03
+    role: CMO
+    category: adversarial-reframing
+    prompt: |
+      We're 4 months into a new positioning ("AI productivity for SMBs"),
+      pipeline is down 30% vs the old positioning ("workflow automation").
+      The CMO consultant says give it another 8 weeks. Stick or revert?
+    notes: |
+      Right reframe: "AI productivity for SMBs" is generic, not a positioning
+      — that's the underlying problem, not "give it more time" vs "revert."
+      Strong reply names the positioning quality, not the duration.
+
+  - id: adv-04
+    role: CSO
+    category: adversarial-reframing
+    prompt: |
+      A larger competitor just announced what looks like 80% of our feature
+      set. They have 10x our distribution. Should we accelerate, pivot, or
+      partner?
+    notes: |
+      Right reframe: an announcement is not a shipped product. The question
+      isn't accelerate/pivot/partner yet — it's "is their announcement
+      credible execution-wise?" Strong reply names the verification step
+      before committing.
+
+  - id: adv-05
+    role: CHRO
+    category: adversarial-reframing
+    prompt: |
+      A senior engineer is unhappy with their comp. Market-rate band suggests
+      they could leave for 20% more. Match the implied offer or let them
+      walk?
+    notes: |
+      Right reframe: "implied offer" is not "actual offer." Strong reply
+      probes whether this is a real comp gap or a non-comp dissatisfaction
+      (manager, scope, autonomy) being framed as money.
+
+  - id: adv-06
+    role: CAIO
+    category: adversarial-reframing
+    prompt: |
+      Our RAG pipeline retrieves 8 docs, ranks them, sends top 3 to the LLM.
+      Quality is mediocre. Should we add a re-ranker, expand to 15 docs, or
+      fine-tune?
+    notes: |
+      Right reframe: before tuning retrieval, look at what users actually
+      ask vs what's in the index. The mediocrity is often a corpus gap,
+      not a retrieval gap. Strong reply checks corpus-question fit first.
+
+  - id: adv-07
+    role: CXO
+    category: adversarial-reframing
+    prompt: |
+      Trial → paid conversion is 4%. The CXO says fix onboarding. Should we
+      A/B test a guided onboarding flow vs the current open-ended one?
+    notes: |
+      Right reframe: 4% conversion is the surface number. What you actually
+      need to know is whether the people not converting are (a) wrong fit,
+      (b) right fit who didn't activate, or (c) right fit who activated but
+      didn't see value. Different problems; A/B testing the wrong one is
+      noise.
+
+  - id: adv-08
+    role: CLC
+    category: adversarial-reframing
+    prompt: |
+      A customer sent us a 12-page MSA with a $1M liability cap, IP
+      assignment clauses, and a 90-day exit notice. Our standard contract
+      has a $50K cap and 30-day exit. Negotiate or accept?
+    notes: |
+      Right reframe: before negotiating clauses, name whether you're
+      contracted with their legal team or their procurement team. The
+      $1M cap with 90-day exit is procurement-shaped, and procurement
+      always has more room than the first draft suggests. Strong reply
+      names the counterparty.
+
+  - id: adv-09
+    role: CIO
+    category: adversarial-reframing
+    prompt: |
+      We've had three production incidents this month, all related to a
+      single microservice. The CTO wants to add canary deployment to that
+      service. Approve the work?
+    notes: |
+      Right reframe: three incidents in one service in one month suggests
+      a deeper design problem, not a deployment-process problem. Canary
+      is the wrong knob. Strong reply names that.
+
+  - id: adv-10
+    role: CEO
+    category: adversarial-reframing
+    prompt: |
+      I'm spending 60% of my time on hiring. The team says I should keep
+      doing it because I'm the best at it. Hire a recruiter or stay in
+      the seat?
+    notes: |
+      Right reframe: "60% of CEO time on hiring" is an early-stage choice;
+      "the team says you're the best at it" is a flattery-as-policy trap.
+      The real question is what else isn't getting done because of that
+      60%. Strong reply makes the opportunity cost visible.
+
+  # ─── CROSS-ROLE / EDGE-CASE (10 questions) ────────────────────────────────
+  - id: edge-01
+    role: CFO
+    category: cross-role-edge
+    prompt: |
+      We're considering a 4-day workweek. Productivity studies suggest no
+      output loss. Comp stays the same. CHRO is supportive. What's the CFO
+      view?
+    notes: |
+      Cross-role: CFO + CHRO. Strong reply names the second-order risks
+      (recruiting signal, customer-facing coverage gaps, comparable-firm
+      effect on top-talent stickiness) that CHRO might miss.
+
+  - id: edge-02
+    role: CAIO
+    category: cross-role-edge
+    prompt: |
+      We process customer health data through a third-party LLM. Our DPA
+      with the LLM provider says no training on our data. Our customers
+      ask if we're "AI-safe." How do we answer?
+    notes: |
+      Cross-role: CAIO + CLC. Strong reply names what "AI-safe" actually
+      means in a customer's contractual frame, not just the LLM provider's
+      data-use terms. Probably needs a SOC 2 narrative + a DPA addendum
+      for customers.
+
+  - id: edge-03
+    role: CHRO
+    category: cross-role-edge
+    prompt: |
+      We're hiring a sales lead. Two candidates: one is the perfect
+      profile but wants $40K above band; the other is good-but-not-great
+      at the band. CMO loves candidate A. CFO frowns. How to decide?
+    notes: |
+      Cross-role: CHRO + CFO + CMO. Strong reply names the comp-band
+      precedent risk (if we stretch for A, who else asks for it next
+      quarter) as the actual decision input, not the candidate quality
+      comparison.
+
+  - id: edge-04
+    role: CXO
+    category: cross-role-edge
+    prompt: |
+      Support tickets are up 40% MoM. Engineering says they're shipping
+      faster (true). CXO says onboarding broke (also true). Where does
+      the responsibility lie and what's the move?
+    notes: |
+      Cross-role: CXO + CIO. Strong reply names that "ship faster + break
+      onboarding" is a CI/CD discipline issue, not a CXO program issue —
+      changes to user-facing surfaces need an onboarding regression test
+      in the deployment pipeline.
+
+  - id: edge-05
+    role: CSO
+    category: cross-role-edge
+    prompt: |
+      A potential acquirer reached out informally. Multiple of revenue is
+      attractive (8x ARR) but lower than what our last term sheet implied
+      (12x). Acknowledge, ignore, or counter?
+    notes: |
+      Cross-role: CSO + CFO + CEO. Strong reply names that informal acquirer
+      contact is a price-discovery signal regardless of intent — and that
+      the lower multiple reflects strategic value to *them*, not market
+      value of *you*.
+
+  - id: edge-06
+    role: CLC
+    category: cross-role-edge
+    prompt: |
+      We open-sourced our SDK under MIT 18 months ago. A competitor just
+      shipped a product that looks heavily inspired by it. Our investors
+      want us to "do something." Is there anything to do?
+    notes: |
+      Cross-role: CLC + CSO. Strong reply names what MIT actually gives
+      away (everything) and reframes "do something" into either (a) a
+      stronger commercial differentiator, (b) an SDK license tier
+      (relicense future versions), or (c) acceptance + move on.
+
+  - id: edge-07
+    role: CMO
+    category: cross-role-edge
+    prompt: |
+      We have $30K of marketing budget for the quarter. Three options:
+      (a) full-page sponsored newsletter in our top trade pub, (b) hire
+      a content lead at $60K base ($15K for the quarter), (c) double
+      down on a working LinkedIn experiment that's at $5K spend → $50K
+      pipeline this quarter so far.
+    notes: |
+      Cross-role: CMO + CFO. Strong reply names that the working LinkedIn
+      experiment is the obvious answer (10x ROI signal) and that the
+      *real* CFO question is whether to take half of (c)'s gain and
+      reinvest in the next experiment.
+
+  - id: edge-08
+    role: CIO
+    category: cross-role-edge
+    prompt: |
+      Our database is at 78% disk utilization. Auto-grow is on but we're
+      paying $0.30/GB/mo on the over-provisioned tier. The CFO asks
+      whether to migrate to a tiered storage product (saves ~$400/mo at
+      current utilization). Worth the migration risk?
+    notes: |
+      Cross-role: CIO + CFO. Strong reply names that the $400/mo savings
+      is dwarfed by typical engineering time for a database migration
+      (1-2 weeks at any reasonable rate). The real CIO answer is "no, but
+      audit whether we even need that much disk."
+
+  - id: edge-09
+    role: CHRO
+    category: cross-role-edge
+    prompt: |
+      An employee asked for $5K to cover their startup-incubator
+      application fee. They want to use what they learn to "be a better
+      employee." How to handle?
+    notes: |
+      Cross-role: CHRO + CEO. Strong reply names that this is the
+      employee telling you they're leaving in 6-12 months, regardless of
+      whether you fund it. The CHRO move is to plan accordingly, not to
+      treat it as a comp request.
+
+  - id: edge-10
+    role: CEO
+    category: cross-role-edge
+    prompt: |
+      Board meeting in 10 days. Quarter was mixed — pipeline up, churn up,
+      hiring behind, runway flat. The board chair wants a "single
+      narrative." What's mine?
+    notes: |
+      Cross-role: CEO + CFO + CMO. Strong reply names that "single
+      narrative" is the wrong frame — boards smell sanitization — and
+      offers the better frame: name the dominant tension (pipeline +
+      churn), the bet (which side to fix first), and the kill criterion.
+
+  # ─── UNDERDOG: baseline-favored, lookup-shaped, well-framed (10) ──────────
+  # These should be where Sabha's structure adds less. If Sabha still wins
+  # most of them, that's signal the protocol generalizes beyond its sweet
+  # spot. If baseline wins many, that's honest signal about where Sabha is
+  # overkill and the user should /ask instead of trigger routing.
+
+  - id: under-01
+    role: CIO
+    category: underdog
+    prompt: |
+      What's the difference between IAM roles and IAM users in AWS, and
+      when should I use each?
+    notes: |
+      Underdog: lookup-shaped. A baseline reply is probably already good
+      (it's a tutorial-style question). Sabha's protocol overhead may
+      add noise.
+
+  - id: under-02
+    role: CFO
+    category: underdog
+    prompt: |
+      What's the standard way to calculate burn multiple, and what's a
+      healthy range for early-stage SaaS?
+    notes: |
+      Underdog: framework-definition question. Baseline LLM probably
+      cites Bessemer's burn multiple correctly. Sabha can cite from
+      REFERENCE.md but may not add much over a clean tutorial answer.
+
+  - id: under-03
+    role: CMO
+    category: underdog
+    prompt: |
+      Briefly: what's the difference between a positioning statement and
+      a value proposition?
+    notes: |
+      Underdog: definitional. Baseline already does this well. Watch for
+      Sabha adding unnecessary preamble.
+
+  - id: under-04
+    role: CAIO
+    category: underdog
+    prompt: |
+      What's the difference between RAG and fine-tuning, and how do I
+      decide which one I need?
+    notes: |
+      Underdog: well-trafficked tutorial topic. Baseline LLM has many
+      examples in training. Sabha may be more concrete by naming a
+      decision tree but might also pad.
+
+  - id: under-05
+    role: CSO
+    category: underdog
+    prompt: |
+      In 2-3 sentences: what does "Where to Play / How to Win" mean in
+      strategy frameworks?
+    notes: |
+      Underdog: short-answer requested explicitly. Strong reply respects
+      the length ask. Sabha that ignores the "2-3 sentences" constraint
+      and produces a structured 200-word reply is *correctly* losing
+      pairwise here.
+
+  - id: under-06
+    role: CXO
+    category: underdog
+    prompt: |
+      Quick: how does the original Net Promoter Score (NPS) calculation
+      work?
+    notes: |
+      Underdog: factual / tutorial. Sabha may over-structure a question
+      that wants a 3-line answer.
+
+  - id: under-07
+    role: CHRO
+    category: underdog
+    prompt: |
+      For a US-based startup, what's a typical equity grant range for an
+      early engineering hire (employee #5-10)?
+    notes: |
+      Underdog: numerical lookup; baseline LLM will cite Holloway / Pulley
+      / Carta percentiles reasonably well. Sabha can add tradeoff framing
+      but the question's frame is already correct.
+
+  - id: under-08
+    role: CLC
+    category: underdog
+    prompt: |
+      What's the difference between a SAFE and a convertible note?
+    notes: |
+      Underdog: definitional. Baseline is probably fine. CLC role's
+      value-add is the risk-tier framing — but for a pure-definition
+      question, the tier is GREEN and the structure may feel heavy.
+
+  - id: under-09
+    role: CEO
+    category: underdog
+    prompt: |
+      What does "OKR" stand for and what's the standard structure of an
+      OKR?
+    notes: |
+      Underdog: definitional. Sabha's discipline is overkill on a
+      definitional question; the baseline answer is fine.
+
+  - id: under-10
+    role: CIO
+    category: underdog
+    prompt: |
+      What's the recommended max size for an individual JSON record stored
+      in DynamoDB?
+    notes: |
+      Underdog: factual lookup (400 KB). Baseline LLM knows this; Sabha
+      adds protocol overhead. Strong Sabha reply respects the question's
+      shape and answers tersely.

@@ -19,7 +19,8 @@ What's next, by quarter. Subject to change — this is a roadmap, not a contract
 - ✅ Memory-backend-agnostic positioning (Claude Memory + Sakthi + mem0 + Letta + plain markdown)
 - ✅ Public-release documentation surface (ARCHITECTURE, ROLES, EVALS, MEMORY-OPTIONS, FOR-REGULATED-INDUSTRIES, CUSTOMIZATION, PHILOSOPHY, QUICKSTART)
 - ✅ Optional `chanakya-neeti` opt-in skill (76 verses, `/chanakya` slash command)
-- ✅ Dedicated Chanakya activation eval (`evals/chanakya/`) — v2 grader with corpus-correctness check. Latest results (2026-05-17, 7 questions): activation 4/4, discipline 2/3 (one topic-relevance leak; guardrail tightened), baseline attribution 0% vs skill-loaded 100%. Re-eval pending after the discipline patch.
+- ✅ Dedicated Chanakya activation eval (`evals/chanakya/`) — v2 grader with corpus-correctness check. Latest results (2026-05-17, 7 questions): activation 4/4, discipline 3/3 (after guardrail patch validated re-run), baseline attribution 0% vs skill-loaded 100%.
+- ✅ **Main eval v2** — rubric v3 (sub-axis decomposition fixes saturation on decisiveness / tradeoff_named / length_discipline), question set expanded n=20 → n=50 (added 10 adversarial-reframing + 10 cross-role-edge + 10 underdog), cross-model judge harness shipped (`--judge-provider {anthropic,openai,google}` in `run_eval.py`). v1.3.1 and v2 baselines retired; v3 measurement floor is the canonical comparison going forward.
 
 The protocol layer is feature-complete for v2.x. From here, the work shifts from *building* to *opening up* — more LLMs, more memory backends, more council presets.
 

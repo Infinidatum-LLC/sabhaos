@@ -42,26 +42,24 @@ Newest items at the top of each section.
 
 ## Eval rigor
 
-### Cross-model judging (defeat in-family bias)
+### Cross-model judging (defeat in-family bias) — ⚙️ HARNESS SHIPPED 2026-05-18
 
-**What:** Run the same eval question set with judges from different model families. Specifically: Claude as candidate + GPT-5 as judge, GPT-5 as candidate + Claude as judge, possibly Gemini Ultra as third judge.
+**Status update:** The judge-provider abstraction shipped in `evals/judge_clients.py` with the `--judge-provider {anthropic,openai,google}` flag in `run_eval.py`. **The harness is ready; the run is pending an API key for a non-Anthropic provider.**
 
-**Why it might matter:** The current eval is Claude judging Claude. In-family bias is the single biggest credibility weakness for any serious reader. The numbers are honest within that constraint, but a cross-model run would defeat ~80% of the "you're grading yourself" critique.
+This was de-coupled from the founder-held LLM-agnostic SDK item because **using a non-Anthropic model as a *judge* is not the same as running Sabha *as candidate* on a non-Anthropic model.** The judge is a measurement instrument; the candidate is the protocol-under-test.
 
-**Why not now:**
-- Requires API keys for at least one non-Anthropic provider
-- Coupled to the LLM-agnostic SDK bet which is currently founder-held (see ROADMAP.md)
+**Trigger to promote** (now: just run it):
+- User has access to an OpenAI or Google API key
+- Willing to spend ~$30-80 on a cross-model judge run
 
-**Trigger to promote:**
-- LLM-agnostic SDK comes off hold (founder reverses)
-- A serious ML/research-facing audience asks for cross-model evidence
-- A grant or commercial conversation requires defensible eval methodology
+**To run:**
 
-**Approach sketch:**
-- One-time script that loads `evals/questions.yaml`, generates with Claude Sonnet 4.6, generates with GPT-5, generates with Gemini Ultra; then has each judge evaluate the other two on rubric + pairwise
-- 3 candidates × 2 judges per candidate × 20 questions = 60 paired comparisons
-- Results land in `evals/cross-model/`
-- Estimated cost ~$30–80; wall time ~2 hours
+```bash
+export ANTHROPIC_API_KEY=...
+export OPENAI_API_KEY=...
+pip install 'openai>=1.0'
+python evals/run_eval.py --judge-provider openai --judge-model gpt-5 --out-name 2026-MM-DD-openai-judge
+```
 
 ### Expand chanakya eval to N=15
 

@@ -194,7 +194,7 @@ This is what differentiates Sabha from a system prompt. The protocol routes; the
 
 ## Does it actually work?
 
-A reproducible eval ships in [`evals/`](./evals/). 20 operator-style questions, each run twice — once with no system prompt (baseline) and once with the Sabha charter loaded. Both replies are judged by an LLM-as-judge on five axes (decisiveness, tradeoff-named, concreteness, routing-present, length-discipline) plus pairwise preference.
+A reproducible eval ships in [`evals/`](./evals/). 50 operator-style questions (n=50 as of 2026-05-18) across 4 buckets: 20 operator questions (Sabha's sweet spot), 10 adversarial-reframing (challenge-the-premise tests), 10 cross-role-edge, 10 underdog (definitional / lookup-shaped where baseline is already good). Each runs twice — no-system-prompt baseline vs Sabha charter loaded — and is judged by an LLM-as-judge using the **v3 sub-axis rubric** (decisiveness / tradeoff-named / length-discipline each decomposed into 5 binary sub-criteria + holistic concreteness + binary routing-present) plus pairwise preference. **Cross-model judge harness** supports `--judge-provider {anthropic,openai,google}` to defeat in-family bias.
 
 Methodology, rubric, and limitations: [`evals/README.md`](./evals/README.md). Run it yourself:
 

@@ -92,7 +92,7 @@ def load_deep_skill_for_role(role: Optional[str]) -> str:
 
 
 def generate_reply(
-    client: Anthropic,
+    candidate_client,
     model: str,
     question: str,
     condition: str,
@@ -104,6 +104,10 @@ def generate_reply(
     When `condition == "sabha"` and the question has a tagged role with a
     matching deep skill on disk, the deep skill's content is appended to the
     system prompt to simulate skill activation in Claude Code.
+
+    The candidate is always Anthropic-shaped — the Sabha protocol is currently
+    tested against Claude as the candidate model. The cross-model knob is on
+    the *judge* (see `--judge-provider`), not the candidate.
     """
     kwargs = {
         "model": model,
@@ -113,14 +117,15 @@ def generate_reply(
     if condition == "sabha":
         kwargs["system"] = sabha_system + load_deep_skill_for_role(role)
     response = with_retry(
-        lambda: client.messages.create(**kwargs),
+        lambda: candidate_client.messages.create(**kwargs),
         label=f"gen:{condition}",
     )
     return response.content[0].text
 
 
 def run_question(
-    client: Anthropic,
+    candidate_client,
+    judge_client,
     candidate_model: str,
     judge_model: str,
     sabha_system: str,
@@ -135,7 +140,7 @@ def run_question(
     replies: dict[str, str] = {}
     for condition in CONDITIONS:
         replies[condition] = generate_reply(
-            client,
+            candidate_client,
             candidate_model,
             prompt,
             condition,
@@ -147,11 +152,11 @@ def run_question(
     scores: dict[str, JudgeScore] = {}
     for condition in CONDITIONS:
         scores[condition] = score_reply(
-            client, prompt, replies[condition], judge_model
+            judge_client, prompt, replies[condition], judge_model
         )
 
     pairwise: PairwiseResult = pairwise_preference(
-        client,
+        judge_client,
         prompt,
         sabha_reply=replies["sabha"],
         baseline_reply=replies["baseline"],
@@ -342,7 +347,19 @@ def load_checkpoint(basename: str) -> tuple[list[dict], Optional[dict]]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run the Sabha OS eval.")
     parser.add_argument("--candidate-model", default=DEFAULT_CANDIDATE_MODEL)
-    parser.add_argument("--judge-model", default=DEFAULT_JUDGE_MODEL)
+    parser.add_argument("--judge-model", default=None,
+        help="Judge model. If omitted, defaults per --judge-provider.")
+    parser.add_argument(
+        "--judge-provider",
+        choices=["anthropic", "openai", "google"],
+        default="anthropic",
+        help=(
+            "Which provider hosts the judge model. Default 'anthropic' "
+            "preserves the v1.3.1 + v3 in-family run. Use 'openai' or "
+            "'google' to defeat in-family bias — requires the corresponding "
+            "API key (OPENAI_API_KEY or GOOGLE_API_KEY) and SDK installed."
+        ),
+    )
     parser.add_argument(
         "--limit", type=int, default=None, help="Only run the first N questions."
     )
@@ -359,11 +376,18 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    # The candidate is always Anthropic (Sabha-on-Claude is the tested
+    # configuration; LLM-agnostic candidate is held per docs/ROADMAP.md).
     if not os.environ.get("ANTHROPIC_API_KEY"):
         print("ANTHROPIC_API_KEY not set. Export it and re-run.", file=sys.stderr)
         return 1
+    candidate_client = Anthropic()
 
-    client = Anthropic()
+    # The judge can be any supported provider; defeats in-family bias.
+    from evals.judge_clients import build_judge_client, default_judge_model
+    judge_client = build_judge_client(args.judge_provider)
+    judge_model = args.judge_model or default_judge_model(args.judge_provider) or DEFAULT_JUDGE_MODEL
+
     sabha_system = load_sabha_system_prompt()
     questions = load_questions(args.limit)
 
@@ -372,7 +396,9 @@ def main() -> int:
     meta = {
         "run_date": run_date,
         "candidate_model": args.candidate_model,
-        "judge_model": args.judge_model,
+        "judge_provider": args.judge_provider,
+        "judge_model": judge_model,
+        "rubric_version": "v3",
     }
 
     if args.resume:
@@ -393,7 +419,8 @@ def main() -> int:
 
     print(
         f"Running {len(questions)} questions "
-        f"(candidate={args.candidate_model}, judge={args.judge_model})..."
+        f"(candidate={args.candidate_model}, "
+        f"judge={args.judge_provider}:{judge_model}, rubric=v3)..."
     )
 
     for i, q in enumerate(questions, start=1):
@@ -402,9 +429,10 @@ def main() -> int:
             continue
         print(f"[{i}/{len(questions)}] {q['id']}")
         rec = run_question(
-            client=client,
+            candidate_client=candidate_client,
+            judge_client=judge_client,
             candidate_model=args.candidate_model,
-            judge_model=args.judge_model,
+            judge_model=judge_model,
             sabha_system=sabha_system,
             question=q,
             seed=args.seed + i,
