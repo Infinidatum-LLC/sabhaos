@@ -2,6 +2,8 @@
 
 What's next, by quarter. Subject to change — this is a roadmap, not a contract.
 
+> **Companion file:** ideas that have been *captured* but not yet *ranked* live in [`BACKLOG.md`](./BACKLOG.md). Items move backlog → roadmap when a triggering condition fires. Killed items stay in the backlog with a strike-through and a reason — *"why we didn't build this"* is often more valuable than *"what we built."*
+
 > **Calling the shots that aren't built yet is part of the discipline.** This page names the bets, the timing, and the kill criteria. If something here doesn't ship by its quarter, the next ROADMAP entry will say *why* and either re-commit or kill it.
 
 ---

@@ -46,6 +46,15 @@ See [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) for the full picture of whi
 - Markdown for docs, `.docx` only for filed reports (none in this repo).
 - No emojis in protocol files. They're allowed in docs sparingly.
 
+## Suggesting a feature without writing it yet
+
+If you have an idea worth capturing but not ready to implement, file it as an issue with the `backlog` label, or open a PR adding an entry to [`docs/BACKLOG.md`](./docs/BACKLOG.md). The backlog is intentionally open — items live there until a trigger condition fires and they're promoted to the roadmap (or killed with a reason). The format is:
+
+- **What it is** (one paragraph)
+- **Why it might matter** (one paragraph)
+- **Why not now** (the constraint)
+- **Trigger to promote** (what would make this worth doing)
+
 ## Reporting bugs / security issues
 
 - General bugs: open an issue at [github.com/rdmurugan/sabhaos/issues](https://github.com/rdmurugan/sabhaos/issues).

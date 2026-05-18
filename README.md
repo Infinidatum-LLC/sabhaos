@@ -239,7 +239,8 @@ sabha-os/
 │   ├── CUSTOMIZATION.md               # Renaming roles, swapping memory, multiple Sabhas
 │   ├── PHILOSOPHY.md                  # Why these 5 disciplines; the Chanakya tradition
 │   ├── EVALS.md                       # Eval methodology + results summary
-│   └── ROADMAP.md                     # What's shipped, Q3 LLM-agnostic SDK bet, future quarters
+│   ├── ROADMAP.md                     # What's shipped, Q3 bets, founder-level overrides
+│   └── BACKLOG.md                     # Captured ideas; trigger conditions for promotion to roadmap
 ├── examples/
 │   ├── personal-sakthi.CLAUDE.md      # Life council (Health · Finance · Family · Career · Time · Self)
 │   ├── professional-sakthi.CLAUDE.md  # C-suite council (default — 9 roles)
@@ -294,7 +295,8 @@ See [`skills/chanakya-neeti/SKILL.md`](./skills/chanakya-neeti/SKILL.md) for the
 | [`docs/CUSTOMIZATION.md`](./docs/CUSTOMIZATION.md) | Renaming roles, swapping memory MCPs, multiple Sabhas, sharing presets. |
 | [`docs/PHILOSOPHY.md`](./docs/PHILOSOPHY.md) | Why these 5 disciplines. What Sabha is and isn't. The Chanakya tradition. |
 | [`docs/EVALS.md`](./docs/EVALS.md) | Eval methodology, current results, how to run it yourself. |
-| [`docs/ROADMAP.md`](./docs/ROADMAP.md) | What's shipped, what's bet on Q3 (LLM-agnostic SDK), what comes next. |
+| [`docs/ROADMAP.md`](./docs/ROADMAP.md) | What's shipped, what's bet on Q3, what comes next. Founder-level overrides logged here. |
+| [`docs/BACKLOG.md`](./docs/BACKLOG.md) | Ideas captured but not yet ranked. Includes trigger conditions for promotion to roadmap. |
 | [`CONTRIBUTING.md`](./CONTRIBUTING.md) | PR conventions; what kinds of contributions help. |
 | [`PRIVACY.md`](./PRIVACY.md) | No data collection. Local-first by design. |
 | [`CHANGELOG.md`](./CHANGELOG.md) | Version history. |
