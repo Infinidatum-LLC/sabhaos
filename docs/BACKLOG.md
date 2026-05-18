@@ -114,18 +114,33 @@ python evals/run_eval.py --judge-provider openai --judge-model gpt-5 --out-name 
 **Trigger to promote:**
 - After the max_tokens bump, re-run the eval; if `length_discipline` doesn't recover to ~3.15, this is the next intervention
 
-### Bump eval harness `max_tokens` from 1200 → 2000
+### Bump eval harness `max_tokens` from 1200 → 2000 — **🔼 PROMOTION CRITERION FIRED 2026-05-18**
 
-**What:** A one-line change in `evals/run_eval.py` to give replies more room.
+**Status:** cso-02 was truncated in *two consecutive* runs (2026-05-16 and 2026-05-18 n=50). Both times the judge rationale cited the truncation explicitly. This is no longer "wait for a triggering reason" — it's blocking eval accuracy. Promote to immediate work.
 
-**Why it might matter:** cso-02 lost pairwise specifically because the Sabha reply was truncated mid-sentence. That's an artifact of the harness, not a regression in the protocol. Fixing it may push the main eval pairwise from 17/20 to 18/20.
+**What:** A one-line change in `evals/run_eval.py` to give replies more room. Bump `max_tokens=1200` → `max_tokens=2000` in `generate_reply`.
 
-**Why not now:**
-- Bigger replies use more tokens (more API spend) and risk *real* length-discipline regression (i.e., the model fills the available space)
-- Want to do this surgically, not just bump
+**Tradeoff:** bigger replies use more tokens (~$5 more per full run) and risk *real* length-discipline regression — i.e., the model fills the available space. Mitigation: pair the bump with a re-emphasis of length discipline in CLAUDE.md (also in BACKLOG).
+
+**Expected effect:** cso-02 should flip to Sabha. n=50 pairwise should go 48/50 → 49/50 (only legitimate baseline win remains: under-05 attribution gap).
+
+### Tighten v3 judge prompt for structured sub-criteria output — *NEW 2026-05-18*
+
+**What:** The v3 sub-axis rubric prompt (in `evals/judge.py`) asks the judge to return JSON with three `*_sub` dict fields containing 5 binary sub-criteria each. In the 2026-05-18 live run, Opus 4.7 reasoned about the sub-criteria mentally (rationales reference them) but emitted JSON in the v2 flat-composite shape. The fallback path in `score_reply` handled it cleanly — the run completed with v2-equivalent scoring — but the v3 sub-axis decomposition didn't activate, so we can't slice *which* sub-criteria are saturating.
+
+**Why it might matter:** the whole point of v3 was to defeat rubric saturation by forcing the judge to score discrete binary criteria. If the judge defaults to the v2 holistic format, the saturation problem persists (decisiveness still hits 5/5 in 33/50 = 66% of Sabha replies). Without sub-criterion slicing, we can't tell whether Sabha is winning on *every* sub-criterion or just one or two that drag the composite up.
+
+**Approach sketch (any of these may work; try in order):**
+1. Add a worked example to the judge prompt showing the exact JSON structure expected, with all sub-criteria filled in.
+2. Switch the response format to "schema-enforced JSON" using Anthropic's tool-use API (force structured output via tool calls).
+3. Use a less-capable judge model (e.g., Haiku 4.5) which may follow the schema more literally; trade off some judgment quality for format compliance.
+4. Multi-step prompt: first ask for sub-criteria one at a time, then synthesize.
 
 **Trigger to promote:**
-- Need a fresh eval run for any other reason (preset additions, deep-skill update). Bundle the change.
+- After the max_tokens fix above runs (need a fresh eval anyway)
+- Before any external broadcast that cites sub-criterion-level data
+
+### CIO `cio-01` challenge-the-premise heuristic
 
 ### CIO `cio-01` challenge-the-premise heuristic
 

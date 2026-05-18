@@ -110,7 +110,65 @@ The pairwise judgment is what most matters. Rubric scores can saturate; pairwise
 
 ## Current results
 
-**Status:** retired baselines below; the v3 rubric × n=50 × cross-model-judge run is pending. Once the next live run completes, this section will surface those headline numbers as the canonical credibility claim.
+### Headline (v3 rubric, n=50, Anthropic judge — 2026-05-18)
+
+| Metric | Value | 95% CI |
+|---|---:|---|
+| **Pairwise preference (Sabha vs no-system-prompt baseline)** | **48 / 50 (96.0%)** | Wilson [86.5%, 98.9%] |
+| Rubric total Δ (Sabha − baseline) | +4.78 / 20 | — |
+| Sabha total mean | 16.96 | stdev 2.74 |
+| Baseline total mean | 12.18 | stdev 3.74 |
+
+CI tightening vs the n=20 v1.3.1 run: lower bound jumped from **64.0% → 86.5%**. The directional claim is no longer "probably wins" — at 95% confidence, the *worst plausible* underlying Sabha pairwise rate is now 86.5%, comfortably above 50% (the no-effect threshold) and above 70% (a strong-effect threshold).
+
+### Per-bucket breakdown — *the bigger story*
+
+The n=50 question set was built in four buckets to stress-test the protocol across credibility dimensions. Each bucket targets a different way Sabha *could* fail:
+
+| Bucket | n | Purpose | Pairwise | Rubric Δ |
+|---|---:|---|---:|---:|
+| **Original operator questions** | 20 | Sabha's sweet spot — confirm v1.3.1 directional result | 19 / 20 (95%) | +3.90 |
+| **Adversarial reframing** | 10 | Questions where the right answer is to *challenge the premise*. Tests whether deep skills' reframing heuristics work. | **10 / 10 (100%)** | +6.10 |
+| **Cross-role / edge** | 10 | Multi-role routing tests. Does Sabha pick the right primary? | **10 / 10 (100%)** | +5.90 |
+| **Underdog** | 10 | Definitional / lookup-shaped questions where baseline should be competitive. | 9 / 10 (90%) | +4.10 |
+
+**The adversarial bucket is the most consequential finding.** The v1.3.1 eval had 3 baseline-wins (cio-01, cio-02, ceo-03) that all shared one pattern: Sabha applied structure to a question that needed reframing first. The new n=50 run with all 9 deep skills loaded **closes that loss type at scale** — 10/10 pairwise on a bucket built specifically to surface it. The deep skills' "challenge the premise" heuristics work.
+
+The underdog bucket is also notable: Sabha wins 90% even on questions where baseline should be competitive (definitional lookups, well-framed simple asks). The protocol generalizes beyond its sweet spot.
+
+### Per-role distribution
+
+| Role | n | Pairwise | Rubric Δ |
+|---|---:|---:|---:|
+| CIO  | 8 | 8/8 (100%) | +6.12 |
+| CLC  | 3 | 3/3 (100%) | +7.67 |
+| CHRO | 6 | 6/6 (100%) | +5.83 |
+| CAIO | 5 | 5/5 (100%) | +5.00 |
+| CFO  | 6 | 6/6 (100%) | +5.00 |
+| CMO  | 5 | 5/5 (100%) | +3.00 |
+| CXO  | 5 | 5/5 (100%) | +4.00 |
+| CEO  | 6 | 6/6 (100%) | +3.67 |
+| CSO  | 6 | **4/6 (67%)** | +3.33 |
+
+Per-role n is now between 3 and 8 (was 2-3 at v1.3.1). The CSO 4/6 is the only role under 100% pairwise — both losses sit in CSO (see "Catalogued losses" below).
+
+### Caveat: v3 rubric partial activation
+
+The eval ran *with* the v3 sub-axis rubric prompt loaded, and the judge's rationales explicitly reference sub-criteria reasoning (sample: *"Reply hits all sub-criteria: decisive recommendation, quantified tradeoffs, concrete playbook..."*). **But the judge (Opus 4.7) emitted JSON in the v2 flat shape** — composite scores without the per-sub-criterion breakdown.
+
+The fallback in `score_reply` worked correctly; the numbers are still informed by v3 thinking, just not measurable as v3 sub-axis decomposition. Concretely:
+- Rubric saturation is *partially* reduced (decisiveness ceiling now 33/50 = 66%, down from 80% at n=20)
+- But we cannot slice *which* sub-criteria Sabha is winning or losing on
+
+This is a finding to fix. See `docs/BACKLOG.md` → "Tighten v3 judge prompt for structured sub-criteria output."
+
+### Catalogued losses (2/50)
+
+Both baseline wins are CSO. Both are traceable, not mysteries:
+
+- **`cso-02` (partnership)** — Sabha reply was **truncated mid-sentence** at the harness 1200 max_tokens limit. The same artifact bit cso-02 in the 2026-05-16 run. This is a harness bug already in BACKLOG ("Bump eval harness max_tokens 1200 → 2000"). Promotion criterion has now fired (second consecutive run with the same loss).
+
+- **`under-05` (Where to Play / How to Win)** — A legitimate baseline win. Judge rationale: *"B adds the useful attribution to Martin and Lafley, which an operator would find informative."* Sabha gave the right structural answer but didn't cite the framework's authors. Honest signal: on definitional questions, attribution beats structure. The CSO REFERENCE.md cites Lafley & Martin extensively — the issue is that the citation didn't surface in the *reply* even though it's in the loaded context.
 
 ### Retired baselines (preserved for audit only)
 

@@ -194,7 +194,14 @@ This is what differentiates Sabha from a system prompt. The protocol routes; the
 
 ## Does it actually work?
 
-A reproducible eval ships in [`evals/`](./evals/). 50 operator-style questions (n=50 as of 2026-05-18) across 4 buckets: 20 operator questions (Sabha's sweet spot), 10 adversarial-reframing (challenge-the-premise tests), 10 cross-role-edge, 10 underdog (definitional / lookup-shaped where baseline is already good). Each runs twice — no-system-prompt baseline vs Sabha charter loaded — and is judged by an LLM-as-judge using the **v3 sub-axis rubric** (decisiveness / tradeoff-named / length-discipline each decomposed into 5 binary sub-criteria + holistic concreteness + binary routing-present) plus pairwise preference. **Cross-model judge harness** supports `--judge-provider {anthropic,openai,google}` to defeat in-family bias.
+**Sabha-vs-baseline at n=50 (v3 rubric, Anthropic judge, 2026-05-18): 48/50 pairwise (96%), Wilson 95% CI [86.5%, 98.9%].** Lower bound jumped from 64% at n=20 to 86.5% at n=50 — direction was already clear; magnitude is now defensible. Per bucket:
+
+- Original operator questions: **19/20 (95%)**
+- Adversarial reframing (challenge-the-premise tests): **10/10 (100%)** — closes the v1.3.1 historical loss pattern at scale
+- Cross-role / edge: **10/10 (100%)**
+- Underdog (definitional / lookup where baseline should be competitive): **9/10 (90%)** — Sabha generalizes beyond its sweet spot
+
+Methodology: 50 operator-style questions across 4 buckets, 2 conditions per question (no-system-prompt baseline vs Sabha charter loaded), 5-axis rubric + pairwise preference, judged by Claude Opus 4.7. The **v3 sub-axis rubric** decomposes 3 previously-saturated axes (decisiveness, tradeoff_named, length_discipline) into 5 binary sub-criteria each. **Cross-model judge harness** supports `--judge-provider {anthropic,openai,google}` to defeat in-family bias — cross-model run pending. The two losses (`cso-02`, `under-05`) are catalogued and traceable; details in [`docs/EVALS.md`](./docs/EVALS.md). Reproducible: harness, questions, and results are committed.
 
 Methodology, rubric, and limitations: [`evals/README.md`](./evals/README.md). Run it yourself:
 

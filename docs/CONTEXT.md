@@ -145,18 +145,22 @@ Three layers:
 2. **Sakthi Graph** — durable, role-shaped retrieval surface
 3. **Sabha OS** — the routing protocol on top
 
-## 10. Eval results — current honest numbers (2026-05-17)
+## 10. Eval results — current honest numbers (2026-05-18)
 
-### Main eval (20 questions, all 9 deep skills loaded)
-- Pairwise win rate: **17/20 (85%)** vs no-system-prompt baseline
-- Rubric Δ: **+4.85** on a 20-point scale (down slightly from +5.95 in the v1.3.1 run when only 5/20 questions had deep skills — see note below)
-- Per-axis Sabha means: decisiveness 4.45, tradeoff 4.45, concreteness 4.15, length_discipline 2.85, routing_present 1.0
+### Main eval (n=50, v3 rubric, Anthropic judge)
+- **Pairwise win rate: 48/50 (96%)**, Wilson 95% CI [86.5%, 98.9%]
+- Rubric Δ: +4.78 / 20 (Sabha mean 16.96 vs baseline 12.18)
+- Distribution across 4 stress buckets:
+  - Original operator questions: 19/20 (95%)
+  - Adversarial-reframing: 10/10 (100%)
+  - Cross-role / edge: 10/10 (100%)
+  - Underdog (definitional / lookup, baseline should be competitive): 9/10 (90%)
+- Per-role: 8/9 roles at 100% pairwise; CSO at 4/6 (only role under 100%, both losses traceable)
+- The 2 losses: `cso-02` was truncated at max_tokens (harness bug, in BACKLOG); `under-05` was a legitimate loss (baseline added a Lafley & Martin attribution Sabha omitted on a definitional question)
 
-**Findings from the re-run after all 9 deep skills landed:**
-- Closed 2 of 3 historical losses (cio-02, ceo-03 flipped to Sabha)
-- Introduced 2 new losses (cfo-02 lost on creativity; cso-02 was truncated mid-sentence at the 1200 max_tokens cap)
-- Length discipline dropped (deep-skill content tempts longer replies) — this is the next tuning target
-- The cio-01 loss persists — it's a "challenge the premise" question that deep-skill citation hooks don't address
+**Caveat:** the v3 sub-axis rubric prompt was used, but Opus 4.7 emitted JSON in v2 flat shape (the judge mentally reasoned about sub-criteria — rationales reference them — but didn't structure the output). The fallback in `score_reply` handled it cleanly. Sub-axis slicing is therefore unavailable for this run; "tighten v3 judge prompt for structured output" is in BACKLOG.
+
+**Retired baselines:** v1.3.1 (n=20, 85% pairwise, +5.95 rubric) and v2 (n=20 re-run with all deep skills, 85% pairwise, +4.85 rubric) used the v1/v2 rubric where decisiveness and tradeoff_named saturated. Numbers preserved in `evals/results/2026-05-14.json` and `2026-05-16.json` for audit; **don't carry them forward as ongoing claims**.
 
 ### Chanakya eval (7 questions, opt-in discipline test)
 - Activation: **4/4 (100%)** — including adversarial "/chanakya should I name the branch staging or stage" (model gracefully bridged the metaphor)
@@ -264,7 +268,7 @@ For a default user: **"Sabha makes Claude answer load-bearing questions like a C
 
 For a privacy-sensitive operator: **"Sabha + Sakthi gives you an AI council with institutional memory that never leaves your machine. MIT-licensed, auditable, local-first."**
 
-For an eval-skeptical reader: **"Sabha-routed replies win 17/20 pairwise against no-system-prompt baselines at +4.85 rubric on a 20-question reproducible eval, with the harness, methodology, and results committed to the repo. Wide-ish CI at N=20; cross-model evidence is the next credibility lever."**
+For an eval-skeptical reader: **"Sabha-routed replies win 48/50 pairwise (96%, Wilson 95% CI [86.5%, 98.9%]) against no-system-prompt baselines on a 50-question reproducible eval that includes adversarial-reframing and underdog buckets specifically built to stress the protocol. Holds at 10/10 on adversarial questions where the original v1.3.1 run lost 3/3. Harness, questions, results, and the v3 sub-axis rubric all committed. Two losses (cso-02, under-05) are catalogued and traceable. Cross-model judge harness shipped; cross-family judging run is the next pending credibility move."**
 
 For an operator in regulated industries: **"The protocol layer is MIT markdown. The memory layer (Sakthi) is a directory on your disk; no telemetry, no auto-update, no cloud sync. Pair with a HIPAA-eligible LLM tier and your existing endpoint controls."**
 
