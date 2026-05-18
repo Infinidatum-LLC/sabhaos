@@ -384,7 +384,9 @@ def main() -> int:
     candidate_client = Anthropic()
 
     # The judge can be any supported provider; defeats in-family bias.
-    from evals.judge_clients import build_judge_client, default_judge_model
+    # `judge_clients` lives next to this script; the directory is already
+    # on sys.path via the bootstrap above (same pattern used for `judge`).
+    from judge_clients import build_judge_client, default_judge_model  # noqa: E402
     judge_client = build_judge_client(args.judge_provider)
     judge_model = args.judge_model or default_judge_model(args.judge_provider) or DEFAULT_JUDGE_MODEL
 
