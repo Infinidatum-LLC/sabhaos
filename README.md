@@ -316,6 +316,8 @@ The two projects are independent but complementary:
 - **Sabha OS** (this repo) — for non-engineering decisions in Claude Code (pricing, hiring, strategy, contracts)
 - **Sabha Code** — for engineering decisions in GitHub Copilot (architecture, code review, security, performance)
 
+**Sabha Code's own eval (n=30, 2026-05-18, same v3 sub-axis rubric methodology):** 28/30 pairwise (93.3%, Wilson 95% CI [78.7%, 98.2%]); role-core bucket 20/20 = 100%. The two projects' Wilson CIs overlap substantially — directional evidence the protocol shape generalizes from operator work to engineering work.
+
 Install Sabha Code alongside Sabha OS if you straddle both worlds:
 
 ```bash
