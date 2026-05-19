@@ -10,6 +10,7 @@
 > **Repos:**
 > - Protocol: [github.com/rdmurugan/sabhaos](https://github.com/rdmurugan/sabhaos)
 > - Memory layer (optional): [github.com/rdmurugan/sakthi-graph](https://github.com/rdmurugan/sakthi-graph)
+> - Developer-focused sibling for GitHub Copilot: [github.com/rdmurugan/sabha-code](https://github.com/rdmurugan/sabha-code)
 >
 > **License:** MIT. Copyright © 2025–2026 Durai Rajamanickam (@rdmurugan).
 >

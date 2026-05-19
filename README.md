@@ -308,6 +308,21 @@ See [`skills/chanakya-neeti/SKILL.md`](./skills/chanakya-neeti/SKILL.md) for the
 | [`PRIVACY.md`](./PRIVACY.md) | No data collection. Local-first by design. |
 | [`CHANGELOG.md`](./CHANGELOG.md) | Version history. |
 
+## Sister project: Sabha Code (for GitHub Copilot users)
+
+If you also use GitHub Copilot — for engineering work rather than C-suite operator decisions — there's a developer-focused sibling: [**Sabha Code**](https://github.com/rdmurugan/sabha-code). Same Chanakya tradition. Different role set (Architect / Reviewer / Security / Performance / QA / Mentor / Tech Lead). Different surface (`.github/copilot-instructions.md` instead of a Claude Code plugin).
+
+The two projects are independent but complementary:
+- **Sabha OS** (this repo) — for non-engineering decisions in Claude Code (pricing, hiring, strategy, contracts)
+- **Sabha Code** — for engineering decisions in GitHub Copilot (architecture, code review, security, performance)
+
+Install Sabha Code alongside Sabha OS if you straddle both worlds:
+
+```bash
+# In any repo where you use Copilot
+npx degit rdmurugan/sabha-code .github
+```
+
 ## Compatibility
 
 - Claude Code (any version with plugin support)
