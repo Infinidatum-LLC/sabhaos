@@ -135,3 +135,25 @@ See `examples/` for full role-set presets, including:
 - `professional-sakthi.CLAUDE.md` — the default C-suite council above
 - `developer-sakthi.CLAUDE.md` — Architect, Reviewer, Security, Performance, QA, Mentor
 - `solo-founder.CLAUDE.md`, `agency.CLAUDE.md`, `researcher.CLAUDE.md` — profession-tuned variants
+
+---
+
+## Mode skills (orthogonal to roles)
+
+Roles answer *who is speaking.* **Mode skills** answer *how the council operates.* They compose with roles, not replace them.
+
+| Mode skill | Path | What it does |
+|---|---|---|
+| `deliberate` | [`skills/modes/deliberate/`](../skills/modes/deliberate/SKILL.md) | Runs the multi-role council session — 2 or 3 roles open with opposed positions, rebut each other once, CEO synthesizes. Activates on `/deliberate <question>` or natural-language triggers ("let the council weigh in," "have X and Y debate this"). Hard length cap ~900 words for 2 roles. |
+| `sakthi-diary` | [`skills/modes/sakthi-diary/`](../skills/modes/sakthi-diary/SKILL.md) | Defines the canonical `SABHA_DIARY v1` template and transport rules. Auto-fires on engage mode and deliberate mode so decisions compound into your Sakthi. |
+
+Mode skills are activation-driven, not always-loaded — they only enter the context when the user invokes them or when their natural-language triggers fire. This keeps the per-reply token cost low for the common ask-mode case.
+
+When mode and role compose, the routing line widens to reflect both:
+
+```
+Deliberation: CFO ↔ CSO. CEO synthesizes.
+Question: <one-line restatement>
+```
+
+When you customize a council (rename roles, add new ones), mode skills continue to work unchanged — they reference *roles in general*, not the specific nine defaults. `/deliberate` works between an "Operator" and a "Strategist" the same way it works between CFO and CSO.

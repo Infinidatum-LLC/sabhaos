@@ -131,7 +131,7 @@ known entities, read the relevant files. Index:
 
 **Limits to be honest about:**
 - No semantic search. The AI grep-reads. Fine for <100 small files; degrades after that.
-- No diary mechanism — you write the files yourself.
+- No diary tool call — but the [`sakthi-diary`](../skills/modes/sakthi-diary/SKILL.md) skill still emits the `SABHA_DIARY v1` yaml block as a chat artifact on engage/deliberate mode; append it to `memory/decisions/<date>-<topic>.md` yourself.
 - No graph queries.
 
 ---
@@ -166,9 +166,25 @@ You can move from one backend to another at any time. The protocol cares about t
 
 1. Install Sakthi (as above).
 2. Edit `CLAUDE.md` `MEMORY` section to name the `sakthi_*` tools.
-3. Optionally, ingest your existing context: paste a session summary to Sabha and say *"file this as a memo to my Sakthi."* Engage mode will write a diary entry.
+3. Optionally, ingest your existing context: paste a session summary to Sabha and say *"file this as a memo to my Sakthi."* Engage mode will write a `SABHA_DIARY v1` entry via the [`sakthi-diary`](../skills/modes/sakthi-diary/SKILL.md) skill.
 
 There is no automatic migration tool. Memory is your data; you decide what gets carried over.
+
+---
+
+## The diary contract (v2.2.0+)
+
+Whatever backend you pick, the diary entry shape is the same — a `SABHA_DIARY v1` yaml block with these fields: `date, agent, mode, entities, question, recommendation, tradeoff, next_move, reversibility, sources, transcript` (transcript only on deliberate mode). The `sakthi-diary` skill defines the template once; per-backend transport is a translation table:
+
+| Backend | Diary write |
+|---|---|
+| **Sakthi Graph** | `sakthi_diary_write(agent_name=<role>, entry=<yaml>, topic=<room>)` — note: upstream tool currently expects AAAK-compressed format; v1 yaml adapter is a v2.3 stretch item |
+| **mem0** | `mem0_add(content=<yaml>, metadata={wing, room, agent})` |
+| **Letta** | `letta_archival_memory_insert(text=<yaml>, tags=[wing, room, agent])` |
+| **Zep** | `zep_add_memory(session_id=<wing>, content=<yaml>, metadata={room, agent})` |
+| **plain folder** | Append yaml block to `memory/<wing>/<room>.md` |
+
+This means: if you switch backends, your diary entries remain readable across the switch. The template is the contract; transports are interchangeable.
 
 ---
 

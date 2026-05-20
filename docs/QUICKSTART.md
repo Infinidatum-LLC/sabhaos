@@ -162,22 +162,29 @@ If you see the `Routing:` line — it's working. If you don't, jump to the troub
 
 ---
 
-## Step 8 — Use "ask" vs "engage" mode
+## Step 8 — Pick your mode: ask, engage, or deliberate
 
-Sabha has two modes built in:
+Sabha has three modes built in:
 
 | Mode | When to use it | How to trigger |
 |---|---|---|
 | **Ask** (default) | Quick question, chat reply | Just ask normally |
-| **Engage** | The decision matters enough to write down | Say *"file this as a memo"* or *"engage mode — write it up"* |
+| **Engage** | The decision matters enough to write down | Say *"file this as a memo"* or *"engage mode — write it up"* (Claude Code: `/engage`) |
+| **Deliberate** | Two roles disagree and you want them to argue it out | Say *"let the council deliberate on X"* or *"have CFO and CSO debate this"* (Claude Code: `/deliberate <question>`) |
 
 In **ask mode**, Claude gives you a tight inline answer.
-In **engage mode**, Claude produces a document-grade write-up you can save, share, or come back to in 6 months.
+In **engage mode**, Claude produces a document-grade write-up you can save, share, or come back to in 6 months. Engage mode also auto-writes a `SABHA_DIARY v1` entry to your memory so the decision compounds.
+In **deliberate mode**, two or three roles open with opposed positions, rebut each other once, and the CEO synthesizes — output is a structured transcript (hard cap ~900 words for two roles). Deliberate mode also auto-writes a diary entry, with the full transcript in the body.
 
 **Use engage mode when:**
 - The decision involves real money, time, or risk
 - You'll want to remember the reasoning later
 - You're sending the output to someone else (investor, partner, customer)
+
+**Use deliberate mode when:**
+- Two roles obviously disagree and you want the contested tradeoff named (pricing — CFO vs CSO; build-vs-buy — CIO vs CSO; hire-now-or-wait — CHRO vs CFO)
+- A single-role answer would smuggle in a contested assumption
+- The call is engage-grade *and* genuinely cross-functional
 
 For everything else — stay in ask mode. The default is fast and conversational.
 

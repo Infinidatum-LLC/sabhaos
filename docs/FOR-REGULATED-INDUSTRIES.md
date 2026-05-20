@@ -32,6 +32,7 @@ Common thread: you may freely use a hosted LLM for *the question in front of you
 5. **Auditable storage.** The palace is a ChromaDB database (SQLite + on-disk vector files). You can connect to it with standard tools, dump it, back it up, encrypt it at rest.
 6. **Structured retrieval.** Drawers are scoped by `wing` (role) and `room` (topic). Queries can be deterministic, not just semantic — *"all CFO decisions from Q1"* is one tool call.
 7. **Portable.** Your Sakthi is your data. If you change LLM providers, switch hosts, or shut Sabha down entirely, your knowledge graph remains a directory of files you own.
+8. **Auditable decision trail (v2.2.0+).** Every engage-mode and deliberate-mode answer auto-writes a `SABHA_DIARY v1` entry with mandatory `sources` field. Deliberate mode additionally records the full multi-role transcript (CFO opening, CSO rebuttal, CEO synthesis) as a `transcript` field in the same entry. For regulated industries this is a substantive artifact: *"why did the team decide X on date Y"* has a structured, queryable, locally-stored answer — not a Slack archive search. The diary contract is defined once in [`skills/modes/sakthi-diary/SKILL.md`](../skills/modes/sakthi-diary/SKILL.md) and is backend-agnostic; if your auditors want it exported, the yaml block is human-readable and tool-friendly.
 
 ---
 

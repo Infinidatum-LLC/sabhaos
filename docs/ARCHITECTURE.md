@@ -89,8 +89,8 @@ The metaphor lands cleanly: Sakthi is the *power* (the accumulated capacity); Si
   ╚════════════════════════════════════════════════════════════════════════╝
                             ▲                              │
                             │ sakthi_diary_write           │ sakthi_search
-                            │ (on engage mode)             │ sakthi_kg_query
-                            │                              │
+                            │ (on engage + deliberate)     │ sakthi_kg_query
+                            │ via sakthi-diary skill       │
                             │                              ▼
   ─── REASONING: SABHA ─────┴────────────────────────────────────────────────
 
@@ -120,7 +120,8 @@ The metaphor lands cleanly: Sakthi is the *power* (the accumulated capacity); Si
                             │
                             ▼
                       REPLY TO USER
-                      + on engage:  diary entry  ►  compounds Sakthi
+                      + on engage:      SABHA_DIARY v1 entry  ►  compounds Sakthi
+                      + on deliberate:  transcript + diary    ►  compounds Sakthi
 ```
 
 ---
@@ -176,16 +177,30 @@ No LLM call. Pure keyword scoring. ~190 LOC, 7 unit tests.
 
 ### 4. Sabha OS (the council)
 
-The protocol layer. Lives in one file: [`CLAUDE.md`](../CLAUDE.md).
+The protocol layer. Lives in one file: [`CLAUDE.md`](../CLAUDE.md), with deep skills under `skills/roles/<role>/` and orthogonal mode skills under `skills/modes/<mode>/`.
 
 For every substantive question:
 1. **Classify** to one (or two) of the 9 roles. Declare at the top of the reply.
 2. **Check Sakthi** for facts about known entities before asserting. (`sakthi_search`, `sakthi_kg_query`.)
 3. **Load the deep skill** for the routed role (REFERENCE + heuristics + templates + playbooks).
 4. **Answer in Chanakya voice** — decisive, terse, concrete, tradeoff-aware, grounded.
-5. **On engage mode**, produce a file (`.docx` for formal exec reports, `.md` for everything else) AND write a diary entry to Sakthi so the decision compounds.
+5. **On engage mode**, produce a file (`.docx` for formal exec reports, `.md` for everything else) AND write a `SABHA_DIARY v1` entry to Sakthi via the [`sakthi-diary`](../skills/modes/sakthi-diary/SKILL.md) skill so the decision compounds.
+6. **On deliberate mode**, run the [`deliberate`](../skills/modes/deliberate/SKILL.md) protocol — 2-3 roles open, rebut, CEO synthesizes — and auto-write a diary entry with the full transcript in the `transcript` field.
 
 The protocol skips chit-chat, trivia, and meta-questions about Sabha itself.
+
+### 5. Mode skills (orthogonal to roles)
+
+Roles answer the *who*. Mode skills answer the *how*. Roles and modes compose: a CFO answer in engage mode produces a CFO memo + a CFO-keyed diary entry; a CFO↔CSO answer in deliberate mode produces a transcript + a council-keyed diary entry.
+
+Current mode skills:
+
+| Skill | Path | Purpose |
+|---|---|---|
+| `deliberate` | `skills/modes/deliberate/` | Fixed multi-role protocol with strict section scaffolds; auto-diary at end |
+| `sakthi-diary` | `skills/modes/sakthi-diary/` | Canonical `SABHA_DIARY v1` template + backend transport table for memory writes |
+
+Mode skills are activation-driven, not always-loaded. The router brings them in when their activation conditions fire (`/deliberate`, `/engage`, "file this," "let the council weigh in"). This keeps the per-reply token cost low for the common ask-mode case.
 
 ---
 

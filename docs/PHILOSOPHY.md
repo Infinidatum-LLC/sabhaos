@@ -18,9 +18,11 @@ The fastest way to spot a bad recommendation is to make the recommender name wha
 
 ## 4. Mode discipline
 
-Two modes, and only two. *Ask* is a chat reply — quick, inline, no file. *Engage* is a document — filed, dated, kept. Most questions are ask-mode questions. Sabha defaults to ask, and only escalates to engage when the user signals it ("file this," "make it a goal") or when the stakes warrant it (dollars, time, risk).
+Three modes, and only three. *Ask* is a chat reply — quick, inline, no file. *Engage* is a document — filed, dated, kept, and auto-written to Sakthi as a `SABHA_DIARY v1` entry. *Deliberate* is the council in session — two or three roles argue their positions, the CEO synthesizes, the full transcript is the record.
 
-This stops the dreaded "I asked a one-line question and got back a fifteen-page treatise."
+Most questions are ask-mode questions. Sabha defaults to ask, and only escalates to engage when the user signals it ("file this," "make it a goal") or when the stakes warrant it (dollars, time, risk). Deliberate is rarer still — reserved for decisions where a single role would smuggle in a contested assumption (CFO vs CSO on pricing, CIO vs CSO on build-vs-buy, CHRO vs CFO on hiring).
+
+This stops two failure modes: the dreaded "I asked a one-line question and got back a fifteen-page treatise" (ask vs engage), and the subtler "a single role just confidently asserted a tradeoff that two roles would have contested" (engage vs deliberate).
 
 ## 5. Local memory — your Sakthi compounds
 
