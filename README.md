@@ -247,6 +247,21 @@ Each deep skill ships with:
 
 This is what differentiates Sabha from a system prompt. The protocol routes; the deep skills *answer*.
 
+## Who uses Sabha — and for what
+
+Sabha is built for people who make decisions, not people who write code (though developers use it too — see [Sabha Code](https://github.com/rdmurugan/sabha-code) for the GitHub Copilot equivalent). Concrete patterns:
+
+| You are... | You ask Sabha... | What you get back |
+|---|---|---|
+| **Solo founder** without a CFO or CSO | *"Should I cut the marketing line 40% to extend runway?"* | CFO-routed answer with runway math, named tradeoff, next move; filed to Sakthi for the next session. |
+| **Engineering manager** translating between code and business | *"How do I justify the database migration to the CFO?"* | CIO answer in CFO-translatable terms — concrete numbers, risk frame, regret check. |
+| **Independent consultant / fractional exec** | *"My client is wavering on the pivot. Walk them through the call."* | CSO-routed decision memo template; engage mode produces a client-ready `.docx`. |
+| **Compliance officer** at a regulated firm | *"Does our new feature need a DPIA under EU GDPR Article 35?"* | CLC-routed framing (not legal advice); local audit trail in `SABHA_DIARY v1` for inspectors. See [docs/FOR-REGULATED-INDUSTRIES.md](./docs/FOR-REGULATED-INDUSTRIES.md). |
+| **Strategy team** making a contested call | `/deliberate Should we acquire competitor X or build the feature ourselves?` | Multi-role transcript — CSO + CFO + CIO argue, CEO synthesizes — filed to Sakthi for the board memo. |
+| **Personal-life decisions** | *"Should I refinance the mortgage now or wait for rates to drop?"* | Personal council (Health · Finance · Family · Career · Time · Self) routes to Finance; concrete recommendation, named tradeoff. See [`examples/personal-sakthi.CLAUDE.md`](./examples/personal-sakthi.CLAUDE.md). |
+
+If you're none of the above and just want fast, structured replies to substantive questions — Sabha works for that too. The pattern is the same: classify, ground, recommend, name the tradeoff.
+
 ## Does it actually work?
 
 **Sabha-vs-baseline at n=50 (v3 rubric, Anthropic judge, 2026-05-18): 48/50 pairwise (96%), Wilson 95% CI [86.5%, 98.9%].** Lower bound jumped from 64% at n=20 to 86.5% at n=50 — direction was already clear; magnitude is now defensible. Per bucket:
@@ -266,7 +281,49 @@ export ANTHROPIC_API_KEY=sk-ant-...
 python evals/run_eval.py
 ```
 
-Results are committed to [`evals/results/`](./evals/results/). The interpretation — what the numbers mean, where the protocol fails, what's roadmapped — is in [`evals/ANALYSIS.md`](./evals/ANALYSIS.md). If the numbers don't move, the protocol isn't earning its keep — that data lives in the repo, not in marketing copy.
+Results are committed to [`evals/results/`](./evals/results/). The interpretation — what the numbers mean, where the protocol fails, what's roadmapped — is in [`docs/EVALS.md`](./docs/EVALS.md) (current) and [`evals/ANALYSIS.md`](./evals/ANALYSIS.md) (retired v1.3.1 analysis, preserved for audit). If the numbers don't move, the protocol isn't earning its keep — that data lives in the repo, not in marketing copy.
+
+## FAQ
+
+### How is Sabha different from a custom GPT or a system prompt?
+
+A system prompt makes the model *sound* like an executive. Sabha makes the model *operate* like one — classified routing declared at the top of every reply, role-specific deep skills (REFERENCE + heuristics + templates + playbooks + worked examples per role), grounding discipline (cite the source or flag the estimate — never invent), structured multi-role deliberation, and a compounding memory layer (the council remembers what you decided last quarter). The reproducible eval ships in [`evals/`](./evals/) so the claim is testable, not asserted: 48/50 pairwise (96%) at n=50.
+
+### Does it work without Claude Code?
+
+Yes. The protocol is [`CLAUDE.md`](./CLAUDE.md) — pure text. Paste it as the system prompt or Custom Instructions in Claude.ai, or as a system prompt via the Anthropic API. Slash commands (`/engage`, `/deliberate`, `/route`) only work in Claude Code; in Claude.ai you trigger modes naturally by saying *"file this as a memo"* (engage) or *"let the council deliberate"* (deliberate). The [10-minute no-installation quickstart](./docs/QUICKSTART.md) covers the Claude.ai path end-to-end.
+
+### Does it work with OpenAI / Gemini / other LLMs?
+
+The protocol-as-text is portable to any model that accepts a system prompt — but Sabha is tested primarily on Claude (current eval: Sonnet 4.6 as candidate, Opus 4.7 as judge). A cross-model eval is on the v2.3 roadmap; the harness already supports `--judge-provider {anthropic,openai,google}` to defeat in-family judge bias. The memory layer (Sakthi Graph / mem0 / Letta / Zep) is MCP-based and works with any MCP-capable LLM.
+
+### How is this different from Anthropic Cowork?
+
+Cowork is for office workers doing IC tasks (close the books, draft a contract, build a slide deck). Sabha is for executives and founders making decisions ("should we cut this product line?", "should we raise prices?"). Different ICP, different value prop. Both are Claude-Code-native plugin bundles, and they coexist on the same machine without conflict.
+
+### How is this different from AutoGen / CrewAI / LangGraph multi-agent frameworks?
+
+Those are agent *frameworks* — toolkits for building any multi-agent system. Sabha is a *protocol* — a specific opinionated way of running a council, with the role taxonomy fixed, the voice fixed (Chanakya tradition), the modes fixed (ask/engage/deliberate), and the eval baked in. If you want to build your own bespoke multi-agent system, use a framework. If you want a council protocol you can install and start using today, use Sabha.
+
+### Is the memory layer required?
+
+No. Sabha works without any memory backend — you just don't get cross-session compounding. With Claude Memory you get zero-config cross-conversation recall (Anthropic's server-side memory). With Sakthi Graph you get local-first, role-shaped, graph-queryable memory that never leaves your machine — important for regulated industries and privacy-sensitive users. See [`docs/MEMORY-OPTIONS.md`](./docs/MEMORY-OPTIONS.md) for the full comparison.
+
+### Can I customize the 9 roles?
+
+Yes. Edit [`CLAUDE.md`](./CLAUDE.md) directly — the role table is what the model reads. Presets in [`examples/`](./examples/) cover solo founder, agency, researcher, personal-life, and developer councils. The deliberate and sakthi-diary mode skills reference *roles in general*, not the specific nine defaults — so `/deliberate` continues to work between an "Operator" and a "Strategist" the same way it works between CFO and CSO.
+
+### What's the catch?
+
+Sabha is intentionally narrow. It does not do: code generation (use Sabha Code for that — sister project), trivia, exploratory research, casual chat, image generation, or any kind of multi-modal output. It's a *decision-shaping* tool. For everything else, use vanilla Claude.
+
+### Is the CLC (legal) role legal advice?
+
+No. The CLC role provides operator-grade legal *framing* — clause patterns, risk tiers, when to call an attorney. Practicing law is licensed and jurisdiction-specific. CLC is explicit about identifying when a licensed attorney is required. See [the CLC skill](./skills/roles/clc/SKILL.md) for the discipline.
+
+### How do I deliberate between roles?
+
+Type `/deliberate <your question>` in Claude Code, or in Claude.ai say *"let the council deliberate on X"* or *"have CFO and CSO debate this."* Sabha will pick the 2-3 most relevant roles, run a fixed protocol (openings → rebuttals → CEO synthesis), and produce a structured transcript filed to your Sakthi. See [`skills/modes/deliberate/SKILL.md`](./skills/modes/deliberate/SKILL.md).
 
 ## What's in this repo
 
@@ -278,19 +335,23 @@ sabha-os/
 │   └── marketplace.json               # Marketplace manifest (ships sabha-os + sakthi-graph)
 ├── skills/
 │   ├── sabha-router/SKILL.md          # Forces the routing on every reply
-│   └── roles/                         # 9 deep skills (one per role)
-│       ├── cfo/                       # runway · pricing · unit economics · capital allocation
-│       ├── cmo/                       # positioning · JTBD · channels · behavioral pricing
-│       ├── cio/                       # infra · vendors · SRE · FinOps · incidents
-│       ├── caio/                      # LLM strategy · RAG · evals · model selection · governance
-│       ├── cso/                       # where-to-play · wedge · partnerships · scenarios
-│       ├── cxo/                       # activation · retention · churn · NPS · customer success
-│       ├── chro/                      # hiring · classification · comp · performance · severance
-│       ├── clc/                       # contracts · IP · privacy · corporate · regulatory (NOT legal advice)
-│       └── ceo/                       # synthesis · founder-mode · decision memos
+│   ├── roles/                         # 9 deep skills (one per role)
+│   │   ├── cfo/                       # runway · pricing · unit economics · capital allocation
+│   │   ├── cmo/                       # positioning · JTBD · channels · behavioral pricing
+│   │   ├── cio/                       # infra · vendors · SRE · FinOps · incidents
+│   │   ├── caio/                      # LLM strategy · RAG · evals · model selection · governance
+│   │   ├── cso/                       # where-to-play · wedge · partnerships · scenarios
+│   │   ├── cxo/                       # activation · retention · churn · NPS · customer success
+│   │   ├── chro/                      # hiring · classification · comp · performance · severance
+│   │   ├── clc/                       # contracts · IP · privacy · corporate · regulatory (NOT legal advice)
+│   │   └── ceo/                       # synthesis · founder-mode · decision memos
+│   └── modes/                         # Mode skills (v2.2.0+) — orthogonal to roles
+│       ├── deliberate/                # Multi-role argument + CEO synthesis protocol
+│       └── sakthi-diary/              # Canonical SABHA_DIARY v1 template + transport rules
 ├── commands/
 │   ├── engage.md                      # /engage — switch to engage mode
 │   ├── ask.md                         # /ask — back to chat mode
+│   ├── deliberate.md                  # /deliberate <question> — invoke the council (v2.2.0+)
 │   └── route.md                       # /route <ROLE> — force a specific role
 ├── docs/
 │   ├── QUICKSTART.md                  # No-install path for non-technical users
@@ -321,6 +382,7 @@ sabha-os/
 ├── PRIVACY.md                         # No data collection. Local-first by design.
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
+├── llms.txt                           # LLM-readable summary (llmstxt.org spec)
 └── README.md
 ```
 

@@ -1,0 +1,72 @@
+# Sabha OS
+
+> Open-source Claude-native AI council protocol. Every load-bearing question is classified into one of 9 C-suite roles (CFO, CMO, CIO, CAIO, CSO, CXO, CHRO, CLC, CEO) and answered in the Chanakya tradition — terse, decisive, recommendation-first, tradeoff-aware, grounded. Three modes: ask (chat reply), engage (memo + auto-diary), deliberate (2-3 roles argue, CEO synthesizes). Memory-backend-agnostic; works with Claude Memory zero-config or with the optional local-first Sakthi Graph for institutional memory that never leaves the user's machine.
+
+Sabha OS is the routing protocol. The Chanakya tradition (Indian strategic thought, the Arthashastra archetype) shapes the voice. Sakthi Graph (forked from MemPalace, MIT) is the optional local-first memory layer pre-shaped for the council. Together they form a stateful AI executive council that compounds decisions over time.
+
+Architecture is local-first by design: the protocol runs as a Claude Code plugin (or as a copy-paste system prompt in Claude.ai, ChatGPT, or any LLM that accepts one); the memory layer runs on the user's machine; only the LLM API call itself crosses the network boundary.
+
+Each role ships as a "deep skill" — not just a voice tweak. Every role loads a REFERENCE knowledge base (multi-framework, with numerical thresholds and citations), heuristics (fast-lookup triage rules), templates (fillable artifacts like runway models and contract redline packages), playbooks (step-by-step procedural workflows), and worked examples (end-to-end scenarios with real numbers). Frameworks come from Kahneman, Christensen, Porter, McKinsey, Skok, Reichheld, AWS Well-Architected, Google SRE, USPTO, GDPR, and the operator-grade canon.
+
+Reproducible LLM-as-judge eval ships in the repo: 48/50 pairwise (96%, Wilson 95% CI [86.5%, 98.9%]) vs no-system-prompt baseline at n=50 with the v3 sub-axis rubric (judge: Claude Opus 4.7, candidate: Claude Sonnet 4.6, 4 question buckets: original-operator, adversarial-reframing, cross-role-edge, underdog). Cross-model judge harness shipped (anthropic/openai/google); cross-family run is the next pending credibility move.
+
+Sister project: Sabha Code — same Chanakya tradition for GitHub Copilot users. First eval 28/30 (93.3%).
+
+## Quickstart
+
+- [No-install path (10 minutes, Claude.ai)](https://github.com/rdmurugan/sabhaos/blob/main/docs/QUICKSTART.md): copy-paste the protocol as Custom Instructions; no terminal, no Git, no command-line
+- [Claude Code install](https://github.com/rdmurugan/sabhaos#install): `claude plugin marketplace add rdmurugan/sabhaos && claude plugin install sabha-os@sabha-marketplace`
+- [Optional local memory](https://github.com/rdmurugan/sabhaos/blob/main/docs/MEMORY-OPTIONS.md): `uv tool install sakthi-graph && sakthi init --sabha ~/sakthi`
+
+## Core protocol
+
+- [README.md](https://github.com/rdmurugan/sabhaos/blob/main/README.md): full project overview, install, eval results, architecture diagram
+- [CLAUDE.md](https://github.com/rdmurugan/sabhaos/blob/main/CLAUDE.md): the protocol itself — classify, memory gate, role voice, mode discipline (ask / engage / deliberate), grounding rules
+- [skills/sabha-router/SKILL.md](https://github.com/rdmurugan/sabhaos/blob/main/skills/sabha-router/SKILL.md): the routing engine — forces a role declaration on every reply
+
+## The 9 roles (each a deep skill)
+
+- [CFO](https://github.com/rdmurugan/sabhaos/tree/main/skills/roles/cfo): budget, revenue, pricing, cash flow, P&L, unit economics, runway, fundraising
+- [CMO](https://github.com/rdmurugan/sabhaos/tree/main/skills/roles/cmo): marketing, brand, positioning, content, SEO, lead gen, PLG, campaigns
+- [CIO](https://github.com/rdmurugan/sabhaos/tree/main/skills/roles/cio): infrastructure, deployment, hosting, security, devops, vendors, cloud
+- [CAIO](https://github.com/rdmurugan/sabhaos/tree/main/skills/roles/caio): AI strategy, LLMs, RAG, embeddings, evals, model selection, AI product
+- [CSO](https://github.com/rdmurugan/sabhaos/tree/main/skills/roles/cso): strategy, competition, partnerships, GTM, growth, market entry, M&A
+- [CXO](https://github.com/rdmurugan/sabhaos/tree/main/skills/roles/cxo): UX, onboarding, retention, NPS, churn, service delivery, support
+- [CHRO](https://github.com/rdmurugan/sabhaos/tree/main/skills/roles/chro): HR, hiring, firing, payroll, labor law, comp, performance, org design
+- [CLC](https://github.com/rdmurugan/sabhaos/tree/main/skills/roles/clc): contracts, IP, privacy, regulatory, employment-legal (NOT legal advice)
+- [CEO](https://github.com/rdmurugan/sabhaos/tree/main/skills/roles/ceo): synthesis when roles disagree; founder-level judgment
+
+## Mode skills (v2.2.0+)
+
+- [skills/modes/deliberate/SKILL.md](https://github.com/rdmurugan/sabhaos/blob/main/skills/modes/deliberate/SKILL.md): multi-role argument protocol — pick 2-3 roles, openings, rebuttals, CEO synthesis, auto-diary; slash command `/deliberate <question>`
+- [skills/modes/sakthi-diary/SKILL.md](https://github.com/rdmurugan/sabhaos/blob/main/skills/modes/sakthi-diary/SKILL.md): canonical SABHA_DIARY v1 template (date / agent / mode / entities / question / recommendation / tradeoff / next_move / reversibility / sources / transcript) + backend transport translation table
+
+## Docs
+
+- [docs/QUICKSTART.md](https://github.com/rdmurugan/sabhaos/blob/main/docs/QUICKSTART.md): 10-minute no-installation path for non-developers
+- [docs/ARCHITECTURE.md](https://github.com/rdmurugan/sabhaos/blob/main/docs/ARCHITECTURE.md): full system view with Mermaid diagram (graphify → sittham → Sakthi → Sabha), threat model, layer-by-layer
+- [docs/ROLES.md](https://github.com/rdmurugan/sabhaos/blob/main/docs/ROLES.md): each role's coverage, voice, what the deep skill ships
+- [docs/EVALS.md](https://github.com/rdmurugan/sabhaos/blob/main/docs/EVALS.md): methodology, n=50 results, v3 sub-axis rubric, retired baselines, limitations
+- [docs/MEMORY-OPTIONS.md](https://github.com/rdmurugan/sabhaos/blob/main/docs/MEMORY-OPTIONS.md): backend comparison (Claude Memory / Sakthi / mem0 / Letta / Zep / plain folder), SABHA_DIARY v1 transport table
+- [docs/PHILOSOPHY.md](https://github.com/rdmurugan/sabhaos/blob/main/docs/PHILOSOPHY.md): the 5 disciplines, why Sabha / Chanakya / Sakthi naming
+- [docs/FOR-REGULATED-INDUSTRIES.md](https://github.com/rdmurugan/sabhaos/blob/main/docs/FOR-REGULATED-INDUSTRIES.md): local-first posture, GDPR/HIPAA framing, auditable decision trail
+- [docs/CUSTOMIZATION.md](https://github.com/rdmurugan/sabhaos/blob/main/docs/CUSTOMIZATION.md): rename roles, swap memory backends, multiple Sabhas
+- [docs/ROADMAP.md](https://github.com/rdmurugan/sabhaos/blob/main/docs/ROADMAP.md): shipped (v2.2.0), next (v2.3 — per-role eval rubrics, digest skill, data-hooks expansion), Q3 bets with kill criteria
+
+## Presets
+
+- [examples/professional-sakthi.CLAUDE.md](https://github.com/rdmurugan/sabhaos/blob/main/examples/professional-sakthi.CLAUDE.md): default C-suite council
+- [examples/personal-sakthi.CLAUDE.md](https://github.com/rdmurugan/sabhaos/blob/main/examples/personal-sakthi.CLAUDE.md): life council (Health · Finance · Family · Career · Time · Self)
+- [examples/developer-sakthi.CLAUDE.md](https://github.com/rdmurugan/sabhaos/blob/main/examples/developer-sakthi.CLAUDE.md): code council (Architect · Reviewer · Security · Performance · QA · Mentor)
+- [examples/solo-founder.CLAUDE.md](https://github.com/rdmurugan/sabhaos/blob/main/examples/solo-founder.CLAUDE.md): profession-tuned
+- [examples/agency.CLAUDE.md](https://github.com/rdmurugan/sabhaos/blob/main/examples/agency.CLAUDE.md): profession-tuned
+- [examples/researcher.CLAUDE.md](https://github.com/rdmurugan/sabhaos/blob/main/examples/researcher.CLAUDE.md): profession-tuned
+
+## Sister projects
+
+- [Sabha Code](https://github.com/rdmurugan/sabha-code): same Chanakya tradition for GitHub Copilot users; first eval 28/30 (93.3%)
+- [Sakthi Graph](https://github.com/rdmurugan/sakthi-graph): the local-first memory layer (forked from MemPalace, MIT)
+
+## License
+
+MIT. Built by Durai Rajamanickam ([@rdmurugan](https://github.com/rdmurugan)).
