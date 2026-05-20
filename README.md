@@ -53,7 +53,9 @@ Routing: CFO (primary). CSO weighs in on the partnership angle.
 [role-voice answer, drawing on your Sakthi]
 ```
 
-Nine built-in roles (CFO · CMO · CIO · CAIO · CSO · CXO · CHRO · CLC · CEO), fully customizable. Two modes — **ask** (chat reply) and **engage** (document-grade deliverable). A memory hook so the council remembers your projects, people, and prior decisions — locally, on your machine.
+Nine built-in roles (CFO · CMO · CIO · CAIO · CSO · CXO · CHRO · CLC · CEO), fully customizable. Three modes — **ask** (chat reply), **engage** (document-grade deliverable, auto-files to Sakthi), and **deliberate** (two or three roles argue, CEO synthesizes, transcript filed). A memory hook so the council remembers your projects, people, and prior decisions — locally, on your machine.
+
+> **New in v2.2.0** — `/deliberate <question>` invokes structured multi-role argument with a fixed protocol (openings → rebuttals → CEO synthesis). Every engage and deliberate answer auto-writes a `SABHA_DIARY v1` entry, so decisions compound. See [`skills/modes/deliberate/SKILL.md`](skills/modes/deliberate/SKILL.md) and [`skills/modes/sakthi-diary/SKILL.md`](skills/modes/sakthi-diary/SKILL.md).
 
 ## Sabha + Claude Memory — they work together
 

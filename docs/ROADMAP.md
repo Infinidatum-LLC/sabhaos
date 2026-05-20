@@ -22,8 +22,55 @@ What's next, by quarter. Subject to change — this is a roadmap, not a contract
 - ✅ Dedicated Chanakya activation eval (`evals/chanakya/`) — v2 grader with corpus-correctness check. Latest results (2026-05-17, 7 questions): activation 4/4, discipline 3/3 (after guardrail patch validated re-run), baseline attribution 0% vs skill-loaded 100%.
 - ✅ **Main eval v2** — rubric v3 (sub-axis decomposition fixes saturation on decisiveness / tradeoff_named / length_discipline), question set expanded n=20 → n=50 (added 10 adversarial-reframing + 10 cross-role-edge + 10 underdog), cross-model judge harness shipped (`--judge-provider {anthropic,openai,google}` in `run_eval.py`). v1.3.1 and v2 baselines retired; v3 measurement floor is the canonical comparison going forward.
 - ✅ **Main eval n=50 live run (2026-05-18, Anthropic judge):** 48/50 pairwise (96%, Wilson 95% CI [86.5%, 98.9%]); adversarial bucket 10/10 (closes the v1.3.1 reframing-loss pattern at scale); cross-role-edge 10/10; underdog 9/10. Two catalogued losses: cso-02 (max_tokens truncation — promoted from BACKLOG to immediate work), under-05 (legitimate; baseline added an attribution Sabha omitted). v3 rubric prompt activated but judge emitted v2-shape JSON; "tighten v3 prompt" added to BACKLOG.
+- ✅ **v2.2.0 — council, not router (2026-05-19):** two new mode skills: `deliberate` (fixed protocol — openings → rebuttals → CEO synthesis, with role-discipline scaffolds) and `sakthi-diary` (auto-compounding decision record with SABHA_DIARY v1 template, mandatory `sources` field, backend-agnostic transport table). Engage mode now canonically auto-writes a diary entry. New slash command `/deliberate <question>`. CLAUDE.md §4 expanded from two modes to three.
 
-The protocol layer is feature-complete for v2.x. From here, the work shifts from *building* to *opening up* — more LLMs, more memory backends, more council presets.
+---
+
+## Next (v2.3) — committed, ships this quarter
+
+Three concrete items, scoped tight. Everything stays inside the `sabha-os` plugin per the 2026-05-19 packaging call — no separate Founder OS, no plugin fragmentation.
+
+### 1. Per-role eval rubrics
+
+**The bet:** the current eval scores answers on a generic rubric. Replace it with **role-specific rubrics** so a CFO answer is judged on numerical grounding + tradeoff naming + runway literacy, a CMO answer on channel specificity + jargon avoidance + CTA clarity, etc. Same n=50 harness, but the eval moat becomes structurally hard to copy.
+
+**Scope:**
+- 9 role-specific rubric variants under `evals/rubrics/<role>.yaml`.
+- `run_eval.py --per-role-rubric` flag; default behavior unchanged (back-compat).
+- Re-run n=50 with the new rubrics; publish a v2.3 eval delta in `evals/ANALYSIS.md`.
+- Update the README headline number to cite role-specific scoring.
+
+**Kill criteria:** if 3+ role rubrics produce identical scoring to the generic rubric (no signal), the bet failed — revert to generic and revisit.
+
+### 2. `sabha-os:digest` — weekly per-role synthesis
+
+**The bet:** the diary now compounds, but retrieval is on-demand. A weekly synthesis pass reads the last 7 days of diary entries per room and writes a synthesis drawer ("CFO themes this week," "deliberations this week") so the user starts Monday warm.
+
+**Scope:**
+- New skill at `skills/modes/digest/SKILL.md`.
+- Reads from `<wing>/decisions/<role>` and `<wing>/deliberations` rooms.
+- Writes synthesis to `<wing>/synthesis/weekly-YYYY-MM-DD`.
+- Slash command `/digest` (current week) and `/digest --last-month`.
+- Trivial now that `SABHA_DIARY v1` is the canonical record format.
+
+**Kill criteria:** if the synthesis drawers are never re-queried after week 4 of dogfooding, the feature has no demand — archive the skill.
+
+### 3. Data hooks expansion (inside sabha-os, per 2026-05-19 packaging call)
+
+**The bet:** CFO has a `data-hooks/` subtree already. Extend the pattern to the four roles that benefit most from live data — CFO (Stripe, Mercury/banking, QuickBooks, payroll), CMO (Google Analytics, HubSpot, ad platforms), CXO (Intercom, HubSpot, NPS surveys), CSO (CRM pipeline). Each hook is a prose contract: when to reach for the MCP, tool-call shapes, citation discipline ("Per Stripe (as of YYYY-MM-DD), MRR = $X"), anti-patterns, worked example.
+
+**Scope:**
+- `skills/roles/cfo/data-hooks/` → add Mercury, QuickBooks, Gusto docs (Stripe already exists).
+- `skills/roles/cmo/data-hooks/` → add Google Analytics, HubSpot, Meta/Google Ads docs.
+- `skills/roles/cxo/data-hooks/` → new directory + Intercom + NPS docs.
+- `skills/roles/cso/data-hooks/` → new directory + HubSpot/Salesforce pipeline docs.
+- No new plugin. No runtime deps. Prose contracts + tool-call examples.
+
+**Kill criteria:** if no operator reports actually wiring a data hook by end of Q3, the docs aren't load-bearing — collapse to one summary doc per role and move on.
+
+### Stretch (only if v2.3 ships clean)
+
+- **AAAK ↔ SABHA_DIARY v1 adapter.** The `sakthi-diary` skill specifies a v1 yaml template; the upstream `mempalace_diary_write` tool expects AAAK-compressed entries. Today the skill emits the yaml as a chat artifact when the tool can't take it directly. The cleanest fix is an adapter inside Sakthi Graph that accepts v1 yaml and renders AAAK underneath. Coordinate with the `sakthi-graph` repo.
 
 ---
 

@@ -4,6 +4,44 @@ All notable changes to Sabha OS will be documented here. Format follows [Keep a 
 
 > **Origin:** project conceived October 2025. First public release May 2026.
 
+## [2.2.0] — 2026-05-19
+
+Sabha turns from a router into a **council with structured disagreement and compounding memory**. Two new mode skills land alongside the nine role skills: `deliberate` (multi-role argument + synthesis) and `sakthi-diary` (auto-compounding decision record). Together they close the two highest-leverage gaps in the v2.1 product — single-role routing couldn't settle contested tradeoffs, and memory write was advisory instead of canonical.
+
+### Added — `skills/modes/deliberate/`
+
+- New mode skill that runs a fixed deliberation protocol: pick 2–3 roles → memory gate → openings → rebuttals → CEO synthesis → diary write.
+- Each section has a strict scaffold (Position / Framework / What's given up / Evidence for openings; Steelman / Disagreement / Refined position for rebuttals; Real call / Decision / Cost accepted / Next move / Reversibility / Signal-to-revisit for CEO synthesis). Role discipline is enforced by the scaffolds — no blurred voices.
+- Hard length cap: ~900 words for 2-role deliberations, ~1,300 for 3-role. Synthesis must fit the budget.
+- Grounding discipline from CLAUDE.md §3 applies in every role's voice — a deliberation that invents numbers in three roles is three times worse than a single-role hallucination.
+- Advanced `--deep` mode dispatches each role as a separate `claude` sub-agent for high-stakes decisions where role purity is worth 2–3× tokens.
+- New slash command: `/deliberate <question>`.
+
+### Added — `skills/modes/sakthi-diary/`
+
+- New mode skill that makes diary writes canonical for engage and deliberate modes.
+- Defines the **SABHA_DIARY v1** template: `date, agent, mode, entities, question, recommendation, tradeoff, next_move, reversibility, sources, transcript`. The contract is the template; transports vary.
+- Wing/room placement table — engage entries route by lead role (e.g., CFO → `decisions/finance`), deliberations always land in `deliberations`.
+- Backend translation table for non-Sakthi memory MCPs (mem0, Letta, Zep, plain MemPalace, local-folder fallback). Sabha remains memory-MCP-agnostic at the protocol layer.
+- Grounding discipline applies to the diary itself — if a number was flagged as an estimate in chat, it stays flagged in the diary. Sakthi inherits whatever you write.
+- "Write for cold reads" guidance — future sessions retrieve entries with no surrounding context, so the entry must be self-contained.
+
+### Updated
+
+- **CLAUDE.md §4** — renamed "ASK vs ENGAGE" → "ASK vs ENGAGE vs DELIBERATE." Deliberate mode is now a first-class mode alongside the existing two. Engage mode now explicitly auto-writes a diary entry (was advisory in v2.1).
+- **`/engage` command** — wired to call the `sakthi-diary` skill after file production.
+- **`plugin.json`** — registers `skills/modes/deliberate` and `skills/modes/sakthi-diary`. Version → 2.2.0.
+
+### Why this matters (CSO note)
+
+v2.1.0 made memory branded and coherent. v2.2.0 makes the council *act* like a council: roles can disagree on the record, the synthesis is structured, and every recorded decision compounds. This is the difference between "Claude wearing nine name tags" and "a council with state." The eval moat from v2.1 (n=50, 96% pairwise) gets stronger because per-deliberation transcripts are now reproducible artifacts.
+
+### Not in scope (yet) — but staying inside sabha-os
+
+- Per-role rubrics for the eval harness — coming in v2.3.
+- `sabha-os:digest` (weekly per-role synthesis skill) — coming in v2.3.
+- Data-hook connectors (Stripe, Mercury, QuickBooks, banking, payroll) — land **inside sabha-os** as additional skills/docs under each role's `data-hooks/` subtree (CFO already has the directory). Not a separate plugin. One install, one product, one brand. Tradeoff accepted: plugin grows; mitigated by data hooks being primarily docs + tool-call contracts, not heavy code.
+
 ## [2.1.0] — 2026-05-16
 
 Memory layer rebranded as **Sakthi Graph** — a fork of MemPalace pre-shaped for the Sabha council. The trinity is now coherent and product-grade: **Sabha (the council) + Chanakya (the archetype) + Sakthi (your power, your memory, your machine).**
