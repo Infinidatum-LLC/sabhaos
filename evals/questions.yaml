@@ -1,10 +1,19 @@
-# Sabha OS — eval question set v1
+# Sabha OS — eval question set v2 (n=50, four buckets)
 #
-# 20 operator-style questions across the eight default roles. Each is a real
-# decision an operator might face. There is no single "correct" answer — what
-# we're measuring is whether the *shape* of the answer is more useful with
-# the Sabha protocol enabled (decisive, tradeoff-aware, concrete, routed)
-# vs. baseline (option-shaped, hedged).
+# 50 operator-style questions across the 9 default roles, organized in four
+# buckets to stress-test the protocol across credibility dimensions:
+#
+#   - Bucket 1: original operator questions (n=20) — Sabha's sweet spot
+#   - Bucket 2: adversarial reframing (n=10) — questions where the right
+#       answer is to challenge the premise, not apply structure
+#   - Bucket 3: cross-role / edge (n=10) — multi-role routing tests
+#   - Bucket 4: underdog (n=10) — definitional / lookup questions where
+#       baseline should be competitive
+#
+# Each is a real decision an operator might face. There is no single
+# "correct" answer — what we're measuring is whether the *shape* of the
+# answer is more useful with the Sabha protocol enabled (decisive,
+# tradeoff-aware, concrete, routed) vs. baseline (option-shaped, hedged).
 #
 # Question format:
 #   id:        stable identifier (used in result tables)

@@ -1,6 +1,10 @@
 # Sabha OS — eval analysis
 
-> **What this is.** Interpretation of the v1.3.1 eval results. The raw data is in [`results/latest.md`](./results/latest.md) (rendered) and [`results/2026-05-14.json`](./results/2026-05-14.json) (machine-readable). This file is the *read* — what the numbers mean, what's signal vs noise, and what to do next.
+> **⚠️ RETIRED — this file analyzes the v1.3.1 run (n=20, v1 rubric, 2026-05-14).**
+>
+> **The current shipped result is n=50 / v3 rubric / 2026-05-18 → 48/50 pairwise (96%), Wilson 95% CI [86.5%, 98.9%].** See [`results/latest.md`](./results/latest.md) for the rendered current run and [`../docs/EVALS.md`](../docs/EVALS.md) for the current analysis. The v1.3.1 numbers below (+5.95 rubric Δ, 17/20 pairwise) are preserved for audit only and **must not be cited as ongoing claims** — the v1 rubric saturated, and the n=20 CIs were too wide to support magnitude claims. See [`../docs/EVALS.md` § "Retired baselines"](../docs/EVALS.md) for why these were retired.
+>
+> **What this file is.** Interpretation of the v1.3.1 eval results. The raw data is in [`results/2026-05-14.json`](./results/2026-05-14.json) (machine-readable). This file is the *read* — what the numbers meant at the time, what was signal vs noise, and what was roadmapped next. Frozen as historical context.
 >
 > **Run metadata.**
 > - Source: `evals/results/2026-05-14.json`
@@ -8,6 +12,7 @@
 > - Candidate model: `claude-sonnet-4-6`
 > - Judge model: `claude-opus-4-7`
 > - Question set: v1, n = 20
+> - Status: **retired** (see banner above)
 
 ---
 

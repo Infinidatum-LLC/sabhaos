@@ -10,13 +10,15 @@ Does Sabha actually produce better answers than a vanilla LLM reply? This page s
 
 ## TL;DR
 
-- **20 operator-style questions** across all 9 C-suite roles, plus general business calls.
-- **Two replies per question** — one with no system prompt (baseline), one with the Sabha charter loaded.
-- **LLM-as-judge** (Opus 4.7 judging Sonnet 4.6 responses) scores each reply on five axes plus pairwise preference.
-- **Result:** Sabha-routed replies scored **+5.95 on a 20-point rubric** and won **17/20 pairwise (85%)** against the no-prompt baseline.
-- **With deep skills loaded:** 100% pairwise win rate on CFO/CMO questions.
+- **50 operator-style questions** across all 9 C-suite roles, organized in 4 buckets (operator / adversarial-reframing / cross-role-edge / underdog) so the eval stress-tests Sabha across credibility dimensions, not just its sweet spot.
+- **Two replies per question** — one with no system prompt (baseline), one with the Sabha charter + the routed role's deep skill loaded.
+- **LLM-as-judge** (Claude Opus 4.7 judging Claude Sonnet 4.6 responses) scores each reply on the **v3 sub-axis rubric** (decisiveness / tradeoff_named / length_discipline decomposed into 5 binary sub-criteria each, to defeat saturation on the prior v1/v2 rubric) plus a pairwise preference judgment.
+- **Result (v3 rubric, n=50, Anthropic judge, 2026-05-18):** Sabha-routed replies won **48 / 50 pairwise (96%)** against the no-system-prompt baseline, **Wilson 95% CI [86.5%, 98.9%]**. Rubric Δ +4.78 / 20.
+- **Per-bucket:** original operator 19/20 (95%), adversarial-reframing **10/10 (100%)** — closes the v1.3.1 historical loss pattern at scale — cross-role-edge **10/10 (100%)**, underdog 9/10 (90%). The protocol generalizes beyond its sweet spot.
+- **Two catalogued losses** (`cso-02`, `under-05`) are traceable, not mysteries: one harness max_tokens truncation (promoted to immediate work), one legitimate attribution gap.
+- **Cross-model judge harness shipped** — `run_eval.py --judge-provider {anthropic,openai,google}`. The cross-family judge run is the next pending credibility move.
 
-The numbers, methodology, and limitations are all in the repo. If you don't trust an eval that lives alongside the code it's evaluating, run it yourself — the harness ships in `evals/`.
+The numbers, methodology, and limitations are all in the repo. If you don't trust an eval that lives alongside the code it's evaluating, run it yourself — the harness ships in `evals/`. Reproducible: `pip install -r evals/requirements.txt && python evals/run_eval.py`.
 
 ---
 

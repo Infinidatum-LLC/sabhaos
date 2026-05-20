@@ -169,10 +169,11 @@ Three layers:
 - Attribution: **0% baseline → 100% with skill loaded** — the model hallucinates Chanakya verse numbers when asked without the skill; the skill provides correctly-numbered citations from a curated corpus
 
 ### Methodology
-- LLM-as-judge: Opus 4.7 judging Sonnet 4.6 outputs on 5-axis rubric + pairwise preference
-- Reproducible: `python evals/run_eval.py` and `python evals/chanakya/run_eval.py`
-- Known limits: in-family judge bias (both Claude), small N (95% CI on 17/20 pairwise ≈ 64–95%), rubric saturation on `decisiveness` and `tradeoff_named`
-- Full read: [`evals/ANALYSIS.md`](../evals/ANALYSIS.md), [`docs/EVALS.md`](./EVALS.md)
+- LLM-as-judge: Opus 4.7 judging Sonnet 4.6 outputs on the v3 sub-axis rubric (5 axes; 3 of them decomposed into 5 binary sub-criteria) + pairwise preference
+- Reproducible: `python evals/run_eval.py` (main) and `python evals/chanakya/run_eval.py` (Chanakya discipline)
+- Cross-model judge harness shipped: `--judge-provider {anthropic,openai,google}` — cross-family run is the next credibility move
+- Known limits: in-family judge bias (cross-family run pending); finite CI width at n=50 (95% CI [86.5%, 98.9%] on 48/50 — pairwise lower bound is the defensible claim, not the point estimate); v3 rubric emitted v2-shape JSON this run, so sub-axis slicing is unavailable until the judge prompt is tightened (in BACKLOG)
+- Full read: current run [`docs/EVALS.md`](./EVALS.md); retired v1.3.1 analysis [`evals/ANALYSIS.md`](../evals/ANALYSIS.md) (preserved for audit)
 
 ## 11. Install path (Claude Code)
 

@@ -258,7 +258,7 @@ sabha-os/
 │   ├── agency.CLAUDE.md               # Profession preset
 │   └── researcher.CLAUDE.md           # Profession preset
 ├── evals/
-│   ├── questions.yaml                 # 20 operator-style questions
+│   ├── questions.yaml                 # 50 operator-style questions (4 buckets)
 │   ├── run_eval.py                    # The harness (with --resume + retries)
 │   ├── judge.py                       # LLM-as-judge rubric + pairwise
 │   ├── README.md                      # Methodology
