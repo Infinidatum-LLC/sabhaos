@@ -8,19 +8,73 @@ This page is for: developers wanting to understand the data flow, contributors d
 
 ## The 30-second view
 
+```mermaid
+flowchart TB
+    Q([👤  Your question]):::q
+
+    subgraph SABHA[" ⚖️ &nbsp;&nbsp;SABHA — the council protocol "]
+        direction TB
+        R{{"🧭 &nbsp;Classify · declare route at top of reply"}}:::router
+        ROLES["<b>9 roles · each a deep skill</b><br/>CFO · CMO · CIO · CAIO · CSO · CXO · CHRO · CLC · CEO<br/><i>REFERENCE · heuristics · templates · playbooks · worked examples</i>"]:::roles
+        MODES["<b>3 modes · orthogonal to roles</b><br/>💬 Ask — chat reply<br/>📄 Engage — memo + auto-diary<br/>⚖️ Deliberate — roles argue · CEO synthesizes"]:::modes
+        V["🗣 &nbsp;<b>Chanakya voice</b><br/><i>decisive · terse · concrete · tradeoff-aware · grounded</i>"]:::voice
+        R --> ROLES --> MODES --> V
+    end
+
+    subgraph SAKTHI[" 🗄️ &nbsp;&nbsp;SAKTHI — your local memory "]
+        direction TB
+        KG[("Entity knowledge graph<br/>people · companies · products · projects")]:::sakthi
+        WINGS[("9 role wings<br/>+ deliberations room")]:::sakthi
+        DIARY[("📓  SABHA_DIARY v1 entries<br/><i>auto-written on engage + deliberate</i>")]:::sakthi
+    end
+
+    subgraph DATA[" 📡 &nbsp;&nbsp;Live data MCPs (optional sidecar) "]
+        direction TB
+        D1["Stripe · QuickBooks · Banking · Payroll"]:::data
+        D2["Analytics · HubSpot · CRM · Intercom"]:::data
+    end
+
+    subgraph INGEST[" 📥 &nbsp;&nbsp;Wide-funnel ingest (optional) "]
+        direction TB
+        GFY["graphify · any folder → audited graph"]:::ingest
+        SIT["sakthi sittham · file the graph into a role wing"]:::ingest
+    end
+
+    REPLY([📨  Reply to user]):::reply
+
+    Q ==> R
+    R <-. "memory gate<br/>check entities" .-> KG
+    ROLES -. "data hooks<br/>(CFO · CMO · CXO · CSO)" .-> DATA
+    DATA -. "grounded numbers<br/>+ timestamps" .-> V
+    MODES -. "on engage / deliberate" .-> DIARY
+    GFY --> SIT
+    SIT -. "files distilled drawer" .-> WINGS
+    V ==> REPLY
+
+    classDef q fill:#FFF8DC,stroke:#B8860B,stroke-width:2.5px,color:#1a1a1a
+    classDef router fill:#FFE4B5,stroke:#8B4513,stroke-width:2px,color:#1a1a1a
+    classDef roles fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef modes fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px,color:#4A148C
+    classDef voice fill:#FFFAEC,stroke:#5D4037,stroke-width:2px,color:#3E2723
+    classDef sakthi fill:#FCE4EC,stroke:#AD1457,stroke-width:1.5px,color:#880E4F
+    classDef data fill:#E8F5E9,stroke:#2E7D32,stroke-width:1.5px,color:#1B5E20
+    classDef ingest fill:#FFF3E0,stroke:#E65100,stroke-width:1.5px,color:#BF360C
+    classDef reply fill:#FFF9C4,stroke:#F57F17,stroke-width:2.5px,color:#1a1a1a
+
+    style SABHA fill:#FFFEFA,stroke:#5D4037,stroke-width:3px
+    style SAKTHI fill:#FFFAFD,stroke:#AD1457,stroke-width:3px
+    style DATA fill:#FAFFFB,stroke:#2E7D32,stroke-width:2px,stroke-dasharray: 6 4
+    style INGEST fill:#FFF8F0,stroke:#E65100,stroke-width:2px,stroke-dasharray: 6 4
 ```
-ANY FOLDER  ──/graphify──►  graphify-out/  ──sakthi sittham──►  SAKTHI  ──reads──►  SABHA
-                                                                  ▲                    │
-                                                                  └── diary writes ────┘
-```
 
-Three layers, one direction of compounding:
+> **Reading the diagram:** thick arrows (==>) are the request/response path. Dotted arrows are the loops — Sabha reads from Sakthi before answering (memory gate · entity check), writes back on engage and deliberate (decisions compound), and reaches sideways into data MCPs when a role needs live numbers. The graphify → sittham branch is an optional ingest path: bring any folder (code, docs, papers, transcripts) into the right Sakthi role wing in one command. Everything in the diagram runs on your machine; only the LLM call itself crosses the boundary.
 
-- **graphify** — the wide-funnel ingest. Turns any folder (code, docs, papers, screenshots) into a clustered knowledge graph with an honest audit trail (EXTRACTED / INFERRED / AMBIGUOUS edges).
-- **Sakthi Graph** — the durable, role-shaped retrieval surface. A local ChromaDB-backed knowledge graph with 9 Sabha role wings.
-- **Sabha OS** — the routing protocol. Every substantive question gets classified to a role and answered in that role's Chanakya voice, grounded in Sakthi.
+The diagram has four boxes and one direction of compounding:
 
-`sakthi sittham` (சித்தம், Tamil for *consciousness / awareness*) is the verb that moves a corpus from layer 1 into layer 2.
+- **Sabha OS** (the council) — the routing protocol. Every substantive question gets classified to a role, run through a mode, and answered in Chanakya voice. New in v2.2.0: `deliberate` and `sakthi-diary` mode skills.
+- **Sakthi Graph** (your memory) — the durable, role-shaped retrieval surface. A local ChromaDB-backed knowledge graph with 9 Sabha role wings + a deliberations room. Diary entries auto-write on engage/deliberate; the entity graph is read on every memory gate.
+- **Data MCPs** (sidecar, optional) — live grounding so CFO can quote actual Stripe MRR, CMO can quote actual Google Analytics, CSO can quote actual CRM pipeline. Roles document their hooks under `skills/roles/<role>/data-hooks/`.
+- **graphify + sittham** (ingest path, optional) — wide-funnel ingest. `graphify` turns any folder into an audited knowledge graph (EXTRACTED / INFERRED / AMBIGUOUS edges); `sakthi sittham` files the distillation into the right role wing. `sittham` (சித்தம், Tamil for *consciousness / awareness*) is the verb that bridges layer 1 (graphify) and layer 2 (Sakthi).
 
 ---
 

@@ -55,6 +55,59 @@ Routing: CFO (primary). CSO weighs in on the partnership angle.
 
 Nine built-in roles (CFO · CMO · CIO · CAIO · CSO · CXO · CHRO · CLC · CEO), fully customizable. Three modes — **ask** (chat reply), **engage** (document-grade deliverable, auto-files to Sakthi), and **deliberate** (two or three roles argue, CEO synthesizes, transcript filed). A memory hook so the council remembers your projects, people, and prior decisions — locally, on your machine.
 
+### Architecture at a glance
+
+```mermaid
+flowchart TB
+    Q([👤  Your question]):::q
+
+    subgraph SABHA[" ⚖️ &nbsp;&nbsp;SABHA — the council protocol "]
+        direction TB
+        R{{"🧭 &nbsp;Classify · declare route at top of reply"}}:::router
+        ROLES["<b>9 roles · each a deep skill</b><br/>CFO · CMO · CIO · CAIO · CSO · CXO · CHRO · CLC · CEO<br/><i>REFERENCE · heuristics · templates · playbooks · worked examples</i>"]:::roles
+        MODES["<b>3 modes · orthogonal to roles</b><br/>💬 Ask — chat reply<br/>📄 Engage — memo + auto-diary<br/>⚖️ Deliberate — roles argue · CEO synthesizes"]:::modes
+        V["🗣 &nbsp;<b>Chanakya voice</b><br/><i>decisive · terse · concrete · tradeoff-aware · grounded</i>"]:::voice
+        R --> ROLES --> MODES --> V
+    end
+
+    subgraph SAKTHI[" 🗄️ &nbsp;&nbsp;SAKTHI — your local memory "]
+        direction TB
+        KG[("Entity knowledge graph<br/>people · companies · products · projects")]:::sakthi
+        WINGS[("9 role wings<br/>+ deliberations room")]:::sakthi
+        DIARY[("📓  SABHA_DIARY v1 entries<br/><i>auto-written on engage + deliberate</i>")]:::sakthi
+    end
+
+    subgraph DATA[" 📡 &nbsp;&nbsp;Live data MCPs (optional sidecar) "]
+        direction TB
+        D1["Stripe · QuickBooks · Banking · Payroll"]:::data
+        D2["Analytics · HubSpot · CRM · Intercom"]:::data
+    end
+
+    REPLY([📨  Reply to user]):::reply
+
+    Q ==> R
+    R <-. "memory gate<br/>check entities" .-> KG
+    ROLES -. "data hooks<br/>(CFO · CMO · CXO · CSO)" .-> DATA
+    DATA -. "grounded numbers<br/>+ timestamps" .-> V
+    MODES -. "on engage / deliberate" .-> DIARY
+    V ==> REPLY
+
+    classDef q fill:#FFF8DC,stroke:#B8860B,stroke-width:2.5px,color:#1a1a1a
+    classDef router fill:#FFE4B5,stroke:#8B4513,stroke-width:2px,color:#1a1a1a
+    classDef roles fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef modes fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px,color:#4A148C
+    classDef voice fill:#FFFAEC,stroke:#5D4037,stroke-width:2px,color:#3E2723
+    classDef sakthi fill:#FCE4EC,stroke:#AD1457,stroke-width:1.5px,color:#880E4F
+    classDef data fill:#E8F5E9,stroke:#2E7D32,stroke-width:1.5px,color:#1B5E20
+    classDef reply fill:#FFF9C4,stroke:#F57F17,stroke-width:2.5px,color:#1a1a1a
+
+    style SABHA fill:#FFFEFA,stroke:#5D4037,stroke-width:3px
+    style SAKTHI fill:#FFFAFD,stroke:#AD1457,stroke-width:3px
+    style DATA fill:#FAFFFB,stroke:#2E7D32,stroke-width:2px,stroke-dasharray: 6 4
+```
+
+> **Reading it:** thick arrows (==>) are the request/response path. Dotted arrows are the memory and grounding loops — Sabha reads from Sakthi before answering (entity check), writes back on engage and deliberate (decisions compound), and reaches sideways into data MCPs when a role needs live numbers. Everything in the diagram runs on your machine; only the LLM call itself crosses the boundary.
+
 > **New in v2.2.0** — `/deliberate <question>` invokes structured multi-role argument with a fixed protocol (openings → rebuttals → CEO synthesis). Every engage and deliberate answer auto-writes a `SABHA_DIARY v1` entry, so decisions compound. See [`skills/modes/deliberate/SKILL.md`](skills/modes/deliberate/SKILL.md) and [`skills/modes/sakthi-diary/SKILL.md`](skills/modes/sakthi-diary/SKILL.md).
 
 ## Sabha + Claude Memory — they work together
