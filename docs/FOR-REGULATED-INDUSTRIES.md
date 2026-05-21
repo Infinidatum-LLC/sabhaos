@@ -26,7 +26,7 @@ Common thread: you may freely use a hosted LLM for *the question in front of you
 ## What Sabha + Sakthi gives you
 
 1. **Local-first by design.** The memory palace lives at `~/sakthi` (or wherever you point `$PALACE`). It is a directory on your disk. No replication, no sync, no cloud component.
-2. **No telemetry.** The Sabha protocol layer does not make outbound calls. The Sakthi MCP server does not phone home. Verifiable in the source — `grep -r "http" mempalace/` returns only docstrings and URL references in comments.
+2. **No telemetry.** The Sabha protocol layer does not make outbound calls. The Sakthi MCP server does not phone home. Verifiable in the source — `grep -r "http" mempalace/` returns only docstrings and URL references in comments. *(Note: the optional **Pramana** research agent — a sibling plugin in the same marketplace — is the one exception. Pramana uses outbound web search by design; see the "Pramana caveat" section below before installing.)*
 3. **No auto-update.** Plugin install is explicit. You decide when to upgrade. Pin the version that passed your review; don't auto-pull.
 4. **MIT-licensed end to end.** Both Sabha OS and Sakthi Graph are MIT. You can fork, modify, sublicense, redistribute. No usage analytics. No EULA gotchas.
 5. **Auditable storage.** The palace is a ChromaDB database (SQLite + on-disk vector files). You can connect to it with standard tools, dump it, back it up, encrypt it at rest.
@@ -177,6 +177,25 @@ A reasonable evaluation path:
 - **General questions:** open an issue at [github.com/rdmurugan/sabhaos/issues](https://github.com/rdmurugan/sabhaos/issues).
 - **Security questions:** see [`SECURITY.md`](../SECURITY.md) if present; otherwise file a private issue.
 - **Compliance reviews:** Sabha is MIT and audit-friendly. Your counsel and your auditor can examine the source directly — there's no NDA gate.
+
+---
+
+## Pramana caveat — the one sibling plugin that does reach the public web
+
+The Sabha marketplace also publishes **Pramana** (प्रमाण — *means of valid knowledge*), an evidence-grounded research agent that produces sourced 9-section briefings. Pramana is excellent for *public* research (regulation text, market analysis, competitor positioning, news synthesis) — that's its job. But it is the one plugin in this family that **breaks the local-first posture by design**, because it has to: a research agent that can't reach the web can't research.
+
+If you fall in the audience for this page, **default to not installing Pramana** unless you've thought through the specific use case. Considerations:
+
+| Question | If yes, Pramana is acceptable | If no, skip it |
+|---|---|---|
+| Is the research target *public* (regulation, market, competitor, vendor)? | ✅ | ❌ — if you need to research your own private data, do it inside Sakthi, not via web search |
+| Are you OK with the queries themselves being visible to Anthropic (via `WebSearch`) and to the queried sites? | ✅ | ❌ — even the *query strings* may carry sensitive intent ("XYZ acquisition due diligence" tips your hand) |
+| Does your compliance regime allow outbound web traffic for research workflows? | ✅ | ❌ |
+| Can your audit trail tolerate "Pramana fetched these URLs at this timestamp"? | ✅ | ❌ |
+
+If you install Pramana and want to scope its use, the cleanest pattern is *project-level installs* (Claude Code's `--scope project` flag): keep Pramana enabled only in the projects where public-web research is appropriate, and disabled in projects with sensitive material.
+
+Pramana writes its briefings to the local working directory (`pramana-<slug>.md`); the briefing itself is not uploaded anywhere. The outbound calls happen during the *gather* phase, not the *write* phase. But the queries and fetched URLs are part of the egress profile — plan accordingly.
 
 ---
 

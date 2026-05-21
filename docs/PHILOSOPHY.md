@@ -30,7 +30,7 @@ This is the difference between renting an opinion and building an asset.
 
 ---
 
-## Why "Sabha," "Chanakya," "Sakthi"?
+## Why "Sabha," "Chanakya," "Sakthi," "Pramana"?
 
 **Sabha** (सभा). Sanskrit for *assembly* or *council*. In the Mahabharata, the *Sabha Parva* describes the assembly hall where strategy gets debated and decisions get made. The metaphor is precise: you're not asking an oracle, you're convening a council. The council has roles. Each role has a domain and a voice. The council can disagree. The user — the king, the founder, the operator — makes the final call.
 
@@ -38,9 +38,11 @@ This is the difference between renting an opinion and building an asset.
 
 **Sakthi** (शक्ति). Sanskrit/Tamil for *power*. Not power-over, but power-of — the capacity built from accumulated experience, decisions, and the company you keep. The outcome of running a council over time. The memory layer is where your Sakthi lives.
 
-Together: **a Sabha (council) in the Chanakya tradition that builds your Sakthi (power) over time, with local memory.**
+**Pramana** (प्रमाण). Sanskrit for *means of valid knowledge* or *standard of evidence*. The epistemological doctrine in Nyaya and Mimamsa names a small list of admissible knowledge-sources: *pratyaksha* (perception), *anumana* (inference), *upamana* (comparison), *shabda* (testimony). The sibling research agent enforces a software version of that discipline — tiered sources (primary documents over reputable analysis over navigation aids over content mills), a mandatory contrarian-view pass, an inline citation for every factual claim, and a self-check on the citation graph before delivery. Where the council *decides*, Pramana *brings back what the council needs to decide on*, with the means of its validity marked. The naming is precise: pramana isn't "knowledge" — it's the *standard by which something is admitted as knowledge*. The tiers and contrarian search are that standard, encoded.
 
-The protocol doesn't replace your judgment. It improves the inputs and remembers what you've already decided.
+Together: **a Sabha (council) in the Chanakya tradition that builds your Sakthi (power) over time, with local memory — and reaches for Pramana (evidence-grounded research) when the council needs more than what it already knows.**
+
+The protocol doesn't replace your judgment. It improves the inputs, remembers what you've already decided, and — when needed — fetches what it doesn't yet know with sources cited.
 
 ---
 

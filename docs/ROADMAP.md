@@ -15,7 +15,8 @@ What's next, by quarter. Subject to change — this is a roadmap, not a contract
 - ✅ Reproducible eval harness with LLM-as-judge + pairwise (`evals/`)
 - ✅ Sakthi Graph fork (`sakthi-graph`) with `--sabha` preset
 - ✅ `sakthi sittham` corpus-ingest verb (graphify → Sakthi role wing)
-- ✅ Marketplace plugins for Claude Code (`sabha-os` + `sakthi-graph`)
+- ✅ Marketplace plugins for Claude Code (`sabha-os` + `sakthi-graph` + `pramana`)
+- ✅ **Pramana** (0.1.0) — sibling research agent. Triggers on "Pramana, <topic>" / "deep dive on X" / "research X" / "brief me on X". Runs the fixed workflow (3+ varied web searches, mandatory contrarian-view search, then a 9-section markdown briefing with citation tiers A/B/C/D and a self-checked citation graph). Ships in this repo at `pramana/`. Orthogonal to the Sabha → Sakthi compounding loop: fetches *outward* (web evidence) where Sakthi compounds *inward* (your local graph).
 - ✅ Memory-backend-agnostic positioning (Claude Memory + Sakthi + mem0 + Letta + plain markdown)
 - ✅ Public-release documentation surface (ARCHITECTURE, ROLES, EVALS, MEMORY-OPTIONS, FOR-REGULATED-INDUSTRIES, CUSTOMIZATION, PHILOSOPHY, QUICKSTART)
 - ✅ Optional `chanakya-neeti` opt-in skill (76 verses, `/chanakya` slash command)

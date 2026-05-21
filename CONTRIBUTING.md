@@ -8,6 +8,7 @@ Sabha OS is tiny by design — a `CLAUDE.md`, a skill, three slash commands. The
 - **Memory MCP integration snippets** — short blocks for `CLAUDE.md` that wire in popular memory tools.
 - **Translations** of `CLAUDE.md` into other languages.
 - **Real usage stories** in `docs/` — what role mix worked for you, what you cut.
+- **Pramana enhancements** in `pramana/` — additional contrarian-view heuristics, source-quality tier refinements, framework tweaks (e.g., a sector-specific briefing template for medical-device or financial-services research). Pramana is in this repo at [`pramana/`](./pramana/) — same `skills/<name>/SKILL.md` + `references/` shape as everything else.
 
 ## What we don't want
 
@@ -35,6 +36,8 @@ Sabha OS is tiny by design — a `CLAUDE.md`, a skill, three slash commands. The
 | Add a new preset council | `examples/<name>.CLAUDE.md` |
 | Change classification behavior | `skills/sabha-router/SKILL.md` |
 | Add an eval question | `evals/questions.yaml` |
+| Improve Pramana (the research agent) | `pramana/skills/pramana/SKILL.md` (workflow), `pramana/skills/pramana/references/*.md` (framework, template, source-quality tiers) |
+| Add a sibling plugin (like Pramana) | new top-level subdirectory with its own `.claude-plugin/plugin.json`; register it in the root `.claude-plugin/marketplace.json` |
 
 See [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) for the full picture of which file owns which concern.
 

@@ -266,7 +266,7 @@ When in doubt: stay in ask mode. Offer engage mode at the end: *"Want me to file
 
 - Pure chit-chat or trivial non-business topics ("what's the weather like?")
 - Direct factual lookups with no judgment call ("what year did X ship?")
-- When the user explicitly names a different skill or role
+- When the user explicitly names a different skill, role, or sibling tool (e.g., "Pramana, deep dive on X" — that routes to the Pramana research agent, not a council role)
 - Meta-questions about Sabha itself ("how does the routing work?")
 
 ---

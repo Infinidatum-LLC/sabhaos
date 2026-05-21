@@ -239,6 +239,18 @@ After that, restart Claude Code. Sabha will detect Sakthi and start grounding an
 
 **Don't want MemPalace specifically?** Sabha is memory-MCP-agnostic. mem0, Letta, Zep, and Pieces all work with the same protocol. See [`docs/CUSTOMIZATION.md`](./CUSTOMIZATION.md) for swap instructions.
 
+### Add the research agent (Pramana)
+
+If the kinds of questions you bring to the council often need fresh external evidence — *"what's the current state of X regulation?"*, *"who are the players in Y market?"*, *"is Z technology actually shipping or hype?"* — install **Pramana** (प्रमाण — Sanskrit for *means of valid knowledge*):
+
+```bash
+claude plugin install pramana@sabha-marketplace
+```
+
+Then in any session, say *"Pramana, deep dive on <topic>"* (or *"brief me on <topic>"*) and the agent runs a fixed research workflow: at least three varied web searches, a mandatory contrarian-view search, then a 9-section markdown briefing where every claim cites a numbered source. The output file (`pramana-<slug>.md`) lands in your working directory; paste relevant pieces into the council when you need a decision grounded in that evidence.
+
+Pramana is **not** a council role — it's a sibling tool. The council decides; Pramana fetches what the council doesn't yet know. Privacy note: Pramana uses outbound web search by design (unlike Sabha and Sakthi, which are local). See [`PRIVACY.md`](../PRIVACY.md) for the full data-flow breakdown if your work has confidentiality constraints.
+
 ### Use Claude Code instead of Claude.ai
 
 [Claude Code](https://claude.com/claude-code) is the command-line version of Claude. It supports plugins (Sabha installs as one), slash commands (`/ask`, `/engage`, `/route`), and direct file operations. It's much faster for daily use once you're comfortable with a terminal.
@@ -256,6 +268,7 @@ If you want to make the jump, the [main README](../README.md) walks through the 
 - **The full system view (council + memory + corpus-ingest):** [docs/ARCHITECTURE.md](./ARCHITECTURE.md)
 - **Does it actually work?** [docs/EVALS.md](./EVALS.md) summarizes the results; full data in [evals/](../evals/)
 - **Ingest folders into your Sakthi:** once you've installed Sakthi Graph, `sakthi sittham <folder>` files any folder's distilled graph into the right Sabha wing. Power-user feature; safe to skip until you want it.
+- **The research agent:** [`pramana/README.md`](../pramana/README.md) covers the workflow, the 9-section framework, and the source-quality tiers Pramana enforces on every briefing.
 
 ---
 

@@ -135,3 +135,9 @@ See `examples/` for full role-set presets, including:
 - `professional-sakthi.CLAUDE.md` — the default C-suite council above
 - `developer-sakthi.CLAUDE.md` — Architect, Reviewer, Security, Performance, QA, Mentor
 - `solo-founder.CLAUDE.md`, `agency.CLAUDE.md`, `researcher.CLAUDE.md` — profession-tuned variants
+
+---
+
+## Pramana is not a role
+
+**Pramana** (प्रमाण — *means of valid knowledge*) is a sibling research agent in the same marketplace, not a tenth role. The nine roles above route *decisions* in the Chanakya voice. Pramana gathers *evidence*: it triggers on "Pramana, <topic>" / "deep dive on X" / "research X" / "brief me on X", runs web searches with a mandatory contrarian-view pass, and returns a 9-section markdown briefing with tiered citations. The two compose cleanly — run Pramana to gather evidence, then ask the council to decide on it ("based on this briefing, what's the move?"). See [`pramana/README.md`](../pramana/README.md).

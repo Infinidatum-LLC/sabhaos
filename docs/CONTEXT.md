@@ -10,17 +10,18 @@
 > **Repos:**
 > - Protocol: [github.com/rdmurugan/sabhaos](https://github.com/rdmurugan/sabhaos)
 > - Memory layer (optional): [github.com/rdmurugan/sakthi-graph](https://github.com/rdmurugan/sakthi-graph)
+> - Research agent (optional, in-repo): [`pramana/`](../pramana/) — ships from the same marketplace as a sibling plugin
 > - Developer-focused sibling for GitHub Copilot: [github.com/rdmurugan/sabha-code](https://github.com/rdmurugan/sabha-code)
 >
 > **License:** MIT. Copyright © 2025–2026 Durai Rajamanickam (@rdmurugan).
 >
-> **Date of this writing:** 2026-05-17.
+> **Date of this writing:** 2026-05-20.
 
 ---
 
 ## 1. What Sabha OS is, in one paragraph
 
-Sabha OS is an open-source **protocol** that turns Claude (or any LLM with a system prompt) into a structured council of nine C-suite advisors. Every substantive question is routed to a specific role (CFO, CMO, CIO, CAIO, CSO, CXO, CHRO, CLC, or CEO), answered in the Chanakya tradition — decisive, terse, recommendation-first, tradeoff-aware, grounded — and (optionally) compounded into a local memory layer (Sakthi Graph) so the council remembers your decisions over time. Each role ships as a **deep skill** with a reference knowledge base, fast-lookup heuristics, fillable templates, procedural playbooks, and worked examples. The protocol works on top of any memory backend (Claude Memory, Sakthi Graph, mem0, Letta, plain markdown, or none). It's MIT-licensed end-to-end and has a reproducible eval harness.
+Sabha OS is an open-source **protocol** that turns Claude (or any LLM with a system prompt) into a structured council of nine C-suite advisors. Every substantive question is routed to a specific role (CFO, CMO, CIO, CAIO, CSO, CXO, CHRO, CLC, or CEO), answered in the Chanakya tradition — decisive, terse, recommendation-first, tradeoff-aware, grounded — and (optionally) compounded into a local memory layer (Sakthi Graph) so the council remembers your decisions over time. Each role ships as a **deep skill** with a reference knowledge base, fast-lookup heuristics, fillable templates, procedural playbooks, and worked examples. The protocol works on top of any memory backend (Claude Memory, Sakthi Graph, mem0, Letta, plain markdown, or none). A sibling research agent (**Pramana**) ships in the same marketplace for evidence-grounded briefings when the council needs to research what it doesn't yet know. It's MIT-licensed end-to-end and has a reproducible eval harness.
 
 ## 2. The naming (Sanskrit/Tamil tradition)
 
@@ -30,8 +31,9 @@ Sabha OS is an open-source **protocol** that turns Claude (or any LLM with a sys
 | **Chanakya** | चाणक्य / சாணக்கியர் | the strategist (4th c. BCE, author of *Arthashastra*) | the voice / archetype |
 | **Sakthi** | शक्ति / சக்தி | power | the (optional) local memory |
 | **Sittham** | चित्त / சித்தம் | consciousness / awareness | the corpus-ingest verb |
+| **Pramana** | प्रमाण / பிரமாணம் | means of valid knowledge / standard of evidence | the (optional) research agent — evidence-grounded briefings with tiered citations and a mandatory contrarian view |
 
-The metaphor lands: Sakthi is your accumulated *power* (memory). Sittham is what that memory *is aware of* (the corpora you've absorbed). Sabha is how the council uses both. Chanakya is the voice it speaks in.
+The metaphor lands: Sakthi is your accumulated *power* (memory). Sittham is what that memory *is aware of* (the corpora you've absorbed). Pramana is *how new knowledge enters as valid* — the standards for admitting it (perception, inference, comparison, testimony in the Nyaya tradition; tiered sources A/B/C/D and a mandatory contrarian search in the software version). Sabha is how the council uses all three. Chanakya is the voice it speaks in.
 
 ## 3. The protocol — what it does, mechanically
 
@@ -45,7 +47,7 @@ For every load-bearing question, Sabha forces five disciplines:
 
 Plus a **grounding rule**: if the role asserts a number, name, or date, it must (a) cite the source, (b) mark it as the user's input, or (c) flag it explicitly as an estimate. Never invent.
 
-The protocol skips chit-chat, trivia, meta-questions about Sabha, and cases where the user names a different skill or role.
+The protocol skips chit-chat, trivia, meta-questions about Sabha, and cases where the user names a different skill, role, or sibling tool (e.g., *"Pramana, deep dive on X"* routes to the Pramana research agent rather than a council role).
 
 ## 4. The nine roles
 
@@ -185,22 +187,26 @@ claude plugin install sabha-os@sabha-marketplace
 claude plugin install sakthi-graph@sabha-marketplace
 uv tool install sakthi-graph
 sakthi init --sabha ~/sakthi
+
+# Optional: add the evidence-grounded research agent (outbound web search; see PRIVACY.md)
+claude plugin install pramana@sabha-marketplace
 ```
 
 Then personalize `~/.claude/plugins/cache/sabha-marketplace/sabha-os/CLAUDE.md` with your entities. Or, for non-Claude-Code surfaces, paste the contents of `CLAUDE.md` into a Claude.ai Project's custom instructions / a Cowork system prompt / the API's system field.
 
-## 12. What's shipped (state as of 2026-05-17)
+## 12. What's shipped (state as of 2026-05-20)
 
 - ✅ All 9 C-suite deep skills (CFO, CMO, CIO, CAIO, CSO, CXO, CHRO, CLC, CEO)
 - ✅ Sabha-router skill enforcing routing-at-top-of-reply
-- ✅ Reproducible 20-question LLM-as-judge eval (rubric + pairwise) with `--resume` and retry-on-overload
+- ✅ Reproducible 50-question LLM-as-judge eval (rubric v3 + pairwise, cross-model judge harness); n=50 live run: 96% pairwise win rate, Wilson 95% CI [86.5%, 98.9%]
 - ✅ Dedicated Chanakya activation eval (corpus-correctness check + opt-in discipline test)
 - ✅ Sakthi Graph fork with `--sabha` preset (9 role wings auto-bootstrapped)
 - ✅ `sakthi sittham` corpus-ingest verb (graphify → Sakthi role wing)
 - ✅ Optional `chanakya-neeti` opt-in skill (76 verses, `/chanakya` slash command)
-- ✅ Marketplace plugins for Claude Code (`sabha-os` + `sakthi-graph`)
+- ✅ **Pramana research agent (0.1.0)** — sibling plugin in the same marketplace. Triggers on "Pramana, <topic>" / "deep dive on X" / "research X" / "brief me on X". Runs the fixed workflow: 3+ varied web searches, a mandatory contrarian-view search, then a 9-section markdown briefing with A/B/C/D source tiers and a self-checked citation graph. Ships in-repo at [`pramana/`](../pramana/). Outbound web traffic by design — see PRIVACY.md for the data-flow delta vs. Sabha and Sakthi.
+- ✅ Marketplace plugins for Claude Code (`sabha-os` + `sakthi-graph` + `pramana`)
 - ✅ Memory-backend-agnostic positioning (compatible with Claude Memory, Sakthi, mem0, Letta, plain markdown)
-- ✅ Full doc surface: README, QUICKSTART (non-tech), ARCHITECTURE, ROLES, MEMORY-OPTIONS, FOR-REGULATED-INDUSTRIES, CUSTOMIZATION, PHILOSOPHY, EVALS, ROADMAP, CONTEXT (this doc), CONTRIBUTING, PRIVACY, CHANGELOG
+- ✅ Full doc surface: README, QUICKSTART (non-tech), ARCHITECTURE, ROLES, MEMORY-OPTIONS, FOR-REGULATED-INDUSTRIES, CUSTOMIZATION, PHILOSOPHY, EVALS, ROADMAP, BACKLOG, CONTEXT (this doc), CONTRIBUTING, PRIVACY, CHANGELOG
 - ✅ MIT-licensed; copyright restored to Durai (@rdmurugan) as solo developer; upstream MemPalace attribution preserved per MIT terms
 
 ## 13. What's NOT on the active roadmap
@@ -227,6 +233,13 @@ Founder-level decisions worth knowing:
 sabha-os/                         (https://github.com/rdmurugan/sabhaos)
 ├── CLAUDE.md                     ← the protocol; this IS Sabha
 ├── .claude-plugin/               ← Claude Code plugin + marketplace manifests
+│                                    (marketplace ships sabha-os + sakthi-graph + pramana)
+├── pramana/                      ← Pramana research agent (sibling plugin)
+│   ├── .claude-plugin/plugin.json
+│   ├── skills/pramana/
+│   │   ├── SKILL.md              ← workflow · triggers · self-check
+│   │   └── references/           ← framework · briefing-template · source-quality
+│   └── README.md
 ├── skills/
 │   ├── sabha-router/SKILL.md     ← enforces routing-at-top-of-reply
 │   ├── chanakya-neeti/SKILL.md   ← opt-in verse layer (76 verses)
@@ -235,18 +248,19 @@ sabha-os/                         (https://github.com/rdmurugan/sabhaos)
 │   ├── ask.md / engage.md / route.md / chanakya.md  ← slash commands
 ├── docs/
 │   ├── QUICKSTART.md             ← no-install, Claude.ai web path
-│   ├── ARCHITECTURE.md           ← full system view
-│   ├── ROLES.md                  ← the 9 roles in detail
+│   ├── ARCHITECTURE.md           ← full system view (includes Pramana layer)
+│   ├── ROLES.md                  ← the 9 roles in detail (+ "Pramana is not a role")
 │   ├── MEMORY-OPTIONS.md         ← Claude Memory vs Sakthi vs mem0 vs ...
-│   ├── FOR-REGULATED-INDUSTRIES.md  ← healthcare/legal/finance/defense
+│   ├── FOR-REGULATED-INDUSTRIES.md  ← healthcare/legal/finance/defense (+ Pramana caveat)
 │   ├── CUSTOMIZATION.md          ← renaming roles, swapping memory
-│   ├── PHILOSOPHY.md             ← why these 5 disciplines
+│   ├── PHILOSOPHY.md             ← why these 5 disciplines (+ Pramana / pramana doctrine)
 │   ├── EVALS.md                  ← eval methodology + current results
 │   ├── ROADMAP.md                ← what's shipped, what's held, what's next
+│   ├── BACKLOG.md                ← captured ideas with trigger conditions (Pramana follow-ons)
 │   └── CONTEXT.md                ← this file
 ├── evals/
 │   ├── run_eval.py / questions.yaml / judge.py / ANALYSIS.md
-│   ├── results/2026-05-16.json     ← main eval (all 9 deep skills)
+│   ├── results/2026-05-18.json     ← main eval (all 9 deep skills, n=50, v3 rubric)
 │   └── chanakya/                   ← dedicated opt-in discipline eval
 ├── examples/                     ← preset councils (professional, personal, developer, solo-founder, agency, researcher)
 ├── LICENSE  PRIVACY.md  CHANGELOG.md  CONTRIBUTING.md  README.md

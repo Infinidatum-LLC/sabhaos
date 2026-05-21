@@ -271,6 +271,60 @@ python evals/run_eval.py --judge-provider openai --judge-model gpt-5 --out-name 
 
 ---
 
+## Pramana follow-on ideas
+
+The Pramana research agent shipped at 0.1.0 with the core workflow (3+ searches, mandatory contrarian pass, 9-section briefing, A/B/C/D source tiers, citation-graph self-check). These items are deferred refinements — captured here, not blocking 1.0.
+
+### Source-tier weighting in council decisions
+
+**What:** When a Pramana briefing is brought to the Sabha council, allow tagging each cited claim by tier ("this comes from Tier-A primary docs, that from Tier-C navigation"). The council weights recommendation confidence accordingly, and the reply explicitly notes when a decision rests on weak-tier evidence.
+
+**Why it might matter:** A decision grounded only in Tier-C sources should say so. A decision grounded in Tier-A primary documents can be more confident. Currently the tiers exist in the briefing but don't propagate into council reasoning.
+
+**Why not now:** Pramana 0.1.0 produces the tiers; integrating them into council confidence-scoring is post-1.0 refinement and probably benefits from real usage data first.
+
+**Trigger to promote:**
+- An operator reports making a decision on Tier-C evidence and wishes they'd known
+- A CSO or CFO reply flags weak-source risk in a real engagement and the friction is repeatable
+
+### Persist Pramana briefings into Sakthi
+
+**What:** A Sakthi MCP tool (`sakthi_file_pramana_briefing` or similar) that takes a Pramana markdown output and files it into the appropriate role wing (a competitive briefing lands in `cso/research`, a regulatory brief lands in `clc/research`). Auto-classification by content, manual override available.
+
+**Why it might matter:** Pramana briefings are valuable research artifacts; filing them into Sakthi makes "what did I research about X six months ago?" a searchable graph query rather than a folder-scrubbing exercise. Closes the loop between the *fetch* layer (Pramana) and the *remember* layer (Sakthi).
+
+**Why not now:** Pramana and Sakthi are intentionally independent — each works without the other. Tight integration adds coupling that should be earned by a real workflow demand.
+
+**Trigger to promote:**
+- An operator with both installed asks how to file Pramana output into Sakthi
+- The "what did I find on X a month ago?" query becomes a repeated pain point
+
+### Sector-specific briefing templates
+
+**What:** Alternate `briefing-template.md` variants for common research domains where the generic 9-section template wants tuning — e.g., a `medical-device-template.md` that adds a "Predicate / 510(k) lineage" section, a `financial-services-template.md` that adds a "Capital / regulatory tier" section, a `competitive-template.md` that adds a "Battlecard / objection-handling" section.
+
+**Why it might matter:** Operators in regulated industries already have implicit templates for these — making them explicit and switchable inside Pramana would save reformatting work and reduce the "I always forget to ask about X" failure mode.
+
+**Why not now:** The 9-section default works for ~80% of briefings. Building variants before usage data is template-fitting in the dark.
+
+**Trigger to promote:**
+- 3+ briefings produced in the same vertical where the user has consistently added the same custom sections post-hoc
+- An external contributor proposes a sector variant
+
+### Cross-judge eval for Pramana briefings
+
+**What:** An LLM-as-judge eval harness analogous to the main Sabha eval — pairs of (Pramana briefing vs. no-system-prompt baseline) on a fixed question set, judged on rubric axes specific to Pramana (citation accuracy, contrarian-view depth, tier-balance, recommendation specificity).
+
+**Why it might matter:** Sabha has a credible eval story (96% pairwise win rate, cross-model judge harness). Pramana ships with no eval — currently it's "looks good in a few hand-tested cases." Without measurement, claims about the contrarian search and tier discipline are aspirational.
+
+**Why not now:** Eval design is expensive (n=50 took multiple iterations on the rubric). The contrarian-view dimension in particular is hard to grade reliably. Better to ship Pramana, see what real usage looks like, and design the eval against actual failure patterns than to over-engineer one in advance.
+
+**Trigger to promote:**
+- A contributor proposes a Pramana eval design and is willing to drive it
+- A user-reported failure pattern that the eval would catch (e.g., "Pramana keeps citing Tier-C sources for time-sensitive claims")
+
+---
+
 ## How items move from backlog → roadmap
 
 1. The trigger condition fires.

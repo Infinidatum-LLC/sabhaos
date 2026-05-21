@@ -39,6 +39,24 @@ The Sabha marketplace also lists `sakthi-graph`, a local-first memory MCP forked
 
 For Sakthi's own privacy practice (and upstream MemPalace attribution), see: [https://github.com/rdmurugan/sakthi-graph](https://github.com/rdmurugan/sakthi-graph).
 
+## What about the optional Pramana plugin in the same marketplace?
+
+The Sabha marketplace also lists `pramana`, a sibling research agent that ships in this repo at [`pramana/`](./pramana/). Pramana has a **different privacy profile from Sabha and Sakthi** because it makes outbound web calls by design — that's how it gathers evidence.
+
+If you install Pramana, it:
+
+- Runs as a Claude Code skill (markdown only — no Python binary, no MCP server, no separate process).
+- **Uses Claude Code's built-in `WebSearch` and `WebFetch` tools** to query the public web. These calls go through Anthropic's tool surface; the URLs and queries are visible to Anthropic per their standard data-handling.
+- Fetches public web content (regulation text, news articles, financial filings, analyst notes) and includes the fetched text in the model context to produce the briefing.
+- Writes the resulting markdown briefing to your local working directory (filename `pramana-<slug>.md`). Does not upload it anywhere.
+- Does not transmit anything to any Sabha OS author, server, or third party introduced by this plugin.
+
+**Sabha is local-only. Pramana makes outbound web calls.** That difference is by design: a research agent that doesn't reach out can't research. If you're using Sabha + Sakthi for privacy reasons and you don't want any outbound traffic from this plugin family beyond the question/reply path itself, **do not install Pramana** — it will issue web searches every time you ask it for a briefing.
+
+If you do install Pramana, scope its use to topics where searching the public web is acceptable for your data-handling regime (typically: public-knowledge research about external entities, regulation, markets — *not* analysis of your own confidential business data, which doesn't belong in a public-web search query in the first place).
+
+The Pramana SKILL.md, references, and source-quality tiers are all in [`pramana/`](./pramana/) and are auditable in the source.
+
 ## What you should know about Claude itself
 
 Sabha OS runs on top of Claude. Anthropic's privacy practices for the Claude API and Claude Code apply to all data sent to or from the API. See:
