@@ -1,6 +1,6 @@
 # Architecture
 
-How Sabha OS, Sakthi Graph, and the corpus-ingest verb compose into one local-first stack.
+How Sabha OS, Sakthi Graph, Pramana, and the corpus-ingest verb compose into one local-first stack.
 
 This page is for: developers wanting to understand the data flow, contributors deciding where a new feature belongs, and operators evaluating whether the stack matches their threat model.
 
@@ -22,6 +22,12 @@ Three layers, one direction of compounding:
 
 `sakthi sittham` (சித்தம், Tamil for *consciousness / awareness*) is the verb that moves a corpus from layer 1 into layer 2.
 
+A fourth, orthogonal layer sits alongside these three for the moments when the council needs evidence the user hasn't already given it:
+
+- **Pramana** (प्रमाण — Sanskrit for *means of valid knowledge*) — an evidence-grounded research agent. When a question requires fresh external information (regulation text, market data, recent news, competitor analysis), Pramana runs a fixed workflow: at least three varied web searches, a mandatory contrarian-view search, then a 9-section markdown briefing where every claim cites a numbered source. Tiered source quality (A primary docs · B reputable analysis · C navigation only · D avoid), citation graph self-checked before delivery.
+
+Pramana is orthogonal to the Sabha → Sakthi compounding loop — it fetches *outward* (web), where Sakthi compounds *inward* (your local graph). The two are complementary: Sakthi holds what you already know; Pramana brings back what you don't.
+
 ---
 
 ## The naming, complete
@@ -32,6 +38,7 @@ Three layers, one direction of compounding:
 | **Chanakya** | சாணக்கியர் / चाणक्य | the strategist | the voice / archetype |
 | **Sakthi** | சக்தி / शक्ति | power | the memory |
 | **Sittham** | சித்தம் / चित्त (chitta) | consciousness | the corpus-ingest verb |
+| **Pramana** | பிரமாணம் / प्रमाण | means of valid knowledge | the research agent (evidence-grounded briefings) |
 
 The metaphor lands cleanly: Sakthi is the *power* (the accumulated capacity); Sittham is the *consciousness* (what that capacity holds in mind). `sakthi sittham <folder>` reads literally as "bring this folder into Sakthi's consciousness."
 

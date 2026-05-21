@@ -4,6 +4,36 @@ All notable changes to Sabha OS will be documented here. Format follows [Keep a 
 
 > **Origin:** project conceived October 2025. First public release May 2026.
 
+## [2.2.0] — 2026-05-20
+
+Added **Pramana** — an evidence-grounded research agent that ships as a sibling plugin to Sabha and Sakthi. The marketplace now publishes three coordinated pieces: Sabha (the council that *decides*), Sakthi (the memory layer that *remembers*), Pramana (the research agent that *fetches what isn't yet known*, grounded).
+
+### Added — Pramana plugin (in-repo: `pramana/`)
+- **Name** — Pramana (प्रमाण), Sanskrit for *means of valid knowledge / standard of evidence*. Drawn from the Nyaya / Mimamsa epistemological doctrine: the standards by which knowledge is admitted as valid (perception, inference, comparison, testimony).
+- **One skill** (`skills/pramana/SKILL.md`) — auto-triggers on phrases like *"Pramana, <topic>"*, *"deep dive on X"*, *"research X"*, *"brief me on X"*, *"give me a briefing on X"*. For one-line factual lookups, stays out of the way.
+- **Fixed 9-section framework** — TL;DR · Context · Key facts · Players / landscape · Dynamics · **Contrarian view** · Outlook · Recommendation · Sources. The contrarian-view section is non-optional and triggers a dedicated search before the Outlook and Recommendation are drafted; if no genuine opposing view exists, the section says so rather than fabricating one.
+- **Workflow** — at least three varied web searches (broad → narrow → criticism-framing), then 3–6 primary sources fetched, then a mandatory contrarian-view search, then drafting against the template, then a self-check phase before delivery.
+- **Source-quality tiers** (`references/source-quality.md`) — Tier A primary documents · Tier B reputable analysis · Tier C navigation aids (Wikipedia, threads) · Tier D avoid (SEO mills, AI summaries, unsigned listicles). A healthy briefing balances ~1–2 Tier A + 2–3 Tier B; zero Tier D.
+- **Citation discipline** — every factual claim carries an inline `[Source N]` reference; self-check verifies every claim is cited, every numbered source appears in the body, and every body reference resolves to a source entry. No orphan sources, no dangling references.
+- **Output** — single markdown file `pramana-<slug>.md` in the working directory, opening with `# Pramana Briefing: <Topic>` and a metadata line *"Prepared by Pramana · YYYY-MM-DD · Angle: <one phrase>"*. Target 800–1500 words for the body.
+- **Voice** — Chanakya-tradition, same register as the Sabha council: terse, concrete, recommendation-first, tradeoff-aware. Never disclaims; cites or flags.
+
+### Updated in Sabha OS
+- **Marketplace manifest** (`.claude-plugin/marketplace.json`) — adds `pramana` as a third plugin alongside `sabha-os` and `sakthi-graph`, with `"source": "./pramana"`.
+- **sabha-os plugin.json** — version bumped from 2.1.0 to 2.2.0 to mark the marketplace release that includes Pramana. No functional changes to the sabha-os plugin itself (skills, router, role charters unchanged).
+- **README.md** — adds Pramana to "The stack" diagram as a third optional pillar; adds an "Optional: add the research agent" install section after Sakthi's; updates the repo-structure tree to show `pramana/`.
+
+### Positioning
+Sabha, Sakthi, and Pramana now form a three-pillar offering with clean separation of concerns:
+- **Sabha** decides — the council classifies and answers in role voice.
+- **Sakthi** remembers — local-first graph memory, role-shaped, queryable.
+- **Pramana** fetches — when the answer requires evidence the user doesn't yet have, with rigorous sourcing and a held-open contrarian view.
+
+The three are independent: Pramana works without Sakthi installed, Sakthi works without Pramana, and Sabha works with either, both, or neither. Each carries its own MIT license, ships from this marketplace, and can be installed via `claude plugin install <name>@sabha-marketplace`.
+
+### License
+MIT, consistent with the rest of the marketplace. No new dependencies — Pramana uses the built-in `WebSearch` and `WebFetch` tools; no external services, no credentials, no API keys.
+
 ## [2.1.0] — 2026-05-16
 
 Memory layer rebranded as **Sakthi Graph** — a fork of MemPalace pre-shaped for the Sabha council. The trinity is now coherent and product-grade: **Sabha (the council) + Chanakya (the archetype) + Sakthi (your power, your memory, your machine).**

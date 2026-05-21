@@ -1,0 +1,25 @@
+{
+  "name": "pramana",
+  "displayName": "Pramana",
+  "version": "0.1.0",
+  "description": "Pramana (प्रमाण — Sanskrit for *means of valid knowledge / standard of evidence*) is a research agent for Sabha OS. It runs a fixed topic deep-dive workflow grounded in web sources and produces a 9-section markdown briefing with a mandatory contrarian view. Triggers on phrases like \"Pramana, <topic>\", \"deep dive on X\", \"research X\", \"brief me on X\". Source-quality tiered (Tier A primary docs · B reputable analysis · C navigation aids · D avoid). Self-checks the citation graph before delivery — every claim is cited, every citation resolves.",
+  "author": {
+    "name": "Durai (@rdmurugan)",
+    "url": "https://github.com/rdmurugan"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/rdmurugan/sabhaos",
+  "repository": "https://github.com/rdmurugan/sabhaos",
+  "keywords": [
+    "research",
+    "briefing",
+    "analysis",
+    "deep-dive",
+    "pramana",
+    "epistemology",
+    "sabha",
+    "nyaya",
+    "evidence",
+    "citation"
+  ]
+}

@@ -72,6 +72,39 @@
         "local-first",
         "sakthi"
       ]
+    },
+    {
+      "name": "pramana",
+      "source": "./pramana",
+      "description": "Pramana (प्रमाण — Sanskrit for *means of valid knowledge*) is a research agent for the Sabha OS council. Triggers on \"Pramana, <topic>\", \"deep dive on X\", \"research X\", \"brief me on X\". Runs a fixed workflow: 3+ varied web searches, a mandatory contrarian-view search, then a 9-section markdown briefing (TL;DR · Context · Key facts · Players · Dynamics · Contrarian view · Outlook · Recommendation · Sources). Every factual claim carries an inline citation; self-checks the citation graph before delivery. Source-quality tiered (A primary docs · B reputable analysis · C navigation only · D avoid). Named after the Nyaya / Mimamsa epistemological doctrine — the standards by which knowledge is admitted as valid.",
+      "author": {
+        "name": "Durai (@rdmurugan)",
+        "url": "https://github.com/rdmurugan"
+      },
+      "homepage": "https://github.com/rdmurugan/sabhaos/tree/main/pramana",
+      "repository": "https://github.com/rdmurugan/sabhaos",
+      "license": "MIT",
+      "category": "research",
+      "keywords": [
+        "research",
+        "briefing",
+        "analysis",
+        "deep-dive",
+        "pramana",
+        "epistemology",
+        "sabha",
+        "chanakya",
+        "nyaya",
+        "evidence",
+        "citation"
+      ],
+      "tags": [
+        "research",
+        "briefing",
+        "evidence-grounded",
+        "contrarian-view",
+        "sabha"
+      ]
     }
   ]
 }

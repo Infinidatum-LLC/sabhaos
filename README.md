@@ -28,6 +28,10 @@ Optional:    Sakthi Graph          ← local-first memory backend
                                      (when you want institutional
                                      memory that never leaves your
                                      machine)
+Optional:    Pramana               ← evidence-grounded research agent
+                                     (when you need a sourced 9-section
+                                     briefing with a mandatory
+                                     contrarian view, not a chat reply)
 ```
 
 **The protocol is the product.** It's a structured way of asking and answering questions — 9 roles, deep skills per role, an engage/ask mode discipline, a grounding rule. It runs on top of any memory backend you trust.
@@ -112,6 +116,20 @@ sakthi sittham ~/path/to/corpus       # bring into cfo / cmo / caio / ... by con
 ```
 
 Corpus content scores against the 9 role vocabularies; the dominant role's `decisions` room receives a compact summary drawer. Weak or split signals fall back to `ceo/synthesis-notes`. Power-user feature; safe to skip until you need it.
+
+### Optional: add the research agent
+
+If you want evidence-grounded research briefings — multi-source, citation-checked, with a mandatory contrarian view — add **Pramana** (प्रमाण — Sanskrit for *means of valid knowledge*):
+
+```bash
+claude plugin install pramana@sabha-marketplace
+```
+
+Then in any session, say *"Pramana, deep dive on <topic>"* or *"brief me on <topic>"* and the agent runs the workflow: at least three varied web searches, a dedicated contrarian-view search, then a 9-section markdown briefing where every claim cites a numbered source. The framework is fixed: TL;DR · Context · Key facts · Players · Dynamics · **Contrarian view** · Outlook · Recommendation · Sources. The contrarian-view section is non-optional — it's the part of the workflow that prevents the briefing from becoming an echo chamber of whatever the first three searches surfaced.
+
+Sources are tiered (A primary documents · B reputable analysis · C navigation only · D avoid) and the agent self-checks the citation graph before delivery: every claim cited, every citation resolves.
+
+Pramana ships as a sibling to Sabha and Sakthi — the council *decides* (Sabha), memory *remembers* (Sakthi), Pramana *fetches what isn't yet known* and brings it back grounded. Named after the Nyaya / Mimamsa doctrine of *pramana* — the standards by which knowledge is admitted as valid (perception, inference, comparison, testimony). The source-quality tiering and citation discipline are that doctrine running as software. See [`pramana/README.md`](./pramana/README.md) for the full workflow doc.
 
 ### Option B — Direct git clone (if you prefer)
 
@@ -220,7 +238,13 @@ sabha-os/
 ├── CLAUDE.md                          # The protocol — this IS Sabha
 ├── .claude-plugin/
 │   ├── plugin.json                    # Claude Code plugin manifest
-│   └── marketplace.json               # Marketplace manifest (ships sabha-os + sakthi-graph)
+│   └── marketplace.json               # Marketplace manifest (ships sabha-os + sakthi-graph + pramana)
+├── pramana/                           # Pramana research agent (sibling plugin)
+│   ├── .claude-plugin/plugin.json
+│   ├── skills/pramana/
+│   │   ├── SKILL.md                   # Workflow, triggers, self-check
+│   │   └── references/                # framework · briefing-template · source-quality
+│   └── README.md
 ├── skills/
 │   ├── sabha-router/SKILL.md          # Forces the routing on every reply
 │   └── roles/                         # 9 deep skills (one per role)
