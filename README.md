@@ -3,6 +3,8 @@
 > An open-source **protocol** for a Claude-native AI council. Decisive, tradeoff-aware, grounded — in the Chanakya tradition. Works with any memory backend, including Claude Memory.
 
 > 👋 **New here and not a developer?** Start with [docs/QUICKSTART.md](./docs/QUICKSTART.md) — a 10-minute, no-installation guide to get Sabha working inside Claude.ai. No terminal, no Git, no command-line.
+>
+> 📘 **Already installed?** Read the [User Guide](./docs/USER-GUIDE.md) — a novice-friendly walkthrough of the council, the modes, memory setup, and the compounding-intelligence loop that makes Sabha different from a chatbot.
 
 **Sabha** (சபை, सभा, Sanskrit for *council*) is a routing protocol for Claude. Every load-bearing question gets classified into a C-suite role, answered in the **Chanakya** tradition — terse, decisive, recommendation-first, tradeoff-aware, grounded.
 

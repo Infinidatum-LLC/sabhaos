@@ -4,6 +4,19 @@ All notable changes to Sabha OS will be documented here. Format follows [Keep a 
 
 > **Origin:** project conceived October 2025. First public release May 2026.
 
+## [2.2.1] — 2026-05-23
+
+Adds a novice-facing user guide for operators who have already installed Sabha OS and want to go beyond the QUICKSTART. Closes the documentation gap between *"I just installed the plugin"* and *"I am running a compounding council on my own work."*
+
+### Added
+- **`docs/USER-GUIDE.md`** — 11-section post-installation manual covering: the mental model (council, not chatbot); the first-5-minute verification flow; the nine roles and routing table; ask vs. engage mode discipline; the four slash commands worth memorizing; wiring up a memory backend (Sakthi Graph as the worked example, with all other backends called out); a deep section on the **compounding intelligence loop** with week-1 / week-4 / week-26 illustrations and the deliberate-feeding pattern; three-level customization ladder; five anti-patterns; troubleshooting matrix; pointers into the deeper docs.
+
+### Updated
+- **`README.md`** — added a second top-of-file cross-link directing already-installed users to `docs/USER-GUIDE.md`, parallel to the existing QUICKSTART cross-link for non-developers.
+
+### Positioning
+QUICKSTART teaches *no-install web Claude.ai* in 10 minutes. USER-GUIDE teaches *post-install Claude Code with compounding memory* in 25 minutes. Together they cover both onramps without overlap.
+
 ## [2.2.0] — 2026-05-20
 
 Added **Pramana** — an evidence-grounded research agent that ships as a sibling plugin to Sabha and Sakthi. The marketplace now publishes three coordinated pieces: Sabha (the council that *decides*), Sakthi (the memory layer that *remembers*), Pramana (the research agent that *fetches what isn't yet known*, grounded).
