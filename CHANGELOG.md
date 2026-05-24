@@ -4,6 +4,33 @@ All notable changes to Sabha OS will be documented here. Format follows [Keep a 
 
 > **Origin:** project conceived October 2025. First public release May 2026.
 
+## [2.3.0] — 2026-05-24
+
+Subagent refactor. The nine C-suite roles now each ship as a dedicated **subagent** (`agents/sabha-<role>.md`) invoked on demand via the Task tool. `CLAUDE.md` shrinks from 304 lines to 127 — the essential routing protocol stays; the per-role deep charters move out into the subagents that load them only when needed. The skills (`skills/roles/<role>/REFERENCE.md`, heuristics, playbooks, templates, worked-examples, data-hooks) remain unchanged and are now consulted *by* the subagents.
+
+### Added — nine role subagents under `agents/`
+- **`agents/sabha-cfo.md`** · **`agents/sabha-cmo.md`** · **`agents/sabha-cio.md`** · **`agents/sabha-caio.md`** · **`agents/sabha-cso.md`** · **`agents/sabha-cxo.md`** · **`agents/sabha-chro.md`** · **`agents/sabha-clc.md`** · **`agents/sabha-ceo.md`**.
+- Each subagent has YAML frontmatter (`name`, `description`) describing exactly when the main agent should delegate to it, a self-contained role charter, the reply structure for that role, the role-specific grounding discipline, anti-patterns, and the "when to call a human" hand-off matrix. Each agent points to `skills/roles/<role>/` for its REFERENCE / heuristics / playbooks / templates / worked-examples / data-hooks.
+
+### Changed — `CLAUDE.md` slimmed to the essential routing protocol
+- **From 304 lines to 127.** Kept: the classify table, the declare-routing format, the inline-vs-delegate decision (§2), the grounding rule (§3), ask vs engage (§4), the one-paragraph memory note (§5), skip rules (§6), and the Chanakya-neeti pointer (§7).
+- **Moved out into subagent bodies:** role micro-voices, role-specific anti-patterns, "when to call a human" matrices, role-specific grounding discipline examples (numbers / customer language / vendor pricing / jurisdictional law / cohort metrics).
+- **Moved out into existing docs:** profile-card templates and detailed memory-MCP wiring now live in `docs/CUSTOMIZATION.md` and `docs/MEMORY-OPTIONS.md` (linked from CLAUDE.md §5).
+- The main agent now decides per question: answer inline using the slim charter (most cases), or delegate to `subagent_type: sabha-<role>` via the Task tool when the question warrants the role's full framework set (multi-framework analysis, produced artifact, REFERENCE/playbook consultation, or `/engage` mode).
+
+### Changed — `.claude-plugin/plugin.json`
+- Version bumped from 2.2.1 to 2.3.0.
+- Added `agents` array listing all nine `./agents/sabha-<role>.md` files.
+- Skills array unchanged — the per-role skill bundles still ship, since subagents consult them at runtime.
+
+### Why this matters
+The previous design loaded the full Sabha protocol — including role micro-voices, anti-patterns, and grounding examples — into *every* conversation's base context. With nine deep role skills sitting alongside, the protocol was heavy on every turn even when the question was trivial. The subagent refactor moves the deep role context to a load-on-demand layer: lightweight main context for chit-chat and quick replies; full role charter spun up only when the council actually needs it. CLAUDE.md becomes a routing table plus four short rules — readable in under a minute, easy to customize.
+
+### Backwards compatibility
+- All existing skills, slash commands (`/ask`, `/engage`, `/route`, `/chanakya`), and entity-profile conventions continue to work unchanged.
+- Users on 2.2.x who haven't customized CLAUDE.md can drop in 2.3.0 cleanly; the routing table, role names, declare format, and behavior are unchanged.
+- Users who *have* customized CLAUDE.md should diff against the slim template and re-apply their overrides (most customizations were in the routing table and known-entities section, both still present).
+
 ## [2.2.1] — 2026-05-23
 
 Adds a novice-facing user guide for operators who have already installed Sabha OS and want to go beyond the QUICKSTART. Closes the documentation gap between *"I just installed the plugin"* and *"I am running a compounding council on my own work."*

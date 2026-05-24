@@ -1,7 +1,7 @@
 {
   "name": "sabha-os",
   "displayName": "Sabha OS",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "An AI council protocol for Claude. Every substantive question is classified into one of 9 C-suite roles (CFO, CMO, CIO, CAIO, CSO, CXO, CHRO, CLC, CEO) and answered in the Chanakya tradition — terse, decisive, recommendation-first, tradeoff-aware, grounded. Each role ships as a deep skill: REFERENCE knowledge base, heuristics, fillable templates, procedural playbooks, worked examples, source citations. Frameworks from Kahneman, Christensen, Porter, McKinsey, Skok, Reichheld, AWS Well-Architected, Google SRE, USPTO, GDPR, and the operator-grade canon. Memory-backend-agnostic — works with Claude Memory (zero-config) or with the optional Sakthi Graph plugin for local-first, role-shaped institutional memory (good for privacy-sensitive and regulated-industry users). Reproducible LLM-as-judge eval ships in the repo: +5.95 rubric, 85% pairwise win rate vs no-system-prompt baseline. NOTE: the CLC role provides operator-grade legal framing, NOT legal advice. Practicing law is licensed and jurisdiction-specific; CLC identifies when a licensed attorney is required.",
   "author": {
     "name": "Durai (@rdmurugan)",
@@ -37,5 +37,16 @@
     "./skills/roles/cxo",
     "./skills/roles/ceo",
     "./skills/chanakya-neeti"
+  ],
+  "agents": [
+    "./agents/sabha-cfo.md",
+    "./agents/sabha-cmo.md",
+    "./agents/sabha-clc.md",
+    "./agents/sabha-cio.md",
+    "./agents/sabha-caio.md",
+    "./agents/sabha-chro.md",
+    "./agents/sabha-cso.md",
+    "./agents/sabha-cxo.md",
+    "./agents/sabha-ceo.md"
   ]
 }
