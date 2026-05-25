@@ -40,7 +40,7 @@ OBLIGATIONS: [GDPR / SOC2 / HIPAA / EU AI Act / other]
 FINANCIAL:   [bank, brokerage, runway-relevant accounts]
 ```
 
-Memory MCP example: [Sakthi Graph](https://github.com/rdmurugan/sakthi-graph) (MIT, runs locally) — `sakthi_search`, `sakthi_kg_query`, `sakthi_diary_write`. Any memory MCP works the same way.
+Memory MCP example: [Sakthi Graph](https://github.com/Infinidatum-LLC/sakthi-graph) (MIT, runs locally) — `sakthi_search`, `sakthi_kg_query`, `sakthi_diary_write`. Any memory MCP works the same way.
 
 If no memory MCP is connected: *"No memory layer — answering from charter only. Your Sakthi isn't compounding this session."*
 

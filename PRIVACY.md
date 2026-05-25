@@ -37,7 +37,7 @@ The Sabha marketplace also lists `sakthi-graph`, a local-first memory MCP forked
 - Communicates with Claude Code over the MCP protocol — locally
 - Does not transmit your memory data anywhere
 
-For Sakthi's own privacy practice (and upstream MemPalace attribution), see: [https://github.com/rdmurugan/sakthi-graph](https://github.com/rdmurugan/sakthi-graph).
+For Sakthi's own privacy practice (and upstream MemPalace attribution), see: [https://github.com/Infinidatum-LLC/sakthi-graph](https://github.com/Infinidatum-LLC/sakthi-graph).
 
 ## What about the optional Pramana plugin in the same marketplace?
 
@@ -76,11 +76,11 @@ Material changes will be noted at the top of this file (the "Last updated" date)
 
 ## Contact
 
-For privacy questions about Sabha OS specifically: file an issue at [https://github.com/rdmurugan/sabhaos/issues](https://github.com/rdmurugan/sabhaos/issues).
+For privacy questions about Sabha OS specifically: file an issue at [https://github.com/Infinidatum-LLC/sabhaos/issues](https://github.com/Infinidatum-LLC/sabhaos/issues).
 
 For privacy questions about Claude / Anthropic services: see Anthropic's privacy contact above.
 
-For privacy questions about Sakthi Graph (the memory layer used in the example wire-up): see the [sakthi-graph repo](https://github.com/rdmurugan/sakthi-graph).
+For privacy questions about Sakthi Graph (the memory layer used in the example wire-up): see the [sakthi-graph repo](https://github.com/Infinidatum-LLC/sakthi-graph).
 
 ---
 

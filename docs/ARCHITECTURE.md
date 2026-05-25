@@ -211,7 +211,7 @@ Key concepts:
 - **Drawer** — a unit of content (a decision, a memo, a corpus summary). Identified by `drawer_{wing}_{room}_{sha256(wing+room+content)[:24]}` — idempotent on content.
 - **Diary entries** — role-keyed entries written at the end of an engage session.
 
-MCP surface (32 tools total) covers status, knowledge-graph CRUD, drawer CRUD, search, diary, traversal, tunnels, and corpus ingest. See [`sakthi-graph/README.md`](https://github.com/rdmurugan/sakthi-graph) for the full tool list.
+MCP surface (32 tools total) covers status, knowledge-graph CRUD, drawer CRUD, search, diary, traversal, tunnels, and corpus ingest. See [`sakthi-graph/README.md`](https://github.com/Infinidatum-LLC/sakthi-graph) for the full tool list.
 
 ### 3. `sakthi sittham` (the bridge)
 
@@ -372,5 +372,5 @@ When you customize, prefer changing the stable contract via `CLAUDE.md` rather t
 - [`PRIVACY.md`](../PRIVACY.md) — full data-flow accounting, Sabha vs. Sakthi vs. Pramana
 - [`BACKLOG.md`](./BACKLOG.md) — captured-but-not-ranked items (including four Pramana follow-on ideas: source-tier weighting, Sakthi persistence, sector templates, cross-judge eval)
 - [`pramana/README.md`](../pramana/README.md) — the research agent's own doc (workflow, triggers, output shape, source tiers)
-- [Sakthi Graph](https://github.com/rdmurugan/sakthi-graph) — the memory layer
+- [Sakthi Graph](https://github.com/Infinidatum-LLC/sakthi-graph) — the memory layer
 - [MemPalace](https://github.com/MemPalace/mempalace) — the upstream fork source

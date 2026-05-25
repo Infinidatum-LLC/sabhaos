@@ -238,7 +238,7 @@ The deep skills now built for CIO and CEO contain reframe-the-question heuristic
 ## Run it yourself
 
 ```bash
-git clone https://github.com/rdmurugan/sabhaos.git
+git clone https://github.com/Infinidatum-LLC/sabhaos.git
 cd sabhaos
 pip install -r evals/requirements.txt
 export ANTHROPIC_API_KEY=sk-ant-...

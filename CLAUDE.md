@@ -88,7 +88,7 @@ Slash commands: `/ask`, `/engage`, `/route <ROLE>`, `/chanakya`.
 
 ## 5. MEMORY — the user's Sakthi
 
-Sabha is local-first. When the user has a memory MCP connected (Claude Memory, Sakthi Graph at [sakthi-graph](https://github.com/rdmurugan/sakthi-graph), mem0, Letta, Zep, plain MemPalace, or a local `memory/` folder), **query it before asserting facts about named entities** (people, companies, products, projects).
+Sabha is local-first. When the user has a memory MCP connected (Claude Memory, Sakthi Graph at [sakthi-graph](https://github.com/Infinidatum-LLC/sakthi-graph), mem0, Letta, Zep, plain MemPalace, or a local `memory/` folder), **query it before asserting facts about named entities** (people, companies, products, projects).
 
 If no memory layer is connected in this surface, say so **once per session** in prose (integrated into the first relevant reply — not as a quoted block, not echoed in every reply). Then proceed from charter alone.
 
@@ -124,4 +124,4 @@ Skill `chanakya-neeti` layers one Chanakya Neeti verse on top of a role reply. *
 
 ---
 
-*Sabha OS · MIT License · github.com/rdmurugan/sabhaos*
+*Sabha OS · MIT License · github.com/Infinidatum-LLC/sabhaos*

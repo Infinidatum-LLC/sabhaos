@@ -78,7 +78,7 @@ MIT, consistent with the rest of the marketplace. No new dependencies — Praman
 
 Memory layer rebranded as **Sakthi Graph** — a fork of MemPalace pre-shaped for the Sabha council. The trinity is now coherent and product-grade: **Sabha (the council) + Chanakya (the archetype) + Sakthi (your power, your memory, your machine).**
 
-### Added — Sakthi Graph (new repo: rdmurugan/sakthi-graph)
+### Added — Sakthi Graph (new repo: Infinidatum-LLC/sakthi-graph)
 - Forked from `MemPalace/mempalace` v3.3.5 (MIT). Original LICENSE preserved; NOTICE file documents attribution. Internal Python module structure unchanged from upstream to minimize merge friction.
 - **Surface rebrand:** package `sakthi-graph` (was `mempalace`); CLI commands `sakthi` and `sakthi-mcp` (legacy aliases retained); all 31 MCP tool names renamed `sakthi_*` (e.g., `sakthi_search`, `sakthi_kg_query`, `sakthi_diary_write`).
 - **Sabha-specific preset** (`mempalace/sabha.py`): the new `sakthi init --sabha` flag bootstraps 9 role wings pre-configured for the Sabha council (cfo, cmo, cio, caio, cso, cxo, chro, clc, ceo), each with rooms tuned for that role's decision domain. Optional `--personal` adds 6 life wings (health, finance-personal, family, career, time, self).
@@ -87,9 +87,9 @@ Memory layer rebranded as **Sakthi Graph** — a fork of MemPalace pre-shaped fo
 
 ### Updated in Sabha OS
 - **CLAUDE.md MEMORY section** — renamed "MemPalace wire-up (example)" → "Sakthi Graph wire-up (recommended)". Tool names updated `mempalace_*` → `sakthi_*`. Sabha remains memory-MCP-agnostic at the protocol layer (mem0, Letta, Zep, plain MemPalace still work; only Sakthi gets the Sabha-shaped preset).
-- **Marketplace manifest** — `mempalace` plugin replaced with `sakthi-graph` plugin, sourced from `github.com/rdmurugan/sakthi-graph`. New install path:
+- **Marketplace manifest** — `mempalace` plugin replaced with `sakthi-graph` plugin, sourced from `github.com/Infinidatum-LLC/sakthi-graph`. New install path:
   ```
-  claude plugin marketplace add rdmurugan/sabhaos
+  claude plugin marketplace add Infinidatum-LLC/sabhaos
   claude plugin install sabha-os@sabha-marketplace
   claude plugin install sakthi-graph@sabha-marketplace
   uv tool install sakthi-graph
@@ -186,11 +186,11 @@ CLC is the highest-risk deep skill we've shipped because incorrect legal framing
 Bundle MemPalace alongside Sabha OS in the same marketplace.
 
 ### Added
-- **`mempalace` as a second plugin in `sabha-marketplace`** — sourced from `MemPalace/mempalace` on GitHub. Adding our marketplace now exposes both plugins: `sabha-os` (the protocol) and `mempalace` (the recommended memory substrate). Users get a single `claude plugin marketplace add rdmurugan/sabhaos` and then install whichever combination they want.
+- **`mempalace` as a second plugin in `sabha-marketplace`** — sourced from `MemPalace/mempalace` on GitHub. Adding our marketplace now exposes both plugins: `sabha-os` (the protocol) and `mempalace` (the recommended memory substrate). Users get a single `claude plugin marketplace add Infinidatum-LLC/sabhaos` and then install whichever combination they want.
 
 ### Install flow (new)
 ```bash
-claude plugin marketplace add rdmurugan/sabhaos
+claude plugin marketplace add Infinidatum-LLC/sabhaos
 claude plugin install sabha-os@sabha-marketplace
 claude plugin install mempalace@sabha-marketplace   # optional but recommended
 uv tool install mempalace                            # the actual Python binary
@@ -218,7 +218,7 @@ Marketplace ready — Sabha OS is now a one-line install.
 ### Added
 - **`.claude-plugin/marketplace.json`** — Sabha OS publishes itself as the single plugin in the `sabha-marketplace`. Anyone can now install with:
   ```
-  claude plugin marketplace add rdmurugan/sabhaos
+  claude plugin marketplace add Infinidatum-LLC/sabhaos
   claude plugin install sabha-os@sabha-marketplace
   ```
   Built against the canonical schema documented at https://code.claude.com/docs/en/plugin-marketplaces. Name `sabha-marketplace` is kebab-case and outside Anthropic's reserved-name list.
@@ -231,7 +231,7 @@ Marketplace ready — Sabha OS is now a one-line install.
 - README install section now leads with the marketplace install (Option A), with `git clone` as Option B and Claude.ai paste as Option C. The marketplace install is two commands; the previous git-clone path required four.
 
 ### Why this matters
-- Discoverability. Anyone who reads the LinkedIn post and lands on the repo now has a one-line install path. Compare: `claude plugin marketplace add rdmurugan/sabhaos` (one shareable command) vs. `git clone … && claude plugin enable … && open … && edit BRACKETS`.
+- Discoverability. Anyone who reads the LinkedIn post and lands on the repo now has a one-line install path. Compare: `claude plugin marketplace add Infinidatum-LLC/sabhaos` (one shareable command) vs. `git clone … && claude plugin enable … && open … && edit BRACKETS`.
 - Per-user reach. Once the marketplace is added to a user's Claude Code, any future plugin we publish here is auto-discoverable to them.
 - It also unlocks teams via `.claude/settings.json` → `extraKnownMarketplaces`, which pre-prompts colleagues to add the marketplace when they trust the project folder.
 

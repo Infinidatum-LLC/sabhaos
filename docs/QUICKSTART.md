@@ -189,7 +189,7 @@ For everything else — stay in ask mode. The default is fast and conversational
 
 - Check that you saved the custom instructions in your Project. Some Claude.ai UIs require an explicit Save button after pasting.
 - Make sure you started a **new conversation** after pasting — old conversations don't see new instructions.
-- Verify the paste went through completely. Scroll to the bottom of the instructions; you should see *"github.com/rdmurugan/sabhaos"* at the very end. If not, the paste was cut off — try again.
+- Verify the paste went through completely. Scroll to the bottom of the instructions; you should see *"github.com/Infinidatum-LLC/sabhaos"* at the very end. If not, the paste was cut off — try again.
 
 ### "Claude is still giving me five options to consider"
 
@@ -224,7 +224,7 @@ In a single conversation, Claude remembers what you told it. Across conversation
 If you're already using Claude Code, four terminal commands:
 
 ```bash
-claude plugin marketplace add rdmurugan/sabhaos     # if not already added
+claude plugin marketplace add Infinidatum-LLC/sabhaos     # if not already added
 claude plugin install sakthi-graph@sabha-marketplace
 uv tool install sakthi-graph
 # (alternative if you don't have uv: pip install sakthi-graph)
@@ -274,10 +274,10 @@ If you want to make the jump, the [main README](../README.md) walks through the 
 
 ## Questions / problems / feedback
 
-- **Found a bug or have a question?** Open an issue at github.com/rdmurugan/sabhaos/issues
+- **Found a bug or have a question?** Open an issue at github.com/Infinidatum-LLC/sabhaos/issues
 - **Want to share a council preset for your profession?** PRs welcome
 - **Just want to say it helped?** Star the repo — it helps others find it
 
 ---
 
-**Sabha OS · MIT License · github.com/rdmurugan/sabhaos**
+**Sabha OS · MIT License · github.com/Infinidatum-LLC/sabhaos**

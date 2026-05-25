@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200">
+<title>Sabha OS — The AI Council Protocol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #0F1419;
+    --ink-light:  #2A3440;
+    --ink-mid:    #5A6575;
+    --cream:      #F5F0E6;
+    --cream-dark: #EAE3D2;
+    --cream-mid:  #F0E9D8;
+    --saffron:    #D67E2C;
+    --saffron-dim:#B86820;
+    --teal:       #3F6E6A;
+    --teal-dark:  #2D524F;
+    --gold:       #B8924D;
+    --gold-dim:   #9A7A40;
+    --rule:       rgba(15,20,25,0.12);
+    --serif:      'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --sans:       'Inter', system-ui, -apple-system, sans-serif;
+    --mono:       'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { background: #2A2A2A; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--sans);
+    width: 1200px;
+    margin: 40px auto;
+    padding: 0;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .page {
+    width: 1200px;
+    background: var(--cream);
+    padding: 64px 80px 72px;
+  }
+
+  /* ─── TYPE HELPERS ─────────────────────────────────────────────── */
+  .mono   { font-family: var(--mono); }
+  .serif  { font-family: var(--serif); }
+  .label  {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  .rule-h { width: 100%; height: 1px; background: var(--rule); }
+
+  /* ─── SECTION SPACING ───────────────────────────────────────────── */
+  .section { margin-bottom: 44px; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 18px;
+    opacity: 0.85;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     § 1  HEADER
+  ════════════════════════════════════════════════════════════════════ */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 40px;
+    padding-bottom: 36px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 48px;
+  }
+
+  .header-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 22px;
+    margin-bottom: 10px;
+  }
+
+  .header-wordmark {
+    font-family: var(--serif);
+    font-size: 80px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .header-scripts {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  .header-tagline {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--ink-mid);
+    letter-spacing: 0.025em;
+    margin-bottom: 12px;
+  }
+
+  .header-pitch {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.45;
+    max-width: 640px;
+  }
+
+  .header-meta {
+    text-align: right;
+    padding-bottom: 4px;
+  }
+
+  .header-chanakya {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .header-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--teal);
+    border: 1px solid rgba(63,110,106,0.4);
+    padding: 4px 10px;
+    margin-bottom: 6px;
+  }
+
+  .header-sub-badges {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-mid);
+    opacity: 0.55;
+    letter-spacing: 0.08em;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     § 2  THE NAMING
+  ════════════════════════════════════════════════════════════════════ */
+  .naming-table {
+    display: grid;
+    grid-template-columns: 200px repeat(4, 1fr);
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    gap: 1px;
+    margin-bottom: 0;
+  }
+
+  .naming-intro {
+    background: var(--ink);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .naming-intro-top {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,240,230,0.4);
+  }
+
+  .naming-intro-body {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(245,240,230,0.65);
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+
+  .naming-cell {
+    background: var(--cream);
+    padding: 24px 22px 22px;
+    position: relative;
+  }
+
+  .naming-cell::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .naming-script-big {
+    font-family: var(--serif);
+    font-size: 38px;
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1.05;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .naming-script-tamil {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--gold-dim);
+    opacity: 0.8;
+    display: block;
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .naming-roman {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+    letter-spacing: 0.01em;
+  }
+
+  .naming-meaning {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--teal);
+    margin-bottom: 5px;
+  }
+
+  .naming-role {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-mid);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     § 3  THE FLOW
+  ════════════════════════════════════════════════════════════════════ */
+  .flow-section {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 44px 80px;
+    margin: 0 -80px 44px;
+  }
+
+  .flow-section .section-label {
+    color: var(--saffron);
+    opacity: 1;
+    margin-bottom: 28px;
+  }
+
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 20px;
+  }
+
+  .flow-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+
+  .flow-box {
+    border: 1px solid rgba(245,240,230,0.25);
+    padding: 16px 14px;
+    width: 100%;
+    max-width: 155px;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .flow-box.input   { border-color: rgba(245,240,230,0.25); }
+  .flow-box.process { border-color: rgba(63,110,106,0.7); background: rgba(63,110,106,0.12); }
+  .flow-box.memory  { border: 2px solid var(--gold); background: rgba(184,146,77,0.10); }
+  .flow-box.council { border: 2px solid var(--saffron); background: rgba(214,126,44,0.10); }
+
+  .flow-box-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    color: rgba(245,240,230,0.45);
+  }
+
+  .flow-box.memory .flow-box-label  { color: var(--gold); }
+  .flow-box.council .flow-box-label { color: var(--saffron); }
+
+  .flow-box-name {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .flow-box.memory  .flow-box-name { color: var(--gold); font-size: 20px; }
+  .flow-box.council .flow-box-name { color: var(--saffron); font-size: 20px; }
+
+  .flow-box-sub {
+    font-size: 10px;
+    color: rgba(245,240,230,0.4);
+    line-height: 1.4;
+  }
+
+  .flow-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 64px;
+    gap: 4px;
+  }
+
+  .flow-cmd {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--teal);
+    text-align: center;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .flow-arrow-line {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .flow-arrow-line .line {
+    flex: 1;
+    height: 1px;
+    background: var(--teal);
+  }
+
+  .flow-arrowhead {
+    width: 0; height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 8px solid var(--teal);
+    flex-shrink: 0;
+  }
+
+  .flow-return-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .flow-return-text {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(63,110,106,0.7);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .flow-return-arrow {
+    font-size: 12px;
+    color: var(--teal);
+    opacity: 0.6;
+  }
+
+  .flow-footnotes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(245,240,230,0.08);
+  }
+
+  .flow-footnote {
+    font-size: 12px;
+    color: rgba(245,240,230,0.5);
+    line-height: 1.65;
+  }
+
+  .flow-footnote strong {
+    font-family: var(--mono);
+    font-weight: 400;
+    font-size: 11px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     § 4  THE 9 ROLES
+  ════════════════════════════════════════════════════════════════════ */
+  .roles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(63,110,106,0.18);
+    border: 1px solid rgba(63,110,106,0.25);
+  }
+
+  .role-card {
+    background: var(--cream);
+    padding: 22px 24px;
+  }
+
+  .role-card.ceo { background: var(--ink); }
+
+  .role-abbrev {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--saffron);
+    letter-spacing: 0.1em;
+    margin-bottom: 5px;
+  }
+
+  .role-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 5px;
+    line-height: 1.2;
+  }
+
+  .role-card.ceo .role-title { color: var(--cream); }
+
+  .role-domain {
+    font-size: 11px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+  }
+
+  .role-card.ceo .role-domain { color: rgba(245,240,230,0.55); }
+
+  .roles-footnote {
+    font-size: 11px;
+    font-style: italic;
+    color: var(--ink-mid);
+    margin-top: 9px;
+    opacity: 0.75;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     § 5  SAMPLE REPLY + PROBLEM
+  ════════════════════════════════════════════════════════════════════ */
+  .reply-problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+  }
+
+  /* Problem side */
+  .problem-panel {
+    background: var(--cream-dark);
+    padding: 36px 36px;
+  }
+
+  .problem-panel .section-label {
+    margin-bottom: 14px;
+  }
+
+  .problem-headline {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+    margin-bottom: 14px;
+  }
+
+  .problem-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-mid);
+    margin-bottom: 24px;
+  }
+
+  .problem-vs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid rgba(63,110,106,0.2);
+    padding-top: 20px;
+  }
+
+  .vs-col {
+    padding-right: 16px;
+  }
+
+  .vs-col + .vs-col {
+    padding-right: 0;
+    padding-left: 16px;
+    border-left: 1px solid rgba(63,110,106,0.2);
+  }
+
+  .vs-heading {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+  }
+
+  .vs-bad  .vs-heading { color: var(--ink-mid); opacity: 0.5; }
+  .vs-good .vs-heading { color: var(--teal); }
+
+  .vs-item {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.6;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .vs-bad  .vs-item { color: var(--ink-mid); text-decoration: line-through; text-decoration-color: rgba(214,126,44,0.4); opacity: 0.65; }
+  .vs-good .vs-item { color: var(--ink); }
+
+  /* Reply side */
+  .reply-panel {
+    background: var(--ink);
+    padding: 36px 36px;
+  }
+
+  .reply-panel .section-label {
+    color: var(--saffron);
+    opacity: 1;
+    margin-bottom: 20px;
+  }
+
+  .reply-terminal {
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cream);
+  }
+
+  .reply-routing  { color: var(--saffron); font-weight: 500; }
+  .reply-action   { color: var(--cream); }
+  .reply-tradeoff { color: rgba(245,240,230,0.55); }
+  .reply-because  { color: var(--gold); }
+
+  .reply-annotation {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(245,240,230,0.08);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .reply-annotation-item {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(245,240,230,0.3);
+    line-height: 1.5;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .reply-annotation-item span {
+    display: block;
+    font-size: 13px;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 4px;
+  }
+
+  .reply-annotation-item span.orange { color: var(--saffron); }
+  .reply-annotation-item span.light  { color: rgba(245,240,230,0.55); }
+  .reply-annotation-item span.gold   { color: var(--gold); }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     § 6  THE 5 DISCIPLINES
+  ════════════════════════════════════════════════════════════════════ */
+  .disciplines-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+  }
+
+  .discipline-card {
+    background: var(--cream);
+    padding: 26px 22px;
+    position: relative;
+  }
+
+  .discipline-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--saffron);
+    opacity: 0;
+  }
+
+  .discipline-num {
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--saffron);
+    opacity: 0.25;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .discipline-title {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 7px;
+    font-size: 13px;
+  }
+
+  .discipline-desc {
+    font-size: 12px;
+    color: var(--ink-mid);
+    line-height: 1.6;
+  }
+
+  .discipline-desc .hl { color: var(--saffron); font-family: var(--mono); font-size: 11px; }
+  .discipline-desc .hl2 { color: var(--gold); font-family: var(--mono); font-size: 11px; }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     § 7  THE PROOF
+  ════════════════════════════════════════════════════════════════════ */
+  .proof-section {
+    background: var(--teal-dark);
+    color: var(--cream);
+    padding: 44px 80px;
+    margin: 0 -80px 44px;
+  }
+
+  .proof-section .section-label {
+    color: rgba(245,240,230,0.5);
+    opacity: 1;
+    margin-bottom: 28px;
+  }
+
+  .proof-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-bottom: 24px;
+  }
+
+  .proof-stat {
+    padding: 4px 24px 20px 0;
+    border-right: 1px solid rgba(245,240,230,0.10);
+    margin-right: 24px;
+  }
+
+  .proof-stat:last-child {
+    border-right: none;
+    margin-right: 0;
+  }
+
+  .proof-num {
+    font-family: var(--serif);
+    font-size: 58px;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .proof-num sup {
+    font-size: 28px;
+    vertical-align: top;
+    margin-top: 8px;
+    display: inline-block;
+  }
+
+  .proof-stat-label {
+    font-size: 12px;
+    color: rgba(245,240,230,0.6);
+    line-height: 1.5;
+  }
+
+  .proof-stat-label strong {
+    font-weight: 500;
+    color: rgba(245,240,230,0.9);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .proof-methodology {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: rgba(245,240,230,0.35);
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    padding-top: 18px;
+    border-top: 1px solid rgba(245,240,230,0.08);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     § 8  CTA
+  ════════════════════════════════════════════════════════════════════ */
+  .cta-section {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 48px;
+    padding-top: 40px;
+    border-top: 2px solid var(--ink);
+  }
+
+  .cta-github {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 8px;
+    text-decoration: none;
+  }
+
+  .cta-description {
+    font-size: 13px;
+    color: var(--ink-mid);
+    line-height: 1.5;
+  }
+
+  .cta-commands {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cta-cmd-block { }
+
+  .cta-cmd-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--teal);
+    margin-bottom: 5px;
+  }
+
+  .cta-cmd {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--cream);
+    background: var(--ink);
+    padding: 11px 16px;
+    border-left: 2px solid var(--saffron);
+    white-space: nowrap;
+    display: block;
+  }
+
+  /* ─── PRINT ────────────────────────────────────────────────────── */
+  @media print {
+    html { background: white; }
+    body { margin: 0; }
+    .flow-section, .proof-section { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════ § 1  HEADER ═══════════ -->
+  <header class="header">
+    <div>
+      <div class="header-title-row">
+        <span class="header-wordmark">Sabha OS</span>
+        <span class="header-scripts">सभा &middot; சபை</span>
+      </div>
+      <div class="header-tagline">A local-first AI council protocol for Claude</div>
+      <div class="header-pitch">A Chanakya in your terminal — with memory of every decision.</div>
+    </div>
+    <div class="header-meta">
+      <div class="header-chanakya">चाणक्य &nbsp;&middot;&nbsp; சாணக்கியர்</div>
+      <div class="header-badge">Open Source &nbsp;&middot;&nbsp; MIT License</div><br>
+      <div class="header-sub-badges">github.com/rdmurugan/sabhaos</div>
+    </div>
+  </header>
+
+  <!-- ═══════════ § 2  THE NAMING ═══════════ -->
+  <section class="section">
+    <div class="section-label">The Naming — the cultural layer that shapes every reply</div>
+    <div class="naming-table">
+
+      <div class="naming-intro">
+        <div class="naming-intro-top">Sanskrit &middot; Tamil layer</div>
+        <div class="naming-intro-body">Names carry history. The protocol is named after what it <em>does</em> — not what it processes.</div>
+      </div>
+
+      <div class="naming-cell">
+        <span class="naming-script-big">सभा</span>
+        <span class="naming-script-tamil">சபை</span>
+        <div class="naming-roman">Sabha</div>
+        <div class="naming-meaning">council</div>
+        <div class="naming-role">the protocol</div>
+      </div>
+
+      <div class="naming-cell">
+        <span class="naming-script-big">चाणक्य</span>
+        <span class="naming-script-tamil">சாணக்கியர்</span>
+        <div class="naming-roman">Chanakya</div>
+        <div class="naming-meaning">the strategist</div>
+        <div class="naming-role">the voice</div>
+      </div>
+
+      <div class="naming-cell">
+        <span class="naming-script-big">शक्ति</span>
+        <span class="naming-script-tamil">சக்தி</span>
+        <div class="naming-roman">Sakthi</div>
+        <div class="naming-meaning">power</div>
+        <div class="naming-role">the memory</div>
+      </div>
+
+      <div class="naming-cell">
+        <span class="naming-script-big">चित्त</span>
+        <span class="naming-script-tamil">சித்தம்</span>
+        <div class="naming-roman">Sittham</div>
+        <div class="naming-meaning">consciousness</div>
+        <div class="naming-role">corpus ingest</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════ § 3  THE FLOW ═══════════ -->
+  <section class="flow-section">
+    <div class="section-label">The Data Flow — How Sakthi Compounds</div>
+
+    <div class="flow-row">
+
+      <div class="flow-node">
+        <div class="flow-box input">
+          <div class="flow-box-label">input</div>
+          <div class="flow-box-name">Any Folder</div>
+          <div class="flow-box-sub">code &middot; docs &middot; papers &middot; /raw</div>
+        </div>
+      </div>
+
+      <div class="flow-connector">
+        <div class="flow-cmd">/graphify</div>
+        <div class="flow-arrow-line">
+          <div class="line"></div>
+          <div class="flow-arrowhead"></div>
+        </div>
+      </div>
+
+      <div class="flow-node">
+        <div class="flow-box process">
+          <div class="flow-box-label">extract</div>
+          <div class="flow-box-name">graphify-out/</div>
+          <div class="flow-box-sub">structured knowledge</div>
+        </div>
+      </div>
+
+      <div class="flow-connector">
+        <div class="flow-cmd">sakthi sittham</div>
+        <div class="flow-arrow-line">
+          <div class="line"></div>
+          <div class="flow-arrowhead"></div>
+        </div>
+      </div>
+
+      <div class="flow-node">
+        <div class="flow-box memory">
+          <div class="flow-box-label">memory</div>
+          <div class="flow-box-name">Sakthi</div>
+          <div class="flow-box-sub">9 wings &middot; local ChromaDB<br>&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="flow-connector">
+        <div class="flow-cmd">retrieves</div>
+        <div class="flow-arrow-line">
+          <div class="line"></div>
+          <div class="flow-arrowhead"></div>
+        </div>
+      </div>
+
+      <div class="flow-node">
+        <div class="flow-box council">
+          <div class="flow-box-label">council</div>
+          <div class="flow-box-name">Sabha</div>
+          <div class="flow-box-sub">the 9-role protocol<br>&nbsp;</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="flow-return-row">
+      <span class="flow-return-text">diary entries write back after every engage session</span>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--teal);opacity:0.5;">&#x21BA;</span>
+    </div>
+
+    <div class="flow-footnotes">
+      <div class="flow-footnote">
+        <strong style="color:var(--saffron);">Sittham</strong> (चित्त &middot; சித்தம்) is the consciousness layer — it reads your raw knowledge and writes it into Sakthi's nine role wings as a local-first knowledge graph.
+      </div>
+      <div class="flow-footnote">
+        <strong style="color:var(--gold);">Local-first.</strong> ChromaDB-backed. ~300 MB embedding model. Runs on your machine. Cloud LLMs see only the snippets retrieved per query — never the whole memory.
+      </div>
+      <div class="flow-footnote">
+        <strong style="color:rgba(63,110,106,0.9);">MIT-licensed.</strong> Forkable. Auditable. Your Sakthi belongs to you. Bootstrap once: <span style="font-family:var(--mono);font-size:10px;color:rgba(245,240,230,0.6);">uv tool install sakthi-graph &amp;&amp; sakthi init --sabha ~/sakthi</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ § 4  THE 9 ROLES ═══════════ -->
+  <section class="section">
+    <div class="section-label">The Council — Nine Roles, Each a Deep Skill</div>
+    <div class="roles-grid">
+
+      <div class="role-card">
+        <div class="role-abbrev">CFO</div>
+        <div class="role-title">Chief Financial</div>
+        <div class="role-domain">runway &middot; pricing &middot; unit economics &middot; capital allocation</div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-abbrev">CMO</div>
+        <div class="role-title">Chief Marketing</div>
+        <div class="role-domain">positioning &middot; JTBD &middot; channels &middot; behavioral pricing</div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-abbrev">CIO</div>
+        <div class="role-title">Chief Information</div>
+        <div class="role-domain">infra &middot; vendors &middot; SRE &middot; FinOps &middot; incidents</div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-abbrev">CAIO</div>
+        <div class="role-title">Chief AI Officer</div>
+        <div class="role-domain">LLM strategy &middot; RAG &middot; evals &middot; model selection &middot; governance</div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-abbrev">CSO</div>
+        <div class="role-title">Chief Strategy</div>
+        <div class="role-domain">where-to-play &middot; wedge &middot; partnerships &middot; scenarios</div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-abbrev">CXO</div>
+        <div class="role-title">Chief Experience</div>
+        <div class="role-domain">activation &middot; retention &middot; churn &middot; NPS &middot; customer success</div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-abbrev">CHRO</div>
+        <div class="role-title">Chief HR Officer</div>
+        <div class="role-domain">hiring &middot; classification &middot; comp &middot; performance &middot; severance</div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-abbrev">CLC</div>
+        <div class="role-title">Chief Legal Counsel</div>
+        <div class="role-domain">contracts &middot; IP &middot; privacy &middot; regulatory <em style="font-size:10px;opacity:0.7;">(not legal advice)</em></div>
+      </div>
+
+      <div class="role-card ceo">
+        <div class="role-abbrev">CEO</div>
+        <div class="role-title">Chief Executive</div>
+        <div class="role-domain">synthesis &middot; founder-mode &middot; decision memos &middot; last resort</div>
+      </div>
+
+    </div>
+    <div class="roles-footnote">Each role ships as a deep skill: REFERENCE knowledge base &nbsp;&middot;&nbsp; decision heuristics &nbsp;&middot;&nbsp; fillable templates &nbsp;&middot;&nbsp; procedural playbooks &nbsp;&middot;&nbsp; worked examples &nbsp;&middot;&nbsp; citations</div>
+  </section>
+
+  <!-- ═══════════ § 5  SAMPLE REPLY + PROBLEM ═══════════ -->
+  <section class="section">
+    <div class="reply-problem-grid">
+
+      <div class="problem-panel">
+        <div class="section-label">The Problem</div>
+        <div class="problem-headline">Most AI replies are option-shaped. Operators need the move.</div>
+        <div class="problem-body">When you're running something, "here are five ways to think about it" is exhausting. You need a recommendation, a tradeoff, the next action — not a survey of possibilities.</div>
+        <div class="problem-vs">
+          <div class="vs-col vs-bad">
+            <div class="vs-heading">The generic reply</div>
+            <span class="vs-item">Option A: reduce headcount</span>
+            <span class="vs-item">Option B: cut SaaS spend</span>
+            <span class="vs-item">Option C: defer payroll</span>
+            <span class="vs-item">Option D: raise a bridge</span>
+            <span class="vs-item" style="margin-top:6px;font-size:10px;">Consider your risk tolerance and...</span>
+          </div>
+          <div class="vs-col vs-good">
+            <div class="vs-heading">Sabha says</div>
+            <span class="vs-item" style="font-family:var(--mono);font-size:11px;color:var(--saffron);text-decoration:none;opacity:1;">Routing: CFO.</span>
+            <span class="vs-item" style="text-decoration:none;opacity:1;font-size:12px;line-height:1.6;color:var(--ink);">Cut SaaS 40%. You lose the analytics tier. Worth it — that tier isn't driving renewals.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reply-panel">
+        <div class="section-label">Sample Reply — verbatim Sabha output</div>
+        <div class="reply-terminal">
+          <span class="reply-routing">Routing: CFO.</span><br><br>
+          <span class="reply-action">Cut the SaaS line 40%.</span><br><br>
+          <span class="reply-tradeoff">You lose the analytics tier.</span><br><br>
+          <span class="reply-because">Worth it because that tier<br>isn't driving renewals.</span>
+        </div>
+        <div class="reply-annotation">
+          <div class="reply-annotation-item">
+            <span class="orange">Routing: CFO.</span>
+            role declared first
+          </div>
+          <div class="reply-annotation-item">
+            <span class="light">You lose the analytics tier.</span>
+            tradeoff named
+          </div>
+          <div class="reply-annotation-item">
+            <span class="gold">Worth it because&hellip;</span>
+            reason given
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════ § 6  THE 5 DISCIPLINES ═══════════ -->
+  <section class="section">
+    <div class="section-label">Five Disciplines — Applied on Every Load-Bearing Reply</div>
+    <div class="disciplines-grid">
+
+      <div class="discipline-card">
+        <div class="discipline-num">01</div>
+        <div class="discipline-title">A Role</div>
+        <div class="discipline-desc">Every question routed to a C-suite function. Declared at the top of the reply, always.</div>
+      </div>
+
+      <div class="discipline-card">
+        <div class="discipline-num">02</div>
+        <div class="discipline-title">A Recommendation</div>
+        <div class="discipline-desc">The role recommends. Doesn't survey. "Do X" beats a five-option list every time.</div>
+      </div>
+
+      <div class="discipline-card">
+        <div class="discipline-num">03</div>
+        <div class="discipline-title">A Tradeoff</div>
+        <div class="discipline-desc">"Do X. You lose Y. Worth it because Z." Names what's given up. Decisiveness and honesty together.</div>
+      </div>
+
+      <div class="discipline-card">
+        <div class="discipline-num">04</div>
+        <div class="discipline-title">Mode Discipline</div>
+        <div class="discipline-desc"><span class="hl">ask</span> for chat replies. <span class="hl2">engage</span> for filed documents. Explicit, not implicit. Never conflated.</div>
+      </div>
+
+      <div class="discipline-card">
+        <div class="discipline-num">05</div>
+        <div class="discipline-title">Local Memory</div>
+        <div class="discipline-desc">Your Sakthi compounds on your machine. Every engage session writes a diary entry. The council learns your world.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════ § 7  THE PROOF ═══════════ -->
+  <section class="proof-section">
+    <div class="section-label">The Proof — 20 Operator-Style Eval Questions, LLM-as-Judge</div>
+    <div class="proof-stats">
+
+      <div class="proof-stat">
+        <div class="proof-num">+5.95</div>
+        <div class="proof-stat-label">
+          <strong>rubric improvement</strong>
+          on a 20-point scale vs. no-system-prompt baseline
+        </div>
+      </div>
+
+      <div class="proof-stat">
+        <div class="proof-num">85<sup>%</sup></div>
+        <div class="proof-stat-label">
+          <strong>pairwise win rate</strong>
+          17 of 20 questions, Sabha over baseline
+        </div>
+      </div>
+
+      <div class="proof-stat">
+        <div class="proof-num">100<sup>%</sup></div>
+        <div class="proof-stat-label">
+          <strong>deep skill win rate</strong>
+          every question where a deep skill was loaded
+        </div>
+      </div>
+
+      <div class="proof-stat">
+        <div class="proof-num">20</div>
+        <div class="proof-stat-label">
+          <strong>questions in the harness</strong>
+          reproducible in the open evals/ folder
+        </div>
+      </div>
+
+    </div>
+    <div class="proof-methodology">
+      METHODOLOGY &nbsp;&middot;&nbsp; LLM-as-judge &nbsp;&middot;&nbsp; Opus 4.7 judging Sonnet 4.6 &nbsp;&middot;&nbsp; all results and harness reproducible in evals/ &nbsp;&middot;&nbsp; open evaluation, not self-reported &nbsp;&middot;&nbsp; Sabha v1.5
+    </div>
+  </section>
+
+  <!-- ═══════════ § 8  INSTALL CTA ═══════════ -->
+  <section class="cta-section" style="margin-bottom:0;">
+    <div>
+      <span class="cta-github">github.com/rdmurugan/sabhaos</span>
+      <div class="cta-description">MIT-licensed &nbsp;&middot;&nbsp; forkable &nbsp;&middot;&nbsp; auditable &nbsp;&middot;&nbsp; runs locally &nbsp;&middot;&nbsp; no cloud lock-in &nbsp;&middot;&nbsp; your Sakthi belongs to you</div>
+    </div>
+    <div class="cta-commands">
+      <div class="cta-cmd-block">
+        <div class="cta-cmd-label">bootstrap sakthi memory layer</div>
+        <span class="cta-cmd">uv tool install sakthi-graph &amp;&amp; sakthi init --sabha ~/sakthi</span>
+      </div>
+      <div class="cta-cmd-block">
+        <div class="cta-cmd-label">install via claude plugin marketplace</div>
+        <span class="cta-cmd">claude plugin marketplace add rdmurugan/sabhaos</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

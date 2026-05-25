@@ -163,8 +163,8 @@ A reasonable evaluation path:
 1. **Read [`PRIVACY.md`](../PRIVACY.md)** — the no-data-collection disclosure.
 2. **Read [`docs/ARCHITECTURE.md`](./ARCHITECTURE.md) § Threat Model** — the threat-by-mitigation table.
 3. **Audit the source.** Both repos are MIT and small enough to read:
-   - [github.com/rdmurugan/sabhaos](https://github.com/rdmurugan/sabhaos) — the protocol (mostly markdown).
-   - [github.com/rdmurugan/sakthi-graph](https://github.com/rdmurugan/sakthi-graph) — the memory layer (Python; the relevant module is `mempalace/`).
+   - [github.com/Infinidatum-LLC/sabhaos](https://github.com/Infinidatum-LLC/sabhaos) — the protocol (mostly markdown).
+   - [github.com/Infinidatum-LLC/sakthi-graph](https://github.com/Infinidatum-LLC/sakthi-graph) — the memory layer (Python; the relevant module is `mempalace/`).
 4. **Run it isolated.** `sakthi init --sabha ~/eval-palace` on a test machine. Confirm no network calls (`tcpdump`, `lsof`).
 5. **Pin a version.** Once approved, pin the plugin version and the `sakthi-graph` package version. Re-audit on upgrade.
 6. **Document the deployment in your compliance program.** Use the SOC 2 narrative template above as a starting point; adapt for your auditor's framework.
@@ -174,7 +174,7 @@ A reasonable evaluation path:
 
 ## Getting help
 
-- **General questions:** open an issue at [github.com/rdmurugan/sabhaos/issues](https://github.com/rdmurugan/sabhaos/issues).
+- **General questions:** open an issue at [github.com/Infinidatum-LLC/sabhaos/issues](https://github.com/Infinidatum-LLC/sabhaos/issues).
 - **Security questions:** see [`SECURITY.md`](../SECURITY.md) if present; otherwise file a private issue.
 - **Compliance reviews:** Sabha is MIT and audit-friendly. Your counsel and your auditor can examine the source directly — there's no NDA gate.
 

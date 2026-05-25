@@ -16,8 +16,8 @@
         "name": "Durai (@rdmurugan)",
         "url": "https://github.com/rdmurugan"
       },
-      "homepage": "https://github.com/rdmurugan/sabhaos",
-      "repository": "https://github.com/rdmurugan/sabhaos",
+      "homepage": "https://github.com/Infinidatum-LLC/sabhaos",
+      "repository": "https://github.com/Infinidatum-LLC/sabhaos",
       "license": "MIT",
       "category": "productivity",
       "keywords": [
@@ -46,11 +46,11 @@
       "name": "sakthi-graph",
       "source": {
         "source": "url",
-        "url": "https://github.com/rdmurugan/sakthi-graph.git"
+        "url": "https://github.com/Infinidatum-LLC/sakthi-graph.git"
       },
       "description": "Sakthi — your power, your memory, your machine. A local-first AI knowledge graph for the Sabha OS council. Forked from MemPalace (MIT) and extended with Sabha-specific presets: 9 role wings (CFO, CMO, CIO, CAIO, CSO, CXO, CHRO, CLC, CEO) pre-created on `sakthi init --sabha`, role-aware diary templates, and a Sakthi-branded MCP tool surface (sakthi_search, sakthi_kg_query, sakthi_diary_write, etc.). Requires the Python package: `uv tool install sakthi-graph` (or pip).",
-      "homepage": "https://github.com/rdmurugan/sakthi-graph",
-      "repository": "https://github.com/rdmurugan/sakthi-graph",
+      "homepage": "https://github.com/Infinidatum-LLC/sakthi-graph",
+      "repository": "https://github.com/Infinidatum-LLC/sakthi-graph",
       "license": "MIT",
       "category": "memory",
       "keywords": [
@@ -81,8 +81,8 @@
         "name": "Durai (@rdmurugan)",
         "url": "https://github.com/rdmurugan"
       },
-      "homepage": "https://github.com/rdmurugan/sabhaos/tree/main/pramana",
-      "repository": "https://github.com/rdmurugan/sabhaos",
+      "homepage": "https://github.com/Infinidatum-LLC/sabhaos/tree/main/pramana",
+      "repository": "https://github.com/Infinidatum-LLC/sabhaos",
       "license": "MIT",
       "category": "research",
       "keywords": [

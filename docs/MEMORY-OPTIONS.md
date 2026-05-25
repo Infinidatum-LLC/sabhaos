@@ -65,7 +65,7 @@ What it is: A fork of [MemPalace](https://github.com/MemPalace/mempalace), MIT-l
 
 **Install:** `claude plugin install sakthi-graph@sabha-marketplace && uv tool install sakthi-graph && sakthi init --sabha ~/sakthi`
 
-**Bonus capability:** [`sakthi sittham`](https://github.com/rdmurugan/sakthi-graph/blob/develop/docs/SITTHAM.md) ingests any folder (code, papers, transcripts) into the right Sabha role wing. Single command. No equivalent in any cloud memory product.
+**Bonus capability:** [`sakthi sittham`](https://github.com/Infinidatum-LLC/sakthi-graph/blob/develop/docs/SITTHAM.md) ingests any folder (code, papers, transcripts) into the right Sabha role wing. Single command. No equivalent in any cloud memory product.
 
 **Limits to be honest about:**
 - Not zero-config. 5 commands. Some users will bounce.
@@ -189,4 +189,4 @@ There is no "best" backend. There is the one that fits your operating reality. P
 - [`docs/FOR-REGULATED-INDUSTRIES.md`](./FOR-REGULATED-INDUSTRIES.md) — the privacy / compliance wedge in detail
 - [`docs/ARCHITECTURE.md`](./ARCHITECTURE.md) — how memory plugs into the full stack
 - [`docs/CUSTOMIZATION.md`](./CUSTOMIZATION.md) — how to wire a non-default memory MCP
-- [Sakthi Graph](https://github.com/rdmurugan/sakthi-graph) — the local-first option in detail
+- [Sakthi Graph](https://github.com/Infinidatum-LLC/sakthi-graph) — the local-first option in detail

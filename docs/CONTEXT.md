@@ -4,12 +4,12 @@
 >
 > **Canonical sources of truth:**
 > - GitHub front door for humans: [`README.md`](../README.md)
-> - GitHub plugin marketplace: `claude plugin marketplace add rdmurugan/sabhaos`
+> - GitHub plugin marketplace: `claude plugin marketplace add Infinidatum-LLC/sabhaos`
 > - This doc: cross-AI-chat context. Stays in sync with the rest of the repo.
 >
 > **Repos:**
-> - Protocol: [github.com/rdmurugan/sabhaos](https://github.com/rdmurugan/sabhaos)
-> - Memory layer (optional): [github.com/rdmurugan/sakthi-graph](https://github.com/rdmurugan/sakthi-graph)
+> - Protocol: [github.com/Infinidatum-LLC/sabhaos](https://github.com/Infinidatum-LLC/sabhaos)
+> - Memory layer (optional): [github.com/Infinidatum-LLC/sakthi-graph](https://github.com/Infinidatum-LLC/sakthi-graph)
 > - Research agent (optional, in-repo): [`pramana/`](../pramana/) — ships from the same marketplace as a sibling plugin
 > - Developer-focused sibling for GitHub Copilot: [github.com/rdmurugan/sabha-code](https://github.com/rdmurugan/sabha-code)
 >
@@ -180,7 +180,7 @@ Three layers:
 
 ```bash
 # Minimum (protocol only; works with Claude Memory zero-config)
-claude plugin marketplace add rdmurugan/sabhaos
+claude plugin marketplace add Infinidatum-LLC/sabhaos
 claude plugin install sabha-os@sabha-marketplace
 
 # Optional: add the local-first memory backend
@@ -230,7 +230,7 @@ Founder-level decisions worth knowing:
 ## 15. Repository layout (high-level)
 
 ```
-sabha-os/                         (https://github.com/rdmurugan/sabhaos)
+sabha-os/                         (https://github.com/Infinidatum-LLC/sabhaos)
 ├── CLAUDE.md                     ← the protocol; this IS Sabha
 ├── .claude-plugin/               ← Claude Code plugin + marketplace manifests
 │                                    (marketplace ships sabha-os + sakthi-graph + pramana)
@@ -265,7 +265,7 @@ sabha-os/                         (https://github.com/rdmurugan/sabhaos)
 ├── examples/                     ← preset councils (professional, personal, developer, solo-founder, agency, researcher)
 ├── LICENSE  PRIVACY.md  CHANGELOG.md  CONTRIBUTING.md  README.md
 
-sakthi-graph/                     (https://github.com/rdmurugan/sakthi-graph)
+sakthi-graph/                     (https://github.com/Infinidatum-LLC/sakthi-graph)
 ├── mempalace/                    ← preserved internal module structure from upstream fork
 │   ├── sabha.py                  ← the --sabha preset definitions
 │   ├── sittham.py                ← the corpus-ingest verb implementation

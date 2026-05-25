@@ -60,7 +60,7 @@ If you have an idea worth capturing but not ready to implement, file it as an is
 
 ## Reporting bugs / security issues
 
-- General bugs: open an issue at [github.com/rdmurugan/sabhaos/issues](https://github.com/rdmurugan/sabhaos/issues).
+- General bugs: open an issue at [github.com/Infinidatum-LLC/sabhaos/issues](https://github.com/Infinidatum-LLC/sabhaos/issues).
 - Security: see [`SECURITY.md`](./SECURITY.md) if it exists, otherwise file a private issue.
 
 ## Code of conduct

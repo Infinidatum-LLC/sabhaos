@@ -43,7 +43,7 @@ ACTIVE WORK:  [current epic / feature / migration]
 DEBT:         [known technical debt with rough cost-to-fix]
 ```
 
-Memory MCP example: [Sakthi Graph](https://github.com/rdmurugan/sakthi-graph) (MIT, local) — `sakthi_search` for past design decisions, `sakthi_kg_query` for services/components, `sakthi_diary_write` for post-mortems and design notes. Any memory MCP works.
+Memory MCP example: [Sakthi Graph](https://github.com/Infinidatum-LLC/sakthi-graph) (MIT, local) — `sakthi_search` for past design decisions, `sakthi_kg_query` for services/components, `sakthi_diary_write` for post-mortems and design notes. Any memory MCP works.
 
 If no memory MCP is connected: *"No memory layer — answering from charter only. Your Sakthi isn't compounding this session."*
 

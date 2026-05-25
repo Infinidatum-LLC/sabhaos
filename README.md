@@ -88,7 +88,7 @@ The default `CLAUDE.md` is memory-MCP-agnostic at the protocol layer. Wire in wh
 Minimum install — just the protocol. Works with Claude Memory (or no memory at all):
 
 ```bash
-claude plugin marketplace add rdmurugan/sabhaos
+claude plugin marketplace add Infinidatum-LLC/sabhaos
 claude plugin install sabha-os@sabha-marketplace
 ```
 
@@ -136,7 +136,7 @@ Pramana ships as a sibling to Sabha and Sakthi — the council *decides* (Sabha)
 ### Option B — Direct git clone (if you prefer)
 
 ```bash
-git clone https://github.com/rdmurugan/sabhaos.git ~/.claude/plugins/sabha-os
+git clone https://github.com/Infinidatum-LLC/sabhaos.git ~/.claude/plugins/sabha-os
 claude plugin enable sabha-os
 ```
 
@@ -375,4 +375,4 @@ Copyright © 2025–2026 Durai (@rdmurugan). Released under MIT.
 
 ## Acknowledgments
 
-Sabha OS is memory-MCP-agnostic — any layer that exposes search and write tools works. The examples in [`CLAUDE.md`](./CLAUDE.md) and [`skills/sabha-router/SKILL.md`](./skills/sabha-router/SKILL.md) use [Sakthi Graph](https://github.com/rdmurugan/sakthi-graph) (MIT) to show concrete tool calls, but the same pattern applies to mem0, Letta, Zep, Pieces, or a plain `memory/` folder. Thanks to the open-source memory-MCP projects that make a locally-owned Sakthi possible.
+Sabha OS is memory-MCP-agnostic — any layer that exposes search and write tools works. The examples in [`CLAUDE.md`](./CLAUDE.md) and [`skills/sabha-router/SKILL.md`](./skills/sabha-router/SKILL.md) use [Sakthi Graph](https://github.com/Infinidatum-LLC/sakthi-graph) (MIT) to show concrete tool calls, but the same pattern applies to mem0, Letta, Zep, Pieces, or a plain `memory/` folder. Thanks to the open-source memory-MCP projects that make a locally-owned Sakthi possible.

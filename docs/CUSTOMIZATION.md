@@ -61,7 +61,7 @@ To make it warmer, swap "Terse over verbose" for "Conversational but on-point." 
 
 Sabha is local-first by design: your accumulated knowledge — your **Sakthi** — should live on your machine, not in someone else's database. The `MEMORY` section in `CLAUDE.md` is intentionally generic so you can wire in any MCP that exposes search and write tools.
 
-The default example uses [**Sakthi Graph**](https://github.com/rdmurugan/sakthi-graph) — MIT, open-source, graph-shaped, runs locally. Other options that work the same way:
+The default example uses [**Sakthi Graph**](https://github.com/Infinidatum-LLC/sakthi-graph) — MIT, open-source, graph-shaped, runs locally. Other options that work the same way:
 
 - **mem0** — semantic key-value memory, hosted or self-host
 - **Letta** — stateful agents with memory

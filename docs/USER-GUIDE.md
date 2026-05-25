@@ -208,7 +208,7 @@ uv tool install sakthi-graph
 sakthi init --sabha ~/sakthi
 ```
 
-This creates 9 role "wings" (one per C-suite seat) plus a personal wing, ready to be filled. See [github.com/rdmurugan/sakthi-graph](https://github.com/rdmurugan/sakthi-graph) for the full install guide and other configuration options.
+This creates 9 role "wings" (one per C-suite seat) plus a personal wing, ready to be filled. See [github.com/Infinidatum-LLC/sakthi-graph](https://github.com/Infinidatum-LLC/sakthi-graph) for the full install guide and other configuration options.
 
 ### 6.3 Seed your council with who you are (the profile cards)
 
@@ -420,4 +420,4 @@ The council recommends. Memory compounds. **Sakthi belongs to you.**
 
 ---
 
-*Sabha OS · MIT License · [github.com/rdmurugan/sabhaos](https://github.com/rdmurugan/sabhaos)*
+*Sabha OS · MIT License · [github.com/Infinidatum-LLC/sabhaos](https://github.com/Infinidatum-LLC/sabhaos)*
