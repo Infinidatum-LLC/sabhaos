@@ -1,19 +1,105 @@
 # Sabha OS
 
-> An open-source **protocol** for a Claude-native AI council. Decisive, tradeoff-aware, grounded — in the Chanakya tradition. Works with any memory backend, including Claude Memory.
+# Turn Claude into your AI C-Suite.
 
-> 👋 **New here and not a developer?** Start with [docs/QUICKSTART.md](./docs/QUICKSTART.md) — a 10-minute, no-installation guide to get Sabha working inside Claude.ai. No terminal, no Git, no command-line.
+### 9 role-routed executives with role-native local memory. Decisive. Tradeoff-aware. 100% on-prem.
+
+Stop getting "here are five approaches with pros and cons" from a chatbot. Get a CFO answer, a CMO answer, a CSO answer — one role, one recommendation, one named tradeoff — grounded in a memory layer that lives on your machine.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Claude Code Marketplace](https://img.shields.io/badge/Claude%20Code-Marketplace-6B46C1)](https://github.com/Infinidatum-LLC/sabhaos)
+[![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-00A86B)](https://modelcontextprotocol.io)
+[![GitHub stars](https://img.shields.io/github/stars/Infinidatum-LLC/sabhaos?style=social)](https://github.com/Infinidatum-LLC/sabhaos/stargazers)
+[![Sakthi Graph](https://img.shields.io/badge/Memory-Sakthi%20Graph-1E40AF)](https://github.com/Infinidatum-LLC/sakthi-graph)
+
+> 🎬 **60-second demo:** _coming in next release_ — see the council route, decide, and ground a CFO answer in your own decision history. ([Track the demo build →](./ROADMAP.md))
+
+---
+
+## Before / After
+
+A real operator question: *"Our burn is $180K/mo, we have 9 months runway, do we cut the SaaS line or freeze hiring?"*
+
+**Generic Claude (no Sabha):**
+> Here are a few options to consider:
+> 1. Cutting SaaS could free up cash quickly, but you may lose tooling your team depends on.
+> 2. Freezing hiring preserves morale but extends time-to-revenue.
+> 3. A hybrid approach might balance both.
+> Ultimately, this depends on your specific situation. Some questions to consider: which SaaS tools are essential? What roles were you planning to hire? Have you talked to your team?
+
+*Five options. Zero commitment. You still have to do the thinking.*
+
+**Sabha OS:**
+> **Routing: CFO (primary). CHRO advisory on the hiring-freeze cost.**
 >
-> 📘 **Already installed?** Read the [User Guide](./docs/USER-GUIDE.md) — a novice-friendly walkthrough of the council, the modes, memory setup, and the compounding-intelligence loop that makes Sabha different from a chatbot.
+> Cut the SaaS line 40% — the analytics tier and the two BI seats you haven't touched in 60 days. **Don't freeze hiring.** Your runway extends by ~6 weeks from the SaaS cut alone; a hiring freeze buys another 8 weeks but costs you the AE you've been recruiting for four months and the two deals in his pipeline.
+>
+> **Tradeoff:** you keep burn velocity but lose the analytics dashboard your CMO uses for the weekly funnel review. Worth it because the dashboard isn't driving decisions — it's reporting them.
+>
+> *(grounded in your last 3 board memos + the CFO runway model in `cfo/runway-2026-q1`)*
 
-**Sabha** (சபை, सभा, Sanskrit for *council*) is a routing protocol for Claude. Every load-bearing question gets classified into a C-suite role, answered in the **Chanakya** tradition — terse, decisive, recommendation-first, tradeoff-aware, grounded.
+*One role. One recommendation. One named tradeoff. Drawn from your own decision history.*
 
-Most AI replies are option-shaped: *"here are five approaches with pros and cons."* That's exhausting when you're running something. Sabha forces a different reply:
+---
+
+## Why it wins in 2026
+
+| What | Why it matters | Where it lives |
+|---|---|---|
+| **9 role-shaped C-suite skills** | CFO, CMO, CSO, CIO, CAIO, CXO, CHRO, CLC, CEO — each with frameworks, heuristics, templates, playbooks, worked examples, and source citations. Not a voice tweak. A real depth-of-knowledge layer per role. | [`skills/roles/`](./skills/roles/) |
+| **Local-first by architecture** | The council's memory layer ([Sakthi Graph](https://github.com/Infinidatum-LLC/sakthi-graph)) runs on your machine. No cloud sync. No telemetry. Your decisions, your people, your projects — physically cannot leave your box. | [`docs/FOR-REGULATED-INDUSTRIES.md`](./docs/FOR-REGULATED-INDUSTRIES.md) |
+| **96.0% pairwise win rate vs no-system-prompt Claude** | n=50, v3 sub-axis rubric, Claude Opus 4.7 judge, Wilson 95% CI lower bound 86.5%. Methodology, results, the 2 losses we own — all reproducible in-repo. | [`evals/ANALYSIS.md`](./evals/ANALYSIS.md) |
+| **96.6% R@5 on LongMemEval (real)** | The Sakthi Graph memory layer beats the published baselines on the LongMemEval recall benchmark — using zero LLM calls at retrieval time. Pure index + graph + symbolic compression. | [Sakthi Graph benchmarks](https://github.com/Infinidatum-LLC/sakthi-graph/blob/main/benchmarks/README.md) |
+| **Chanakya discipline** | Terse, decisive, recommendation-first, tradeoff-aware, grounded. Every reply has to commit to a role, commit to a recommendation, and name what you give up. Long-form is opt-in (`/engage`), not default. | [`docs/PHILOSOPHY.md`](./docs/PHILOSOPHY.md) |
+| **CFO Workflow Preset *(commercial v1.0)*** | A workflow preset that turns the council's CFO role into a runway-floor enforcer: hire blockers, vendor-approval gates, and an Ed25519-signed decision ledger so every override is cryptographically attributable. Useful for solo founders, fractional CFOs, and any operator who wants a hard "no" wired into the workflow. *Ships with the v1.0 desktop release — see [ROADMAP.md](./ROADMAP.md).* | desktop app (Q3 2026) |
+
+---
+
+## One-command install (full stack)
+
+The protocol (free, MIT) + the local memory backend (free, MIT) + Claude Code marketplace registration — three commands, ~90 seconds:
+
+```bash
+# 1. Add the Sabha marketplace
+claude plugin marketplace add Infinidatum-LLC/sabhaos
+
+# 2. Install the council protocol + the memory backend
+claude plugin install sabha-os@sabha-marketplace
+claude plugin install sakthi-graph@sabha-marketplace
+
+# 3. Bootstrap the local memory palace with the 9 Sabha role wings
+uv tool install sakthi-graph && sakthi init --sabha ~/sakthi
+```
+
+That's it. Open a new Claude Code session and ask anything substantive — the routing line shows up at the top of the reply.
+
+Don't want the local memory layer? Skip step 2's second line and step 3 entirely — Sabha works fine on top of Claude's built-in memory or no memory at all. See [`docs/MEMORY-OPTIONS.md`](./docs/MEMORY-OPTIONS.md) for the comparison.
+
+---
+
+## Sabha OS + Sakthi Graph — designed as one system
+
+The protocol and the memory layer ship as a marketplace pair. They are independently MIT-licensed, but they were designed to compose:
 
 ```
-Routing: CFO. Cut the SaaS line 40%. You lose the analytics tier.
-         Worth it because that tier isn't driving renewals.
+                     ┌─────────────────────────┐
+                     │      Sabha OS           │  ← the council (this repo)
+                     │  routing + 9 deep skills│
+                     └────────────┬────────────┘
+                                  │ queries
+                                  ▼
+                     ┌─────────────────────────┐
+                     │     Sakthi Graph        │  ← the memory
+                     │  local · graph · role-  │     ([sister repo](https://github.com/Infinidatum-LLC/sakthi-graph))
+                     │  shaped · zero-cloud    │
+                     └─────────────────────────┘
 ```
+
+The CFO role queries `wing="cfo"` for runway history. The CMO queries `wing="cmo"` for positioning notes. The CHRO queries `wing="chro"` for offer-letter precedent. The graph layer ([Sakthi](https://github.com/Infinidatum-LLC/sakthi-graph)) was forked from [MemPalace](https://github.com/MemPalace/mempalace) (MIT) specifically to be shaped this way for the Sabha council — see the Sakthi README for the fork story and what it adds.
+
+**Pick your memory:** Claude Memory · Sakthi Graph · mem0 · Letta · Zep · plain markdown — Sabha is memory-MCP-agnostic. The recommendation is Sakthi Graph because it's the only one shaped for the 9 role wings out of the box.
+
+---
 
 ## The stack
 
